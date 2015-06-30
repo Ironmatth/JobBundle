@@ -1,8 +1,20 @@
 plugin:
     has_options: false
-    
-    tools:
-        - name: formalibre_job_tool
+
+    admin_tools:
+        - name: formalibre_job_admin_tool
+          class: file-text
+
+    widgets:
+        - name: formalibre_announcer_widget
+          is_configurable: true
           is_displayable_in_workspace: false
           is_displayable_in_desktop: true
-          class: file-text-o
+          default_width: 12
+          default_height: 4
+        - name: formalibre_seeker_widget
+          is_configurable: true
+          is_displayable_in_workspace: false
+          is_displayable_in_desktop: true
+          default_width: 12
+          default_height: 4

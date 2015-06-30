@@ -1,0 +1,83 @@
+{% extends "ClarolineCoreBundle:Administration:layout.html.twig" %}
+
+{% block breadcrumb %}
+    {{
+        macros.breadcrumbs([
+            {
+                'icon': 'fa fa-cog',
+                'name': 'administration'|trans({}, 'platform'),
+                'href': path('claro_admin_index')
+            },
+            {
+                'name': 'formalibre_job_admin_tool'|trans({}, 'tools'),
+                'href': ''
+            }
+        ])
+    }}
+{% endblock %}
+
+{% block section_content %}
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            {{ 'communities_list'|trans({}, 'job') }}
+        </h3>
+    </div>
+    <div class="panel-body" id="job-management-body">
+        
+        {% if communities|length > 0 %}
+            <div class="table-responsive">
+                <table class="table">
+                    <tr>
+                        <th>{{ 'name'|trans({}, 'platform') }}</th>
+                        <th>{{ 'administrators'|trans({}, 'job') }}</th>
+                        <th>{{ 'actions'|trans({}, 'platform') }}</th>
+                    </tr>
+                    {% for community in communities %}
+                        <tr id="community-row-{{ community.getId() }}">
+                            <td>{{ community.getName() }}</td>
+                            <td>
+                                {% for admin in community.getAdmins() %}
+                                    {{ admin.getFirstName() }}
+                                    {{ admin.getLastName() }}{% if not loop.last %},{% endif %}
+                                {% endfor %}
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <button class="btn btn-default edit-community-btn"
+                                            data-community-id="{{ community.getId() }}"
+                                    >
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-danger delete-community-btn"
+                                            data-community-id="{{ community.getId() }}"
+                                    >
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-warning">
+                {{ 'no_community'|trans({}, 'job') }}
+            </div>
+        {% endif %}
+        <button class="btn btn-primary" id="add-community-btn">
+            {{ 'add_community'|trans({}, 'job') }}
+        </button>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript"
+            src="{{ url('bazinga_jstranslation_js', { 'domain': 'job' }) }}"
+    >
+    </script>
+    <script src='{{ asset('bundles/formalibrejob/js/adminJobManagement.js') }}'
+            type="text/javascript"
+    >
+    </script>
+{% endblock %}

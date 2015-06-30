@@ -8,6 +8,6 @@ class FormaLibreJobBundle extends PluginBundle
 {
     public function hasMigrations()
     {
-        return false;
+        return true;
     }
 }
