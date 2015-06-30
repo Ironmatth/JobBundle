@@ -1,0 +1,8 @@
+plugin:
+    has_options: false
+    
+    tools:
+        - name: formalibre_job_tool
+          is_displayable_in_workspace: false
+          is_displayable_in_desktop: true
+          class: file-text-o

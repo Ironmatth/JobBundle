@@ -1,0 +1,4 @@
+formalibre_job_bundle:
+    resource: "@FormaLibreJobBundle/Controller/"
+    type:     annotation
+    prefix:   /
