@@ -2,8 +2,11 @@
 
 namespace FormaLibre\JobBundle\Controller;
 
+use Claroline\CoreBundle\Entity\User;
+use Claroline\CoreBundle\Manager\MailManager;
 use Claroline\CoreBundle\Manager\RoleManager;
 use FormaLibre\JobBundle\Entity\Community;
+use FormaLibre\JobBundle\Entity\PendingAnnouncer;
 use FormaLibre\JobBundle\Form\CommunityType;
 use FormaLibre\JobBundle\Manager\JobManager;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -22,6 +25,7 @@ class AdminJobController extends Controller
 {
     private $formFactory;
     private $jobManager;
+    private $mailManager;
     private $request;
     private $roleManager;
 
@@ -29,6 +33,7 @@ class AdminJobController extends Controller
      * @DI\InjectParams({
      *     "formFactory"  = @DI\Inject("form.factory"),
      *     "jobManager"   = @DI\Inject("formalibre.manager.job_manager"),
+     *     "mailManager"  = @DI\Inject("claroline.manager.mail_manager"),
      *     "requestStack" = @DI\Inject("request_stack"),
      *     "roleManager"  = @DI\Inject("claroline.manager.role_manager")
      * })
@@ -36,30 +41,69 @@ class AdminJobController extends Controller
     public function __construct(
         FormFactory $formFactory,
         JobManager $jobManager,
+        MailManager $mailManager,
         RequestStack $requestStack,
         RoleManager $roleManager
     )
     {
         $this->formFactory = $formFactory;
         $this->jobManager = $jobManager;
+        $this->mailManager = $mailManager;
         $this->request = $requestStack->getCurrentRequest();
         $this->roleManager = $roleManager;
     }
 
     /**
      * @EXT\Route(
-     *     "/admin/job/management",
-     *     name="formalibre_job_admin_management",
+     *     "/admin/job/tool/index",
+     *     name="formalibre_job_admin_tool_index",
      *     options={"expose"=true}
      * )
      * @EXT\ParamConverter("authenticatedUser", options={"authenticatedUser" = true})
      * @EXT\Template()
      */
-    public function adminJobManagementAction()
+    public function adminToolIndexAction(User $authenticatedUser)
+    {
+        $communities = $this->jobManager->getCommunitiesByUser($authenticatedUser);
+
+        return array('communities' => $communities);
+    }
+
+    /**
+     * @EXT\Route(
+     *     "/admin/communities/management",
+     *     name="formalibre_job_admin_communities_management",
+     *     options={"expose"=true}
+     * )
+     * @EXT\ParamConverter("authenticatedUser", options={"authenticatedUser" = true})
+     * @EXT\Template()
+     */
+    public function communitiesManagementAction()
     {
         $communities = $this->jobManager->getAllCommunities();
 
         return array('communities' => $communities);
+    }
+
+    /**
+     * @EXT\Route(
+     *     "/admin/community/{community}/management",
+     *     name="formalibre_job_admin_community_management",
+     *     options={"expose"=true}
+     * )
+     * @EXT\ParamConverter("authenticatedUser", options={"authenticatedUser" = true})
+     * @EXT\Template()
+     */
+    public function communityManagementAction(User $authenticatedUser, Community $community)
+    {
+        $communities = $this->jobManager->getCommunitiesByUser($authenticatedUser);
+        $pendingAnnouncers = $this->jobManager->getPendingAnnouncersByCommunity($community);
+
+        return array(
+            'currentCommunity' => $community,
+            'communities' => $communities,
+            'pendingAnnouncers' => $pendingAnnouncers
+        );
     }
 
     /**
@@ -170,6 +214,59 @@ class AdminJobController extends Controller
     public function communityDeleteAction(Community $community)
     {
         $this->jobManager->deleteCommunity($community);
+
+        return new JsonResponse('success', 200);
+    }
+
+    /**
+     * @EXT\Route(
+     *     "/admin/pending/announcer/{pendingAnnouncer}/accept",
+     *     name="formalibre_job_admin_pending_announcer_accept",
+     *     options={"expose"=true}
+     * )
+     * @EXT\ParamConverter("authenticatedUser", options={"authenticatedUser" = true})
+     */
+    public function acceptPendingAnnouncerAction(PendingAnnouncer $pendingAnnouncer)
+    {
+        $user = $pendingAnnouncer->getUser();
+        $community = $pendingAnnouncer->getCommunity();
+        $this->jobManager->acceptPendingAnnouncer($pendingAnnouncer);
+        // send mail
+//            $this->mailManager->send(
+//                $message->getObject(),
+//                $message->getContent(),
+//                $mailNotifiedUsers,
+//                $message->getSender()
+//            );
+
+        return new JsonResponse('success', 200);
+    }
+
+    /**
+     * @EXT\Route(
+     *     "/admin/pending/announcer/{pendingAnnouncer}/decline",
+     *     name="formalibre_job_admin_pending_announcer_decline",
+     *     options={"expose"=true}
+     * )
+     * @EXT\ParamConverter("authenticatedUser", options={"authenticatedUser" = true})
+     */
+    public function declinePendingAnnouncerAction(PendingAnnouncer $pendingAnnouncer)
+    {
+        $user = $pendingAnnouncer->getUser();
+        $community = $pendingAnnouncer->getCommunity();
+        $offer = $pendingAnnouncer->getOffer();
+
+        if (!is_null($offer)) {
+            $this->jobManager->deleteFile($offer, 'offer');
+        }
+        $this->jobManager->deletePendingAnnouncer($pendingAnnouncer);
+        // send mail
+//            $this->mailManager->send(
+//                $message->getObject(),
+//                $message->getContent(),
+//                $mailNotifiedUsers,
+//                $message->getSender()
+//            );
 
         return new JsonResponse('success', 200);
     }

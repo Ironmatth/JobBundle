@@ -6,10 +6,10 @@ use Claroline\CoreBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="FormaLibre\JobBundle\Repository\AnnouncerRepository")
- * @ORM\Table(name="formalibre_jobbundle_announcer")
+ * @ORM\Entity(repositoryClass="FormaLibre\JobBundle\Repository\PendingAnnouncerRepository")
+ * @ORM\Table(name="formalibre_jobbundle_pending_announcer")
  */
-class Announcer
+class PendingAnnouncer
 {
     /**
      * @ORM\Column(type="integer")
@@ -25,7 +25,7 @@ class Announcer
      * @ORM\JoinColumn(name="user_id", onDelete="CASCADE")
      */
     protected $user;
-
+    
     /**
      * @ORM\ManyToOne(
      *     targetEntity="FormaLibre\JobBundle\Entity\Community"
@@ -33,6 +33,21 @@ class Announcer
      * @ORM\JoinColumn(name="community_id", onDelete="CASCADE")
      */
     protected $community;
+
+    /**
+     * @ORM\Column(name="application_date", type="datetime")
+     */
+    protected $applicationDate;
+
+    /**
+     * @ORM\Column(nullable=true)
+     */
+    protected $offer;
+
+    /**
+     * @ORM\Column(name="original_name", nullable=true)
+     */
+    protected $originalName;
 
     function getId()
     {
@@ -62,5 +77,35 @@ class Announcer
     function setCommunity(Community $community)
     {
         $this->community = $community;
+    }
+
+    public function getApplicationDate()
+    {
+        return $this->applicationDate;
+    }
+
+    public function setApplicationDate(\DateTime $applicationDate)
+    {
+        $this->applicationDate = $applicationDate;
+    }
+
+    function getOffer()
+    {
+        return $this->offer;
+    }
+
+    function setOffer($offer)
+    {
+        $this->offer = $offer;
+    }
+
+    function getOriginalName()
+    {
+        return $this->originalName;
+    }
+
+    function setOriginalName($originalName)
+    {
+        $this->originalName = $originalName;
     }
 }

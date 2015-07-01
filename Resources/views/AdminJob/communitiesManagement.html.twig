@@ -10,6 +10,10 @@
             },
             {
                 'name': 'formalibre_job_admin_tool'|trans({}, 'tools'),
+                'href': path('formalibre_job_admin_tool_index')
+            },
+            {
+                'name': 'communities_management'|trans({}, 'job'),
                 'href': ''
             }
         ])
@@ -19,10 +23,10 @@
 {% block section_content %}
     <div class="panel-heading">
         <h3 class="panel-title">
-            {{ 'communities_list'|trans({}, 'job') }}
+            {{ 'communities_management'|trans({}, 'job') }}
         </h3>
     </div>
-    <div class="panel-body" id="job-management-body">
+    <div class="panel-body" id="communities-management-body">
         
         {% if communities|length > 0 %}
             <div class="table-responsive">
@@ -76,7 +80,7 @@
             src="{{ url('bazinga_jstranslation_js', { 'domain': 'job' }) }}"
     >
     </script>
-    <script src='{{ asset('bundles/formalibrejob/js/adminJobManagement.js') }}'
+    <script src='{{ asset('bundles/formalibrejob/js/communitiesManagement.js') }}'
             type="text/javascript"
     >
     </script>

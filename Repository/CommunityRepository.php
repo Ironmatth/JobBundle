@@ -2,6 +2,7 @@
 
 namespace FormaLibre\JobBundle\Repository;
 
+use Claroline\CoreBundle\Entity\User;
 use Doctrine\ORM\EntityRepository;
 
 class CommunityRepository extends EntityRepository
@@ -18,6 +19,26 @@ class CommunityRepository extends EntityRepository
             ORDER BY c.{$orderedBy} {$order}
         ";
         $query = $this->_em->createQuery($dql);
+
+        return $executeQuery ? $query->getResult() : $query;
+    }
+
+    public function findCommunitiesByUser(
+        User $user,
+        $orderedBy = 'name',
+        $order = 'ASC',
+        $executeQuery = true
+    )
+    {
+        $dql = "
+            SELECT c
+            FROM FormaLibre\JobBundle\Entity\Community c
+            JOIN c.admins a
+            WHERE a = :user
+            ORDER BY c.{$orderedBy} {$order}
+        ";
+        $query = $this->_em->createQuery($dql);
+        $query->setParameter('user', $user);
 
         return $executeQuery ? $query->getResult() : $query;
     }

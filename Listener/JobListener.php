@@ -35,7 +35,7 @@ class JobListener
     public function onAdministrationToolOpen(OpenAdministrationToolEvent $event)
     {
         $params = array();
-        $params['_controller'] = 'FormaLibreJobBundle:AdminJob:adminJobManagement';
+        $params['_controller'] = 'FormaLibreJobBundle:AdminJob:adminToolIndex';
         $subRequest = $this->request->duplicate(array(), null, $params);
         $response = $this->httpKernel
             ->handle($subRequest, HttpKernelInterface::SUB_REQUEST);

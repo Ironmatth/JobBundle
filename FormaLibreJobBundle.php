@@ -10,4 +10,9 @@ class FormaLibreJobBundle extends PluginBundle
     {
         return true;
     }
+
+    public function getRequiredFixturesDirectory($environment)
+    {
+        return 'DataFixtures';
+    }
 }

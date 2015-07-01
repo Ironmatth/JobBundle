@@ -1,7 +1,7 @@
 (function () {
     'use strict';
     
-    $('#job-management-body').on('click', '#add-community-btn', function () {
+    $('#communities-management-body').on('click', '#add-community-btn', function () {
         
         window.Claroline.Modal.displayForm(
             Routing.generate('formalibre_job_admin_community_create_form'),
@@ -10,7 +10,7 @@
         );
     });
     
-    $('#job-management-body').on('click', '.edit-community-btn', function () {
+    $('#communities-management-body').on('click', '.edit-community-btn', function () {
         var communityId = $(this).data('community-id');
         
         window.Claroline.Modal.displayForm(
@@ -23,7 +23,7 @@
         );
     });
     
-    $('#job-management-body').on('click', '.delete-community-btn', function () {
+    $('#communities-management-body').on('click', '.delete-community-btn', function () {
         var communityId = $(this).data('community-id');
         
         window.Claroline.Modal.confirmRequest(
@@ -42,8 +42,7 @@
         window.location.reload();
     };
     
-    var removeCommunityRow = function (communityId) {
-        window.location.reload();
+    var removeCommunityRow = function (event, communityId) {
         $('#community-row-' + communityId).remove();
     };
 })();
