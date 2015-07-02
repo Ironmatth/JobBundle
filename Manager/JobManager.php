@@ -273,7 +273,6 @@ class JobManager
      * Access to AnnouncerRepository methods *
      *****************************************/
 
-
     public function getAnnouncersByUser(
         User $user,
         $orderedBy = 'id',
@@ -348,17 +347,22 @@ class JobManager
 
     public function getJobOffersByAnnouncer(
         Announcer $announcer,
+        $withPager = true,
         $orderedBy = 'id',
         $order = 'ASC',
-        $executeQuery = true
+        $page = 1,
+        $max = 20
     )
     {
-        return $this->jobOfferRepo->findJobOffersByAnnouncer(
+        $jobOffers = $this->jobOfferRepo->findJobOffersByAnnouncer(
             $announcer,
             $orderedBy,
-            $order,
-            $executeQuery
+            $order
         );
+
+        return $withPager ?
+            $this->pagerFactory->createPagerFromArray($jobOffers, $page, $max) :
+            $jobOffers;
     }
 
     public function getAvailableJobOffersByCommunity(

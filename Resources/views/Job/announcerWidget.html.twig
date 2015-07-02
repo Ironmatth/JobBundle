@@ -1,0 +1,64 @@
+<div class="panel-group" id="announcer-widget-accordion" role="tablist" aria-multiselectable="true">
+    
+    {% if announcer is not empty %}
+        <a href="{{ path('formalibre_job_announcer_job_offers_list', {'announcer': announcer.getId()}) }}">
+            {{ 'my_job_offers'|trans({}, 'job') }}
+        </a>
+        {#<div class="panel panel-default" id="my-job-offers-panel">
+            <div class="panel-heading" role="tab" id="headingOne">
+                <h4 class="panel-title">
+                    <a role="button"
+                       data-toggle="collapse"
+                       href="#my-job-offers"
+                       aria-expanded="true"
+                       aria-controls="collapseOne"
+                    >
+                        {{ 'my_job_offers'|trans({}, 'job') }}
+                    </a>
+                </h4>
+            </div>
+            <div id="my-job-offers"
+                 class="panel-collapse collapse in"
+                 role="tabpanel"
+                 aria-labelledby="headingOne"
+            >
+                <div class="panel-body" id="my-job-offers-panel">
+                    {{
+                        render(controller(
+                            'FormaLibreJobBundle:Job:announcerJobOffersList',
+                            {'announcer': announcer.getId()}
+                        ))
+                    }}
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default" id="job-requests-panel">
+            <div class="panel-heading" role="tab" id="headingOne">
+                <h4 class="panel-title">
+                    <a role="button"
+                       data-toggle="collapse"
+                       href="#jobs-requests"
+                       aria-expanded="true"
+                       aria-controls="collapseOne"
+                    >
+                        {{ 'jobs_requests'|trans({}, 'job') }}
+                    </a>
+                </h4>
+            </div>
+            <div id="jobs-requests"
+                 class="panel-collapse collapse in"
+                 role="tabpanel"
+                 aria-labelledby="headingOne"
+            >
+                <div class="panel-body">
+
+                </div>
+            </div>
+        </div>
+                    
+        <div id="announcer-widget-datas-box"
+             data-announcer-id="{{ announcer.getId() }}"
+        >
+        </div>#}
+    {% endif %}
+</div>

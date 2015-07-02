@@ -1,0 +1,30 @@
+{% extends "ClarolineCoreBundle:Desktop:layout.html.twig" %}
+
+
+{% block section_content %}
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            {{ 'job_offer_edition'|trans({}, 'job') }}
+        </h3>
+    </div>
+    <form action="{{ path('formalibre_job_job_offer_edit', {'jobOffer': jobOffer.getId()}) }}" 
+          method="POST"
+          {{ form_enctype(form) }}
+          novalidate
+    >
+        <div class="panel-body">
+            {{ form_widget(form) }}
+        </div>
+        <div class="panel-footer">
+            <button type="submit" class="btn btn-primary">
+                {{ 'ok'|trans({}, 'platform') }}
+            </button>
+            <a href="{{ path('formalibre_job_announcer_job_offers_list', {'announcer': jobOffer.getAnnouncer().getId()}) }}"
+               class="btn btn-default" 
+               role="button"
+            >
+                {{ 'cancel'|trans({}, 'platform') }}
+            </a>
+        </div>
+    </form>
+{% endblock %}

@@ -1,0 +1,87 @@
+{% macro renderPager(pager, announcerId, orderedBy, order, max) %}
+    {{
+        pagerfanta(
+            pager,
+            'twitter_bootstrap_translated',
+            {
+                'proximity' : 1,
+                'routeName': 'formalibre_job_announcer_job_offers_list',
+                'routeParams': {
+                    'announcer': announcerId,
+                    'orderedBy': orderedBy,
+                    'order': order,
+                    'max': max
+                }
+            }
+        )
+    }}
+{% endmacro %}
+
+{% from _self import renderPager %}
+
+{% extends "ClarolineCoreBundle:Desktop:layout.html.twig" %}
+
+{% block section_content %}
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            {{ 'formalibre_job_admin_tool'|trans({}, 'tools') }}
+        </h3>
+    </div>
+    <div class="panel-body" id="announcer-job-offers-list-body">
+        {% if jobOffers|length > 0 %}
+
+            {% if jobOffers.getNbPages() > 1 %}
+                {{ renderPager(jobOffers, announcer.getId(), orderedBy, order, max) }}
+            {% endif %}
+            <div class="table-responsive">
+                <table class="table">
+                    {% for jobOffer in jobOffers %}
+                        <tr id="job-offer-row-{{ jobOffer.getId() }}">
+                            <td>{{ jobOffer.getTitle() }}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a class="btn btn-default"
+                                       href="{{ path('formalibre_job_job_offer_edit_form', {'jobOffer': jobOffer.getId()}) }}"
+                                    >
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <button class="btn btn-danger delete-job-offer-btn"
+                                            data-job-offer-id="{{ jobOffer.getId() }}"
+                                    >
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+            {% if jobOffers.getNbPages() > 1 %}
+                {{ renderPager(jobOffers, announcer.getId(), orderedBy, order, max) }}
+            {% endif %}
+        {% else %}
+            <div class="alert alert-warning">
+                {{ 'no_job_offer'|trans({}, 'job') }}
+            </div>
+        {% endif %}
+        <br>
+        <a href="{{ path('formalibre_job_job_offer_create', {'announcer': announcer.getId()}) }}"
+           class="btn btn-primary"
+        >
+            {{ 'create_job_offer'|trans({}, 'job') }}
+        </a>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript"
+            src="{{ url('bazinga_jstranslation_js', { 'domain': 'job' }) }}"
+    >
+    </script>
+    <script src='{{ asset('bundles/formalibrejob/js/announcerJobOffersList.js') }}'
+            type="text/javascript"
+    >
+    </script>
+{% endblock %}    

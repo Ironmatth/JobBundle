@@ -9,8 +9,13 @@ use Claroline\CoreBundle\Manager\FacetManager;
 use Claroline\CoreBundle\Manager\MailManager;
 use Claroline\CoreBundle\Manager\RoleManager;
 use Claroline\CoreBundle\Manager\UserManager;
+use FormaLibre\JobBundle\Entity\Announcer;
+use FormaLibre\JobBundle\Entity\Community;
 use FormaLibre\JobBundle\Entity\JobRequest;
+use FormaLibre\JobBundle\Entity\JobOffer;
 use FormaLibre\JobBundle\Entity\PendingAnnouncer;
+use FormaLibre\JobBundle\Form\JobOfferType;
+use FormaLibre\JobBundle\Form\JobRequestType;
 use FormaLibre\JobBundle\Form\PendingAnnouncerType;
 use FormaLibre\JobBundle\Form\SeekerType;
 use FormaLibre\JobBundle\Manager\JobManager;
@@ -19,7 +24,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration as EXT;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Translation\TranslatorInterface;
 
 class JobController extends Controller
@@ -280,11 +287,99 @@ class JobController extends Controller
      *     name="formalibre_job_announcer_widget",
      *     options={"expose"=true}
      * )
+     * @EXT\ParamConverter("authenticatedUser", options={"authenticatedUser" = true})
      * @EXT\Template()
      */
-    public function announcerWidgetAction()
+    public function announcerWidgetAction(User $authenticatedUser)
     {
-        return array();
+        $announcer = null;
+        $community = null;
+        $announcers = $this->jobManager->getAnnouncersByUser($authenticatedUser);
+
+        if (count($announcers) > 0) {
+            $announcer = $announcers[0];
+            $community = $announcer->getCommunity();
+        }
+
+        return array('announcer' => $announcer, 'community' => $community);
+    }
+
+    /**
+     * @EXT\Route(
+     *     "/announcer/{announcer}/job/offers/list/page/{page}/max/{max}/ordered/by/{orderedBy}/order/{order}",
+     *     name="formalibre_job_announcer_job_offers_list",
+     *     defaults={"page"=1, "max"=20, "orderedBy"="id","order"="ASC"},
+     *     options={"expose"=true}
+     * )
+     * @EXT\ParamConverter("authenticatedUser", options={"authenticatedUser" = true})
+     * @EXT\Template()
+     */
+    public function announcerJobOffersListAction(
+        User $authenticatedUser,
+        Announcer $announcer,
+        $page = 1,
+        $max = 20,
+        $orderedBy = 'id',
+        $order = 'ASC'
+    )
+    {
+        $this->checkAnnouncerAccess($announcer, $authenticatedUser);
+        $jobOffers = $this->jobManager->getJobOffersByAnnouncer(
+            $announcer,
+            true,
+            $orderedBy,
+            $order,
+            $page,
+            $max
+        );
+
+        return array(
+            'jobOffers' => $jobOffers,
+            'announcer' => $announcer,
+            'page' => $page,
+            'max' => $max,
+            'orderedBy' => $orderedBy,
+            'order' => $order
+        );
+    }
+
+    /**
+     * @EXT\Route(
+     *     "/announcer/{announcer}/job/request/list/page/{page}/max/{max}/ordered/by/{orderedBy}/order/{order}",
+     *     name="formalibre_job_announcer_job_requests_list",
+     *     defaults={"page"=1, "max"=20, "orderedBy"="id","order"="DESC"},
+     *     options={"expose"=true}
+     * )
+     * @EXT\ParamConverter("authenticatedUser", options={"authenticatedUser" = true})
+     * @EXT\Template()
+     */
+    public function announcerJobRequestsListAction(
+        User $authenticatedUser,
+        Announcer $announcer,
+        $page = 1,
+        $max = 20,
+        $orderedBy = 'id',
+        $order = 'DESC'
+    )
+    {
+        $this->checkAnnouncerAccess($announcer, $authenticatedUser);
+        $jobRequests = $this->jobManager->getAvailableJobOffersByCommunity(
+            $announcer->getCommunity(),
+            true,
+            $orderedBy,
+            $order,
+            $page,
+            $max
+        );
+
+        return array(
+            'jobRequests' => $jobRequests,
+            'announcer' => $announcer,
+            'page' => $page,
+            'max' => $max,
+            'orderedBy' => $orderedBy,
+            'order' => $order
+        );
     }
 
     /**
@@ -293,10 +388,197 @@ class JobController extends Controller
      *     name="formalibre_job_seeker_widget",
      *     options={"expose"=true}
      * )
+     * @EXT\ParamConverter("authenticatedUser", options={"authenticatedUser" = true})
      * @EXT\Template()
      */
-    public function seekerWidgetAction()
+    public function seekerWidgetAction(User $authenticatedUser)
     {
         return array();
+    }
+
+    /**
+     * @EXT\Route(
+     *     "/announcer/{announcer}/job/offer/create/form",
+     *     name="formalibre_job_job_offer_create_form",
+     *     options={"expose"=true}
+     * )
+     * @EXT\ParamConverter("authenticatedUser", options={"authenticatedUser" = true})
+     * @EXT\Template()
+     */
+    public function jobOfferCreateFormAction(User $authenticatedUser, Announcer $announcer)
+    {
+        $this->checkAnnouncerAccess($announcer, $authenticatedUser);
+        $form = $this->formFactory->create(
+            new JobOfferType(),
+            new JobOffer()
+        );
+
+        return array('form' => $form->createView(), 'announcer' => $announcer);
+    }
+
+    /**
+     * @EXT\Route(
+     *     "/announcer/{announcer}/job/offer/create",
+     *     name="formalibre_job_job_offer_create",
+     *     options={"expose"=true}
+     * )
+     * @EXT\ParamConverter("authenticatedUser", options={"authenticatedUser" = true})
+     * @EXT\Template("FormaLibreJobBundle:Job:jobOfferCreateForm.html.twig")
+     */
+    public function jobOfferCreateAction(User $authenticatedUser, Announcer $announcer)
+    {
+        $this->checkAnnouncerAccess($announcer, $authenticatedUser);
+        $jobOffer = new JobOffer();
+        $jobOffer->setAnnouncer($announcer);
+        $jobOffer->setCommunity($announcer->getCommunity());
+
+        $form = $this->formFactory->create(
+            new JobOfferType(),
+            $jobOffer
+        );
+        $form->handleRequest($this->request);
+
+        if ($form->isValid()) {
+            $file = $form->get('file')->getData();
+
+            if (!is_null($file)) {
+                $originalName = $file->getClientOriginalName();
+                $hashName = $this->jobManager->saveFile($file, 'offer');
+                $jobOffer->setOffer($hashName);
+                $jobOffer->setOriginalName($originalName);
+                $this->jobManager->createJobOffer($jobOffer);
+            }
+
+            return $this->redirect(
+                $this->generateUrl(
+                    'formalibre_job_announcer_job_offers_list',
+                    array('announcer' => $announcer->getId())
+                )
+            );
+        } else {
+
+            return array('form' => $form->createView(), 'announcer' => $announcer);
+        }
+    }
+
+    /**
+     * @EXT\Route(
+     *     "/job/offer/{jobOffer}/edit/form",
+     *     name="formalibre_job_job_offer_edit_form",
+     *     options={"expose"=true}
+     * )
+     * @EXT\ParamConverter("authenticatedUser", options={"authenticatedUser" = true})
+     * @EXT\Template()
+     */
+    public function jobOfferEditFormAction(User $authenticatedUser, JobOffer $jobOffer)
+    {
+        $this->checkJobOfferEditAccess($jobOffer, $authenticatedUser);
+        $form = $this->formFactory->create(
+            new JobOfferType(),
+            $jobOffer
+        );
+
+        return array('form' => $form->createView(), 'jobOffer' => $jobOffer);
+    }
+
+    /**
+     * @EXT\Route(
+     *     "/job/offer/{jobOffer}/edit",
+     *     name="formalibre_job_job_offer_edit",
+     *     options={"expose"=true}
+     * )
+     * @EXT\ParamConverter("authenticatedUser", options={"authenticatedUser" = true})
+     * @EXT\Template("FormaLibreJobBundle:Job:jobOfferEditForm.html.twig")
+     */
+    public function jobOfferEditAction(User $authenticatedUser, JobOffer $jobOffer)
+    {
+        $this->checkJobOfferEditAccess($jobOffer, $authenticatedUser);
+        $form = $this->formFactory->create(
+            new JobOfferType(),
+            $jobOffer
+        );
+        $form->handleRequest($this->request);
+
+        if ($form->isValid()) {
+            $file = $form->get('file')->getData();
+
+            if (!is_null($file)) {
+                $currentFileName = $jobOffer->getOffer();
+
+                if (!is_null($currentFileName)) {
+                    $this->jobManager->deleteFile($currentFileName, 'offer');
+                }
+                $originalName = $file->getClientOriginalName();
+                $hashName = $this->jobManager->saveFile($file, 'offer');
+                $jobOffer->setOffer($hashName);
+                $jobOffer->setOriginalName($originalName);
+                $this->jobManager->persistJobOffer($jobOffer);
+            }
+
+            return $this->redirect(
+                $this->generateUrl(
+                    'formalibre_job_announcer_job_offers_list',
+                    array('announcer' => $jobOffer->getAnnouncer()->getId())
+                )
+            );
+        } else {
+
+            return array('form' => $form->createView(), 'jobOffer' => $jobOffer);
+        }
+    }
+
+    /**
+     * @EXT\Route(
+     *     "/job/offer/{jobOffer}/delete",
+     *     name="formalibre_job_job_offer_delete",
+     *     options={"expose"=true}
+     * )
+     * @EXT\ParamConverter("authenticatedUser", options={"authenticatedUser" = true})
+     */
+    public function jobOfferDeleteAction(User $authenticatedUser, JobOffer $jobOffer)
+    {
+        $this->checkJobOfferEditAccess($jobOffer, $authenticatedUser);
+        $this->jobManager->deleteJobOffer($jobOffer);
+
+        return new JsonResponse('success', 200);
+    }
+
+    private function checkAnnouncerAccess(
+        Announcer $announcer,
+        User $user
+    )
+    {
+        $announcerUser = $announcer->getUser();
+
+        if ($announcerUser->getId() !== $user->getId()) {
+
+            throw new AccessDeniedException();
+        }
+    }
+
+    private function checkJobOfferEditAccess(
+        JobOffer $jobOffer,
+        User $user
+    )
+    {
+        $jobOfferUser = $jobOffer->getAnnouncer()->getUser();
+
+        if ($jobOfferUser->getId() !== $user->getId()) {
+
+            throw new AccessDeniedException();
+        }
+    }
+
+    private function checkJobRequestEditAccess(
+        JobRequest $jobRequest,
+        User $user
+    )
+    {
+        $jobRequestUser = $jobRequest->getUser();
+
+        if ($jobRequestUser->getId() !== $user->getId()) {
+
+            throw new AccessDeniedException();
+        }
     }
 }

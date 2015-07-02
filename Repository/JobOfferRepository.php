@@ -11,8 +11,7 @@ class JobOfferRepository extends EntityRepository
     public function findJobOffersByAnnouncer(
         Announcer $announcer,
         $orderedBy = 'id',
-        $order = 'ASC',
-        $executeQuery = true
+        $order = 'ASC'
     )
     {
         $dql = "
@@ -24,7 +23,7 @@ class JobOfferRepository extends EntityRepository
         $query = $this->_em->createQuery($dql);
         $query->setParameter('announcer', $announcer);
 
-        return $executeQuery ? $query->getResult() : $query;
+        return $query->getResult();
     }
 
     public function findAvailableJobOffersByCommunity(
