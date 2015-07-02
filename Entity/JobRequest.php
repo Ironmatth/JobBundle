@@ -61,6 +61,11 @@ class JobRequest
      */
     protected $originalName;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $visible = true;
+
     function getId()
     {
         return $this->id;
@@ -139,5 +144,15 @@ class JobRequest
     function setOriginalName($originalName)
     {
         $this->originalName = $originalName;
+    }
+
+    function getVisible()
+    {
+        return $this->visible;
+    }
+
+    function setVisible($visible)
+    {
+        $this->visible = $visible;
     }
 }

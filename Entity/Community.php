@@ -35,6 +35,10 @@ class Community
      * @ORM\JoinTable(name="formalibre_jobbundle_community_admins")
      */
     protected $admins;
+    /**
+     * @ORM\Column(nullable = true)
+     */
+    protected $locale;
 
     public function __construct()
     {
@@ -82,5 +86,15 @@ class Community
         }
 
         return $this;
+    }
+
+    function getLocale()
+    {
+        return $this->locale;
+    }
+
+    function setLocale($locale)
+    {
+        $this->locale = $locale;
     }
 }

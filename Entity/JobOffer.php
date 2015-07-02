@@ -65,6 +65,35 @@ class JobOffer
      */
     protected $originalName;
 
+    /**
+     * @ORM\Column(nullable=true)
+     */
+    protected $phone;
+
+    /**
+     * @ORM\Column(nullable=true)
+     */
+    protected $establishment;
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $immersion = false;
+
+    /**
+     * @ORM\Column(nullable=true)
+     */
+    protected $discipline;
+
+    /**
+     * @ORM\Column(nullable=true)
+     */
+    protected $level;
+
+    /**
+     * @ORM\Column(nullable=true)
+     */
+    protected $duration;
+
     function getId()
     {
         return $this->id;
@@ -153,5 +182,65 @@ class JobOffer
     function setOriginalName($originalName)
     {
         $this->originalName = $originalName;
+    }
+
+    function getPhone()
+    {
+        return $this->phone;
+    }
+
+    function setPhone($phone)
+    {
+        $this->phone = $phone;
+    }
+
+    function getEstablishment()
+    {
+        return $this->establishment;
+    }
+
+    function setEstablishment($establishment)
+    {
+        $this->establishment = $establishment;
+    }
+
+    function getImmersion()
+    {
+        return $this->immersion;
+    }
+
+    function setImmersion($immersion)
+    {
+        $this->immersion = $immersion;
+    }
+
+    function getDiscipline()
+    {
+        return $this->discipline;
+    }
+
+    function setDiscipline($discipline)
+    {
+        $this->discipline = $discipline;
+    }
+
+    function getLevel()
+    {
+        return $this->level;
+    }
+
+    function setLevel($level)
+    {
+        $this->level = $level;
+    }
+
+    function getDuration()
+    {
+        return $this->duration;
+    }
+
+    function setDuration($duration)
+    {
+        $this->duration = $duration;
     }
 }

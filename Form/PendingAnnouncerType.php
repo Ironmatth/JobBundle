@@ -31,6 +31,15 @@ class PendingAnnouncerType extends AbstractType
         );
 
         $builder->add(
+            'lastName',
+            'text',
+            array(
+                'required' => true,
+                'translation_domain' => 'platform',
+                'label' => 'last_name'
+            )
+        );
+        $builder->add(
             'firstName',
             'text',
             array(
@@ -40,12 +49,41 @@ class PendingAnnouncerType extends AbstractType
             )
         );
         $builder->add(
-            'lastName', 
-            'text', 
+            'registrationNumber',
+            'text',
+            array(
+                'required' => true,
+                'translation_domain' => 'job',
+                'label' => 'registration_number',
+                'mapped' => false
+            )
+        );
+        $builder->add(
+            'faseNumber',
+            'text',
+            array(
+                'required' => false,
+                'translation_domain' => 'job',
+                'label' => 'fase_number',
+                'mapped' => false
+            )
+        );
+        $builder->add(
+            'phone',
+            'text',
+            array(
+                'required' => false,
+                'translation_domain' => 'platform',
+                'label' => 'phone'
+            )
+        );
+        $builder->add(
+            'mail',
+            'email',
             array(
                 'required' => true,
                 'translation_domain' => 'platform',
-                'label' => 'last_name'
+                'label' => 'email'
             )
         );
         $builder->add(
@@ -69,28 +107,18 @@ class PendingAnnouncerType extends AbstractType
             )
         );
         $builder->add(
-            'mail',
-            'email', 
+            'withNotification',
+            'checkbox',
             array(
                 'required' => true,
-                'translation_domain' => 'platform',
-                'label' => 'email'
-            )
-        );
-
-        $builder->add(
-            'file',
-            'file',
-            array(
-                'mapped' => false,
-                'required' => false,
-                'label' => 'job_offer'
+                'label' => 'allow_notification_for_new_job_request',
+                'mapped' => false
             )
         );
     }
     public function getName()
     {
-        return 'announcer_form';
+        return 'pending_announcer_form';
     }
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {

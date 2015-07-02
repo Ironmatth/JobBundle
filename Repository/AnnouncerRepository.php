@@ -83,4 +83,24 @@ class AnnouncerRepository extends EntityRepository
 
         return $executeQuery ? $query->getResult() : $query;
     }
+
+    public function findNotifiableAnnouncersByCommunity(
+        Community $community,
+        $orderedBy = 'id',
+        $order = 'ASC',
+        $executeQuery = true
+    )
+    {
+        $dql = "
+            SELECT a
+            FROM FormaLibre\JobBundle\Entity\Announcer a
+            WHERE a.community = :community
+            AND a.withNotification = true
+            ORDER BY a.{$orderedBy} {$order}
+        ";
+        $query = $this->_em->createQuery($dql);
+        $query->setParameter('community', $community);
+
+        return $executeQuery ? $query->getResult() : $query;
+    }
 }

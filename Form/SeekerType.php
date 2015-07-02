@@ -30,6 +30,15 @@ class SeekerType extends AbstractType
             )
         );
         $builder->add(
+            'lastName',
+            'text',
+            array(
+                'required' => true,
+                'translation_domain' => 'platform',
+                'label' => 'last_name'
+            )
+        );
+        $builder->add(
             'firstName',
             'text',
             array(
@@ -39,12 +48,22 @@ class SeekerType extends AbstractType
             )
         );
         $builder->add(
-            'lastName',
+            'registrationNumber',
             'text',
             array(
                 'required' => true,
+                'translation_domain' => 'job',
+                'label' => 'registration_number',
+                'mapped' => false
+            )
+        );
+        $builder->add(
+            'mail',
+            'email',
+            array(
+                'required' => true,
                 'translation_domain' => 'platform',
-                'label' => 'last_name'
+                'label' => 'email'
             )
         );
         $builder->add(
@@ -65,15 +84,6 @@ class SeekerType extends AbstractType
                 'type' => 'password',
                 'first_options' => array('label' => 'password'),
                 'second_options' => array('label' => 'verification')
-            )
-        );
-        $builder->add(
-            'mail',
-            'email',
-            array(
-                'required' => true,
-                'translation_domain' => 'platform',
-                'label' => 'email'
             )
         );
         $builder->add(

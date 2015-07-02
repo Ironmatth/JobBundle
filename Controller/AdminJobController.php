@@ -18,6 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * @DI\Tag("security.secure_service")
@@ -30,6 +31,7 @@ class AdminJobController extends Controller
     private $mailManager;
     private $request;
     private $roleManager;
+    private $translator;
 
     /**
      * @DI\InjectParams({
@@ -37,7 +39,8 @@ class AdminJobController extends Controller
      *     "jobManager"   = @DI\Inject("formalibre.manager.job_manager"),
      *     "mailManager"  = @DI\Inject("claroline.manager.mail_manager"),
      *     "requestStack" = @DI\Inject("request_stack"),
-     *     "roleManager"  = @DI\Inject("claroline.manager.role_manager")
+     *     "roleManager"  = @DI\Inject("claroline.manager.role_manager"),
+     *     "translator"   = @DI\Inject("translator")
      * })
      */
     public function __construct(
@@ -45,7 +48,8 @@ class AdminJobController extends Controller
         JobManager $jobManager,
         MailManager $mailManager,
         RequestStack $requestStack,
-        RoleManager $roleManager
+        RoleManager $roleManager,
+        TranslatorInterface $translator
     )
     {
         $this->formFactory = $formFactory;
@@ -53,6 +57,7 @@ class AdminJobController extends Controller
         $this->mailManager = $mailManager;
         $this->request = $requestStack->getCurrentRequest();
         $this->roleManager = $roleManager;
+        $this->translator = $translator;
     }
 
     /**
@@ -254,13 +259,26 @@ class AdminJobController extends Controller
         $user = $pendingAnnouncer->getUser();
         $community = $pendingAnnouncer->getCommunity();
         $this->jobManager->acceptPendingAnnouncer($pendingAnnouncer);
-        // send mail
-//            $this->mailManager->send(
-//                $message->getObject(),
-//                $message->getContent(),
-//                $mailNotifiedUsers,
-//                $message->getSender()
-//            );
+
+        $object = $this->translator->trans(
+            'accept_pending_announcer_object',
+            array(),
+            'job'
+        );
+        $content = $this->translator->trans(
+            'accept_pending_announcer_content',
+            array(),
+            'job'
+        );
+        $receivers = array($user);
+        $sender = null;
+
+        $this->mailManager->send(
+            $object,
+            $content,
+            $receivers,
+            $sender
+        );
 
         return new JsonResponse('success', 200);
     }
@@ -277,19 +295,27 @@ class AdminJobController extends Controller
     {
         $user = $pendingAnnouncer->getUser();
         $community = $pendingAnnouncer->getCommunity();
-        $offer = $pendingAnnouncer->getOffer();
-
-        if (!is_null($offer)) {
-            $this->jobManager->deleteFile($offer, 'offer');
-        }
         $this->jobManager->deletePendingAnnouncer($pendingAnnouncer);
-        // send mail
-//            $this->mailManager->send(
-//                $message->getObject(),
-//                $message->getContent(),
-//                $mailNotifiedUsers,
-//                $message->getSender()
-//            );
+
+        $object = $this->translator->trans(
+            'decline_pending_announcer_object',
+            array(),
+            'job'
+        );
+        $content = $this->translator->trans(
+            'decline_pending_announcer_content',
+            array(),
+            'job'
+        );
+        $receivers = array($user);
+        $sender = null;
+
+        $this->mailManager->send(
+            $object,
+            $content,
+            $receivers,
+            $sender
+        );
 
         return new JsonResponse('success', 200);
     }

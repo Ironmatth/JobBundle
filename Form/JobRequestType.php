@@ -61,6 +61,15 @@ class JobRequestType extends AbstractType
                 'label' => 'cv'
             )
         );
+        $builder->add(
+            'visible',
+            'checkbox',
+            array(
+                'required' => true,
+                'label' => 'accept_visibility_message',
+                'translation_domain' => 'job'
+            )
+        );
     }
     public function getName()
     {

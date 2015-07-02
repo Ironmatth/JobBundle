@@ -34,6 +34,11 @@ class Announcer
      */
     protected $community;
 
+    /**
+     * @ORM\Column(name="with_notification", type="boolean")
+     */
+    protected $withNotification = false;
+
     function getId()
     {
         return $this->id;
@@ -62,5 +67,15 @@ class Announcer
     function setCommunity(Community $community)
     {
         $this->community = $community;
+    }
+
+    function getWithNotification()
+    {
+        return $this->withNotification;
+    }
+
+    function setWithNotification($withNotification)
+    {
+        $this->withNotification = $withNotification;
     }
 }

@@ -36,6 +36,7 @@ class JobRequestRepository extends EntityRepository
             SELECT r
             FROM FormaLibre\JobBundle\Entity\JobRequest r
             WHERE r.community = :community
+            AND r.visible = true
             AND (
                 r.expirationDate IS NULL
                 OR r.expirationDate > :now

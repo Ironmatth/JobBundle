@@ -10,10 +10,10 @@ use Claroline\CoreBundle\Manager\MailManager;
 use Claroline\CoreBundle\Manager\RoleManager;
 use Claroline\CoreBundle\Manager\UserManager;
 use FormaLibre\JobBundle\Entity\Announcer;
-use FormaLibre\JobBundle\Entity\Community;
 use FormaLibre\JobBundle\Entity\JobRequest;
 use FormaLibre\JobBundle\Entity\JobOffer;
 use FormaLibre\JobBundle\Entity\PendingAnnouncer;
+use FormaLibre\JobBundle\Form\AnnouncerType;
 use FormaLibre\JobBundle\Form\JobOfferType;
 use FormaLibre\JobBundle\Form\JobRequestType;
 use FormaLibre\JobBundle\Form\PendingAnnouncerType;
@@ -24,7 +24,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration as EXT;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -137,19 +136,35 @@ class JobController extends Controller
 //            }
             $pendingAnnouncer = new PendingAnnouncer();
             $pendingAnnouncer->setUser($user);
-            $offerFile = $form->get('file')->getData();
             $community = $form->get('community')->getData();
-
-            if (!is_null($offerFile)) {
-                $originalName = $offerFile->getClientOriginalName();
-                $originalExtension = $offerFile->getClientOriginalExtension();
-                $pendingAnnouncer->setOriginalName($originalName . '.' . $originalExtension);
-                $hashName = $this->jobManager->saveFile($offerFile, 'offer');
-                $pendingAnnouncer->setOffer($hashName);
-            }
+            $withNotification = $form->get('withNotification')->getData();
             $pendingAnnouncer->setCommunity($community);
+            $pendingAnnouncer->setWithNotification($withNotification);
             $pendingAnnouncer->setApplicationDate(new \DateTime());
             $this->jobManager->persistPendingAnnouncer($pendingAnnouncer);
+
+            $receivers = $community->getAdmins();
+
+            if (count($receivers) > 0) {
+                $object = $this->translator->trans(
+                    'new_pending_announcer_object',
+                    array(),
+                    'job'
+                );
+                $content = $this->translator->trans(
+                    'new_pending_announcer_content',
+                    array(),
+                    'job'
+                );
+                $sender = null;
+
+                $this->mailManager->send(
+                    $object,
+                    $content,
+                    $receivers,
+                    $sender
+                );
+            }
 
             $msg = $this->get('translator')->trans('account_created', array(), 'platform');
             $this->get('request')->getSession()->getFlashBag()->add('success', $msg);
@@ -396,7 +411,7 @@ class JobController extends Controller
      * @EXT\ParamConverter("authenticatedUser", options={"authenticatedUser" = true})
      * @EXT\Template()
      */
-    public function seekerWidgetAction(User $authenticatedUser)
+    public function seekerWidgetAction()
     {
         return array();
     }
@@ -628,6 +643,39 @@ class JobController extends Controller
                 $jobRequest->setCv($hashName);
                 $jobRequest->setOriginalName($originalName);
                 $this->jobManager->createJobRequest($jobRequest);
+
+                $expirationDate = $jobRequest->getExpirationDate();
+
+                if ($jobRequest->getVisible() && (is_null($expirationDate) || $expirationDate > new \DateTime())) {
+                    $community = $jobRequest->getCommunity();
+                    $notifiableAnnouncers = $this->jobManager->getNotifiableAnnouncersByCommunity($community);
+
+                    if (count($notifiableAnnouncers) > 0) {
+                        $receivers = array();
+
+                        foreach ($notifiableAnnouncers as $announcer) {
+                            $receivers[] = $announcer->getUser();
+                        }
+                        $object = $this->translator->trans(
+                            'new_job_request_object',
+                            array(),
+                            'job'
+                        );
+                        $content = $this->translator->trans(
+                            'new_job_request_content',
+                            array(),
+                            'job'
+                        );
+                        $sender = null;
+
+                        $this->mailManager->send(
+                            $object,
+                            $content,
+                            $receivers,
+                            $sender
+                        );
+                    }
+                }
             }
 
             return $this->redirect(
@@ -690,8 +738,8 @@ class JobController extends Controller
                 $hashName = $this->jobManager->saveFile($file, 'cv');
                 $jobRequest->setCv($hashName);
                 $jobRequest->setOriginalName($originalName);
-                $this->jobManager->persistJobRequest($jobRequest);
             }
+            $this->jobManager->persistJobRequest($jobRequest);
 
             return $this->redirect(
                 $this->generateUrl('formalibre_job_seeker_job_requests_list')
@@ -716,6 +764,53 @@ class JobController extends Controller
         $this->jobManager->deleteJobRequest($jobRequest);
 
         return new JsonResponse('success', 200);
+    }
+
+    /**
+     * @EXT\Route(
+     *     "/announcer/{announcer}/edit/form",
+     *     name="formalibre_job_announcer_edit_form",
+     *     options={"expose"=true}
+     * )
+     * @EXT\ParamConverter("authenticatedUser", options={"authenticatedUser" = true})
+     * @EXT\Template()
+     */
+    public function announcerEditFormAction(User $authenticatedUser, Announcer $announcer)
+    {
+        $this->checkAnnouncerAccess($announcer, $authenticatedUser);
+        $form = $this->formFactory->create(new AnnouncerType(), $announcer);
+
+        return array('form' => $form->createView(), 'announcer' => $announcer);
+    }
+
+    /**
+     * @EXT\Route(
+     *     "/announcer/{announcer}/edit",
+     *     name="formalibre_job_announcer_edit",
+     *     options={"expose"=true}
+     * )
+     * @EXT\ParamConverter("authenticatedUser", options={"authenticatedUser" = true})
+     * @EXT\Template("FormaLibreJobBundle:Job:announcerEditForm.html.twig")
+     */
+    public function announcerEditAction(User $authenticatedUser, Announcer $announcer)
+    {
+        $this->checkAnnouncerAccess($announcer, $authenticatedUser);
+        $form = $this->formFactory->create(new AnnouncerType(), $announcer);
+        $form->handleRequest($this->request);
+
+        if ($form->isValid()) {
+            $this->jobManager->persistAnnouncer($announcer);
+
+            return $this->redirect(
+                $this->generateUrl(
+                    'formalibre_job_announcer_edit_form',
+                    array('announcer' => $announcer->getId())
+                )
+            );
+        } else {
+
+            return array('form' => $form->createView(), 'announcer' => $announcer);
+        }
     }
 
     private function checkAnnouncerAccess(Announcer $announcer, User $user)

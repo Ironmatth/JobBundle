@@ -40,14 +40,9 @@ class PendingAnnouncer
     protected $applicationDate;
 
     /**
-     * @ORM\Column(nullable=true)
+     * @ORM\Column(name="with_notification", type="boolean")
      */
-    protected $offer;
-
-    /**
-     * @ORM\Column(name="original_name", nullable=true)
-     */
-    protected $originalName;
+    protected $withNotification = false;
 
     function getId()
     {
@@ -99,13 +94,13 @@ class PendingAnnouncer
         $this->offer = $offer;
     }
 
-    function getOriginalName()
+    function getWithNotification()
     {
-        return $this->originalName;
+        return $this->withNotification;
     }
 
-    function setOriginalName($originalName)
+    function setWithNotification($withNotification)
     {
-        $this->originalName = $originalName;
+        $this->withNotification = $withNotification;
     }
 }

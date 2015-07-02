@@ -195,23 +195,12 @@ class JobManager
         $announcer = new Announcer();
         $announcer->setUser($user);
         $announcer->setCommunity($community);
+        $announcer->setWithNotification($pendingAnnouncer->getWithNotification());
         $this->persistAnnouncer($announcer);
         $event = new LogJobAnnouncerCreateEvent($announcer);
         $this->eventDispatcher->dispatch('log', $event);
         $announcerRole = $this->roleManager->getRoleByName('ROLE_JOB_ANNOUNCER');
         $this->roleManager->associateRole($user, $announcerRole);
-
-        $offer = $pendingAnnouncer->getOffer();
-
-        if (!is_null($offer)) {
-            $jobOffer = new JobOffer();
-            $jobOffer->setAnnouncer($announcer);
-            $jobOffer->setCommunity($community);
-            $jobOffer->setOffer($offer);
-            $jobOffer->setOriginalName($pendingAnnouncer->getOriginalName());
-            $jobOffer->setTitle($pendingAnnouncer->getOriginalName());
-            $this->createJobOffer($jobOffer);
-        }
         $this->deletePendingAnnouncer($pendingAnnouncer);
         $this->om->endFlushSuite();
     }
@@ -326,6 +315,21 @@ class JobManager
     {
         return $this->announcerRepo->findAnnouncerByUserAndCommunity(
             $user,
+            $community,
+            $orderedBy,
+            $order,
+            $executeQuery
+        );
+    }
+
+    public function getNotifiableAnnouncersByCommunity(
+        Community $community,
+        $orderedBy = 'id',
+        $order = 'ASC',
+        $executeQuery = true
+    )
+    {
+        return $this->announcerRepo->findNotifiableAnnouncersByCommunity(
             $community,
             $orderedBy,
             $order,

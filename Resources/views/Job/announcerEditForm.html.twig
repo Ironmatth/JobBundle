@@ -1,0 +1,27 @@
+{% extends "ClarolineCoreBundle:Desktop:layout.html.twig" %}
+
+{% block title %}
+    {{ 'preferences'|trans({}, 'platform') }}
+{% endblock %}
+
+{% block section_content %}
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            {{ 'preferences'|trans({}, 'platform') }}
+        </h3>
+    </div>
+    <form action="{{ path('formalibre_job_announcer_edit', {'announcer': announcer.getId()}) }}" 
+          method="POST"
+          {{ form_enctype(form) }}
+          novalidate
+    >
+        <div class="panel-body">
+            {{ form_widget(form) }}
+        </div>
+        <div class="panel-footer">
+            <button type="submit" class="btn btn-primary">
+                {{ 'ok'|trans({}, 'platform') }}
+            </button>
+        </div>
+    </form>
+{% endblock %}
