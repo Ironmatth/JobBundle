@@ -4,14 +4,19 @@ namespace FormaLibre\JobBundle\Manager;
 
 use Claroline\CoreBundle\Entity\User;
 use Claroline\CoreBundle\Manager\RoleManager;
+use Claroline\CoreBundle\Pager\PagerFactory;
 use Claroline\CoreBundle\Persistence\ObjectManager;
 use FormaLibre\JobBundle\Entity\Announcer;
 use FormaLibre\JobBundle\Entity\Community;
 use FormaLibre\JobBundle\Entity\JobOffer;
 use FormaLibre\JobBundle\Entity\JobRequest;
 use FormaLibre\JobBundle\Entity\PendingAnnouncer;
+use FormaLibre\JobBundle\Event\Log\LogJobAnnouncerCreateEvent;
+use FormaLibre\JobBundle\Event\Log\LogJobOfferCreateEvent;
+use FormaLibre\JobBundle\Event\Log\LogJobRequestCreateEvent;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
@@ -20,12 +25,15 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class JobManager
 {
     private $container;
+    private $eventDispatcher;
     private $roleManager;
     private $om;
+    private $pagerFactory;
 
     private $announcerRepo;
     private $communityRepo;
     private $jobOfferRepo;
+    private $jobRequestRepo;
     private $pendingRepo;
 
     private $cvDirectory;
@@ -33,24 +41,31 @@ class JobManager
 
     /**
      * @DI\InjectParams({
-     *     "container"   = @DI\Inject("service_container"),
-     *     "roleManager" = @DI\Inject("claroline.manager.role_manager"),
-     *     "om"          = @DI\Inject("claroline.persistence.object_manager")
+     *     "container"       = @DI\Inject("service_container"),
+     *     "eventDispatcher" = @DI\Inject("event_dispatcher"),
+     *     "roleManager"     = @DI\Inject("claroline.manager.role_manager"),
+     *     "om"              = @DI\Inject("claroline.persistence.object_manager"),
+     *     "pagerFactory"    = @DI\Inject("claroline.pager.pager_factory")
      * })
      */
     public function __construct(
         ContainerInterface $container,
+        EventDispatcherInterface $eventDispatcher,
         RoleManager $roleManager,
-        ObjectManager $om
+        ObjectManager $om,
+        PagerFactory $pagerFactory
     )
     {
         $this->container = $container;
+        $this->eventDispatcher = $eventDispatcher;
         $this->roleManager = $roleManager;
         $this->om = $om;
+        $this->pagerFactory = $pagerFactory;
 
         $this->announcerRepo = $om->getRepository('FormaLibreJobBundle:Announcer');
         $this->communityRepo = $om->getRepository('FormaLibreJobBundle:Community');
         $this->jobOfferRepo = $om->getRepository('FormaLibreJobBundle:JobOffer');
+        $this->jobRequestRepo = $om->getRepository('FormaLibreJobBundle:JobRequest');
         $this->pendingRepo = $om->getRepository('FormaLibreJobBundle:PendingAnnouncer');
 
         $this->cvDirectory = $this->container->getParameter('claroline.param.files_directory') .
@@ -98,9 +113,20 @@ class JobManager
             $announcer->setCommunity($community);
             $announcer->setUser($user);
             $this->om->persist($announcer);
+            $event = new LogJobAnnouncerCreateEvent($announcer);
+            $this->eventDispatcher->dispatch('log', $event);
         }
         $this->om->endFlushSuite();
     }
+
+    public function createJobOffer(JobOffer $jobOffer)
+    {
+        $this->om->persist($jobOffer);
+        $this->om->flush();
+        $event = new LogJobOfferCreateEvent($jobOffer);
+        $this->eventDispatcher->dispatch('log', $event);
+    }
+
 
     public function persistJobOffer(JobOffer $jobOffer)
     {
@@ -117,6 +143,14 @@ class JobManager
         }
         $this->om->remove($jobOffer);
         $this->om->flush();
+    }
+
+    public function createJobRequest(JobRequest $jobRequest)
+    {
+        $this->om->persist($jobRequest);
+        $this->om->flush();
+        $event = new LogJobRequestCreateEvent($jobRequest);
+        $this->eventDispatcher->dispatch('log', $event);
     }
 
     public function persistJobRequest(JobRequest $jobRequest)
@@ -157,6 +191,8 @@ class JobManager
         $announcer->setUser($user);
         $announcer->setCommunity($community);
         $this->persistAnnouncer($announcer);
+        $event = new LogJobAnnouncerCreateEvent($announcer);
+        $this->eventDispatcher->dispatch('log', $event);
         $announcerRole = $this->roleManager->getRoleByName('ROLE_JOB_ANNOUNCER');
         $this->roleManager->associateRole($user, $announcerRole);
 
@@ -169,7 +205,7 @@ class JobManager
             $jobOffer->setOffer($offer);
             $jobOffer->setOriginalName($pendingAnnouncer->getOriginalName());
             $jobOffer->setTitle($pendingAnnouncer->getOriginalName());
-            $this->persistJobOffer($jobOffer);
+            $this->createJobOffer($jobOffer);
         }
         $this->deletePendingAnnouncer($pendingAnnouncer);
         $this->om->endFlushSuite();
@@ -318,5 +354,70 @@ class JobManager
             $order,
             $executeQuery
         );
+    }
+
+    public function getAvailableJobOffersByCommunity(
+        Community $community,
+        $withPager = true,
+        $orderedBy = 'id',
+        $order = 'DESC',
+        $page = 1,
+        $max = 20
+    )
+    {
+        $jobOffers = $this->jobOfferRepo->findAvailableJobOffersByCommunity(
+            $community,
+            $orderedBy,
+            $order
+        );
+
+        return $withPager ?
+            $this->pagerFactory->createPagerFromArray($jobOffers, $page, $max) :
+            $jobOffers;
+    }
+
+
+    /******************************************
+     * Access to JobRequestRepository methods *
+     ******************************************/
+
+    public function getJobRequestsByUser(
+        User $user,
+        $withPager = true,
+        $orderedBy = 'id',
+        $order = 'ASC',
+        $page = 1,
+        $max = 20
+    )
+    {
+        $jobRequests = $this->jobRequestRepo->findJobRequestsByUser(
+            $user,
+            $orderedBy,
+            $order
+        );
+
+        return $withPager ?
+            $this->pagerFactory->createPagerFromArray($jobRequests, $page, $max) :
+            $jobRequests;
+    }
+
+    public function getAvailableJobRequestsByCommunity(
+        Community $community,
+        $withPager = true,
+        $orderedBy = 'id',
+        $order = 'DESC',
+        $page = 1,
+        $max = 20
+    )
+    {
+        $jobRequests = $this->jobRequestRepo->findAvailableJobRequestsByCommunity(
+            $community,
+            $orderedBy,
+            $order
+        );
+
+        return $withPager ?
+            $this->pagerFactory->createPagerFromArray($jobRequests, $page, $max) :
+            $jobRequests;
     }
 }

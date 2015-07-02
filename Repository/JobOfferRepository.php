@@ -4,6 +4,7 @@ namespace FormaLibre\JobBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use FormaLibre\JobBundle\Entity\Announcer;
+use FormaLibre\JobBundle\Entity\Community;
 
 class JobOfferRepository extends EntityRepository
 {
@@ -24,5 +25,28 @@ class JobOfferRepository extends EntityRepository
         $query->setParameter('announcer', $announcer);
 
         return $executeQuery ? $query->getResult() : $query;
+    }
+
+    public function findAvailableJobOffersByCommunity(
+        Community $community,
+        $orderedBy = 'id',
+        $order = 'DESC'
+    )
+    {
+        $dql = "
+            SELECT o
+            FROM FormaLibre\JobBundle\Entity\JobOffer o
+            WHERE o.community = :community
+            AND (
+                o.expirationDate IS NULL
+                OR o.expirationDate > :now
+            )
+            ORDER BY o.{$orderedBy} {$order}
+        ";
+        $query = $this->_em->createQuery($dql);
+        $query->setParameter('community', $community);
+        $query->setParameter('now', new \DateTime());
+
+        return $query->getResult();
     }
 }

@@ -240,7 +240,7 @@ class JobController extends Controller
                 $jobRequest->setCv($hashName);
                 $jobRequest->setOriginalName($originalName);
                 $jobRequest->setTitle($originalName);
-                $this->jobManager->persistJobRequest($jobRequest);
+                $this->jobManager->createJobRequest($jobRequest);
             }
 
             $msg = $this->get('translator')->trans('account_created', array(), 'platform');
