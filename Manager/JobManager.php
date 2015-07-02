@@ -100,6 +100,9 @@ class JobManager
         foreach ($jobOffers as $jobOffer) {
             $this->deleteJobOffer($jobOffer);
         }
+        $user = $announcer->getUser();
+        $announcerRole = $this->roleManager->getRoleByName('ROLE_JOB_ANNOUNCER');
+        $this->roleManager->dissociateRole($user, $announcerRole);
         $this->om->remove($announcer);
         $this->om->endFlushSuite();
     }
@@ -113,6 +116,8 @@ class JobManager
             $announcer->setCommunity($community);
             $announcer->setUser($user);
             $this->om->persist($announcer);
+            $announcerRole = $this->roleManager->getRoleByName('ROLE_JOB_ANNOUNCER');
+            $this->roleManager->associateRole($user, $announcerRole);
             $event = new LogJobAnnouncerCreateEvent($announcer);
             $this->eventDispatcher->dispatch('log', $event);
         }
