@@ -267,7 +267,7 @@ class AdminJobController extends Controller
         );
         $content = $this->translator->trans(
             'accept_pending_announcer_content',
-            array(),
+            array('%name%' => $user->getFirstName() . ' ' . $user->getLastName()),
             'job'
         );
         $receivers = array($user);

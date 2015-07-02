@@ -153,7 +153,18 @@ class JobController extends Controller
                 );
                 $content = $this->translator->trans(
                     'new_pending_announcer_content',
-                    array(),
+                    array(
+                        '%name%' => $receivers[0]->getFirstName() . ' ' . $receivers[0]->getLastName(),
+                        '%firstName%' => $user->getFirstName(),
+                        '%lastName%' => $user->getLastName(),
+                        '%registrationNumber%' => $form->get('registrationNumber')->getData(),
+                        '%faseNumber%' => $form->get('registrationNumber')->getData(),
+                        '%phone%' => $user->getPhone(),
+                        '%url%' => $this->generateUrl(
+                            'formalibre_job_admin_pending_announcers_management',
+                            array('community' => $community->getId())
+                        )
+                    ),
                     'job'
                 );
                 $sender = null;
@@ -663,7 +674,10 @@ class JobController extends Controller
                         );
                         $content = $this->translator->trans(
                             'new_job_request_content',
-                            array(),
+                            array(
+                                '%name%' => $receivers[0]->getFirstName() . ' ' .  $receivers[0]->getLastName(),
+                                '%communityName%' => $community->getName()
+                            ),
                             'job'
                         );
                         $sender = null;

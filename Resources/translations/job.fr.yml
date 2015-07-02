@@ -1,0 +1,27 @@
+accept_pending_announcer_content: |
+    Cher %name%,<br>
+    Votre accès à la plate-forme http://teachersmobility.be vient d'être validée.<br>
+    Vous pouvez désormais y poster vos annonces.<br><br>
+    Cordialement
+accept_pending_announcer_object: 'Votre accès à Teachers mobility a été validé'
+decline_pending_announcer_content:
+decline_pending_announcer_object:
+new_job_request_content: |
+    %name%,<br>
+    Un nouveau CV de candidature en communaute %communityName% vient d'être enregistré.<br>
+    Rendez vous sur http://teachersmobility.be pour en prendre connaissance.<br><br>
+    Cordialement
+new_job_request_object: 'Une nouvelle candidature a été postée sur Teachers Mobility'
+new_pending_announcer_content: |
+    Cher %name%<br>
+    Un nouvel utilisateur désire pouvoir poster des offres sur http://teachersmobility.be<br>
+
+    Il s'agit de :<br>
+    %firstName% %lastName%<br>
+    %registrationNumber%<br>
+    %faseNumber%<br>
+    %phone%<br>
+
+    Veuillez confirmer son accès en vous rendant sur %url%<br><br>
+    Cordialement
+new_pending_announcer_object: 'Une nouvelle direction souhaite s inscrire sur Teachers mobility'
