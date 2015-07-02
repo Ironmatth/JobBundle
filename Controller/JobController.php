@@ -233,13 +233,13 @@ class JobController extends Controller
 
             if (!is_null($cvFile)) {
                 $originalName = $cvFile->getClientOriginalName();
-                $originalExtension = $cvFile->getClientOriginalExtension();
                 $hashName = $this->jobManager->saveFile($cvFile, 'cv');
                 $jobRequest = new JobRequest();
                 $jobRequest->setCommunity($community);
                 $jobRequest->setUser($user);
                 $jobRequest->setCv($hashName);
-                $jobRequest->setOriginalName($originalName . '.' . $originalExtension);
+                $jobRequest->setOriginalName($originalName);
+                $jobRequest->setTitle($originalName);
                 $this->jobManager->persistJobRequest($jobRequest);
             }
 
@@ -272,5 +272,31 @@ class JobController extends Controller
 
             return array('form' => $form->createView());
         }
+    }
+
+    /**
+     * @EXT\Route(
+     *     "/announcer/widget",
+     *     name="formalibre_job_announcer_widget",
+     *     options={"expose"=true}
+     * )
+     * @EXT\Template()
+     */
+    public function announcerWidgetAction()
+    {
+        return array();
+    }
+
+    /**
+     * @EXT\Route(
+     *     "/seeker/widget",
+     *     name="formalibre_job_seeker_widget",
+     *     options={"expose"=true}
+     * )
+     * @EXT\Template()
+     */
+    public function seekerWidgetAction()
+    {
+        return array();
     }
 }

@@ -1,7 +1,7 @@
 (function () {
     'use strict';
     
-    $('#community-management-body').on('click', '.accept-pending-user-btn', function () {
+    $('#pending-announcers-management-body').on('click', '.accept-pending-user-btn', function () {
         var pendingAnnouncerId = $(this).data('pending-announcer-id');
         
         window.Claroline.Modal.confirmRequest(
@@ -16,7 +16,7 @@
         );
     });
     
-    $('#community-management-body').on('click', '.decline-pending-user-btn', function () {
+    $('#pending-announcers-management-body').on('click', '.decline-pending-user-btn', function () {
         var pendingAnnouncerId = $(this).data('pending-announcer-id');
         
         window.Claroline.Modal.confirmRequest(

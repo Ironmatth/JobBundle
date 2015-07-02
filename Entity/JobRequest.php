@@ -4,6 +4,7 @@ namespace FormaLibre\JobBundle\Entity;
 
 use Claroline\CoreBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="FormaLibre\JobBundle\Repository\JobRequestRepository")
@@ -17,6 +18,12 @@ class JobRequest
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
+    /**
+     * @ORM\Column()
+     * @Assert\NotBlank()
+     */
+    protected $title;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -62,6 +69,16 @@ class JobRequest
     function setId($id)
     {
         $this->id = $id;
+    }
+
+    function getTitle()
+    {
+        return $this->title;
+    }
+
+    function setTitle($title)
+    {
+        $this->title = $title;
     }
 
     function getDescription()

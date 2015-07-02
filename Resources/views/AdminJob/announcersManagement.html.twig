@@ -13,7 +13,7 @@
                 'href': path('formalibre_job_admin_tool_index')
             },
             {
-                'name': 'pending_announcers'|trans({}, 'job'),
+                'name': 'announcers'|trans({}, 'job'),
                 'href': ''
             }
         ])
@@ -23,15 +23,15 @@
 {% block section_content %}
     <div class="panel-heading">
         <h3 class="panel-title">
-            {{ 'pending_announcers'|trans({}, 'job') }}
+            {{ 'announcers'|trans({}, 'job') }}
         </h3>
     </div>
-    <div class="panel-body" id="community-management-body">
+    <div class="panel-body" id="announcers-management-body">
         <ul id="communities-nav-tabs-list" class="nav nav-tabs margin-bottom-md">
             
             {% for community in communities %}
                 <li class="{% if currentCommunity.getId() == community.getId() %}active{% endif %}">
-                    <a href="{{ path('formalibre_job_admin_community_management', { 'community': community.getId()}) }}">
+                    <a href="{{ path('formalibre_job_admin_announcers_management', { 'community': community.getId()}) }}">
                         {{ community.getName() }}
                     </a>
                 </li>
@@ -39,34 +39,25 @@
         </ul>
         <br>
         
-        {% if pendingAnnouncers|length > 0 %}
+        {% if announcers|length > 0 %}
             <div class="table-responsive">
                 <table class="table">
                     <tr>
                         <th>{{ 'name'|trans({}, 'platform') }}</th>
-                        <th>{{ 'application_date'|trans({}, 'job') }}</th>
                         <th></th>
                     </tr>
             
-                    {% for pendingAnnouncer in pendingAnnouncers %}
-                        {% set user = pendingAnnouncer.getUser() %}
-                        <tr id="pending-announcer-row-{{ pendingAnnouncer.getId() }}">
+                    {% for announcer in announcers %}
+                        {% set user = announcer.getUser() %}
+                        <tr id="announcer-row-{{ announcer.getId() }}">
                             <td>
                                 {{ user.getFirstName() }}
                                 {{ user.getLastName() }}
                             </td>
                             <td>
-                                {{ pendingAnnouncer.getApplicationDate()|intl_date_format }}
-                            </td>
-                            <td>
                                 <div class="btn-group">
-                                    <button class="btn btn-success accept-pending-user-btn"
-                                            data-pending-announcer-id="{{ pendingAnnouncer.getId() }}"
-                                    >
-                                        <i class="fa fa-check"></i>
-                                    </button>
-                                    <button class="btn btn-danger decline-pending-user-btn"
-                                            data-pending-announcer-id="{{ pendingAnnouncer.getId() }}"
+                                    <button class="btn btn-danger delete-announcer-btn"
+                                            data-announcer-id="{{ announcer.getId() }}"
                                     >
                                         <i class="fa fa-times"></i>
                                     </button>
@@ -78,9 +69,17 @@
             </div>
         {% else %}
             <div class="alert alert-warning">
-                {{ 'no_pending_announcer'|trans({}, 'job') }}
+                {{ 'no_announcer'|trans({}, 'job') }}
             </div>
         {% endif %}
+        <br>
+        <button class="btn btn-primary"
+                id="create-announcer-btn"
+                data-community-id="{{ currentCommunity.getId() }}"
+        >
+            <i class="fa fa-user-plus"></i>
+            {{ 'add_announcers'|trans({}, 'job') }}
+        </button>
     </div>
 {% endblock %}
 
@@ -90,7 +89,7 @@
             src="{{ url('bazinga_jstranslation_js', { 'domain': 'job' }) }}"
     >
     </script>
-    <script src='{{ asset('bundles/formalibrejob/js/communityManagement.js') }}'
+    <script src='{{ asset('bundles/formalibrejob/js/announcersManagement.js') }}'
             type="text/javascript"
     >
     </script>

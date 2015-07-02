@@ -5,8 +5,10 @@ namespace FormaLibre\JobBundle\Controller;
 use Claroline\CoreBundle\Entity\User;
 use Claroline\CoreBundle\Manager\MailManager;
 use Claroline\CoreBundle\Manager\RoleManager;
+use FormaLibre\JobBundle\Entity\Announcer;
 use FormaLibre\JobBundle\Entity\Community;
 use FormaLibre\JobBundle\Entity\PendingAnnouncer;
+use FormaLibre\JobBundle\Form\AnnouncersType;
 use FormaLibre\JobBundle\Form\CommunityType;
 use FormaLibre\JobBundle\Manager\JobManager;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -87,14 +89,35 @@ class AdminJobController extends Controller
 
     /**
      * @EXT\Route(
-     *     "/admin/community/{community}/management",
-     *     name="formalibre_job_admin_community_management",
+     *     "/admin/community/{community}/annnouncers/management",
+     *     name="formalibre_job_admin_announcers_management",
      *     options={"expose"=true}
      * )
      * @EXT\ParamConverter("authenticatedUser", options={"authenticatedUser" = true})
      * @EXT\Template()
      */
-    public function communityManagementAction(User $authenticatedUser, Community $community)
+    public function announcersManagementAction(User $authenticatedUser, Community $community)
+    {
+        $communities = $this->jobManager->getCommunitiesByUser($authenticatedUser);
+        $announcers = $this->jobManager->getAnnouncersByCommunity($community);
+
+        return array(
+            'currentCommunity' => $community,
+            'communities' => $communities,
+            'announcers' => $announcers
+        );
+    }
+
+    /**
+     * @EXT\Route(
+     *     "/admin/community/{community}/pending/annnouncers/management",
+     *     name="formalibre_job_admin_pending_announcers_management",
+     *     options={"expose"=true}
+     * )
+     * @EXT\ParamConverter("authenticatedUser", options={"authenticatedUser" = true})
+     * @EXT\Template()
+     */
+    public function pendingAnnouncersManagementAction(User $authenticatedUser, Community $community)
     {
         $communities = $this->jobManager->getCommunitiesByUser($authenticatedUser);
         $pendingAnnouncers = $this->jobManager->getPendingAnnouncersByCommunity($community);
@@ -267,6 +290,77 @@ class AdminJobController extends Controller
 //                $mailNotifiedUsers,
 //                $message->getSender()
 //            );
+
+        return new JsonResponse('success', 200);
+    }
+
+    /**
+     * @EXT\Route(
+     *     "/admin/community/{community}/announcers/create/form",
+     *     name="formalibre_job_admin_announcers_create_form",
+     *     options={"expose"=true}
+     * )
+     * @EXT\ParamConverter("authenticatedUser", options={"authenticatedUser" = true})
+     * @EXT\Template("FormaLibreJobBundle:AdminJob:announcersCreateModalForm.html.twig")
+     */
+    public function announcersCreateFormAction(Community $community)
+    {
+        $users = array();
+        $announcers = $this->jobManager->getAnnouncersByCommunity($community);
+
+        foreach ($announcers as $announcer) {
+            $users[] = $announcer->getUser();
+        }
+        $form = $this->formFactory->create(new AnnouncersType($users));
+
+        return array('form' => $form->createView(), 'community' => $community);
+    }
+
+    /**
+     * @EXT\Route(
+     *     "/admin/community/{community}/announcers/create",
+     *     name="formalibre_job_admin_announcers_create",
+     *     options={"expose"=true}
+     * )
+     * @EXT\ParamConverter("authenticatedUser", options={"authenticatedUser" = true})
+     * @EXT\Template("FormaLibreJobBundle:AdminJob:announcersCreateModalForm.html.twig")
+     */
+    public function announcersCreateAction(Community $community)
+    {
+        $users = array();
+        $announcers = $this->jobManager->getAnnouncersByCommunity($community);
+
+        foreach ($announcers as $announcer) {
+            $users[] = $announcer->getUser();
+        }
+        $form = $this->formFactory->create(new AnnouncersType($users));
+        $form->handleRequest($this->request);
+
+        if ($form->isValid()) {
+            $users = $form->get('announcers')->getData();
+
+            if (count($users) > 0) {
+                $this->jobManager->createAnnouncersFromUsers($community, $users);
+            }
+
+            return new JsonResponse('success', 200);
+        } else {
+
+            return array('form' => $form->createView(), 'community' => $community);
+        }
+    }
+
+    /**
+     * @EXT\Route(
+     *     "/admin/announcer/{announcer}/delete",
+     *     name="formalibre_job_admin_announcer_delete",
+     *     options={"expose"=true}
+     * )
+     * @EXT\ParamConverter("authenticatedUser", options={"authenticatedUser" = true})
+     */
+    public function deleteAnnouncerAction(Announcer $announcer)
+    {
+        $this->jobManager->deleteAnnouncer($announcer);
 
         return new JsonResponse('success', 200);
     }

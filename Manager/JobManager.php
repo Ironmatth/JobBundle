@@ -22,7 +22,10 @@ class JobManager
     private $container;
     private $roleManager;
     private $om;
+
+    private $announcerRepo;
     private $communityRepo;
+    private $jobOfferRepo;
     private $pendingRepo;
 
     private $cvDirectory;
@@ -44,7 +47,10 @@ class JobManager
         $this->container = $container;
         $this->roleManager = $roleManager;
         $this->om = $om;
+
+        $this->announcerRepo = $om->getRepository('FormaLibreJobBundle:Announcer');
         $this->communityRepo = $om->getRepository('FormaLibreJobBundle:Community');
+        $this->jobOfferRepo = $om->getRepository('FormaLibreJobBundle:JobOffer');
         $this->pendingRepo = $om->getRepository('FormaLibreJobBundle:PendingAnnouncer');
 
         $this->cvDirectory = $this->container->getParameter('claroline.param.files_directory') .
@@ -73,31 +79,60 @@ class JobManager
 
     public function deleteAnnouncer(Announcer $announcer)
     {
+        $this->om->startFlushSuite();
+        $jobOffers = $this->getJobOffersByAnnouncer($announcer);
+
+        foreach ($jobOffers as $jobOffer) {
+            $this->deleteJobOffer($jobOffer);
+        }
         $this->om->remove($announcer);
+        $this->om->endFlushSuite();
+    }
+
+    public function createAnnouncersFromUsers(Community $community, array $users)
+    {
+        $this->om->startFlushSuite();
+
+        foreach ($users as $user) {
+            $announcer = new Announcer();
+            $announcer->setCommunity($community);
+            $announcer->setUser($user);
+            $this->om->persist($announcer);
+        }
+        $this->om->endFlushSuite();
+    }
+
+    public function persistJobOffer(JobOffer $jobOffer)
+    {
+        $this->om->persist($jobOffer);
         $this->om->flush();
     }
 
-    public function persistJobOffer(JobOffer $offer)
+    public function deleteJobOffer(JobOffer $jobOffer)
     {
-        $this->om->persist($offer);
+        $fileName = $jobOffer->getOffer();
+
+        if (!is_null($fileName)) {
+            $this->deleteFile($fileName, 'offer');
+        }
+        $this->om->remove($jobOffer);
         $this->om->flush();
     }
 
-    public function deleteJobOffer(JobOffer $offer)
+    public function persistJobRequest(JobRequest $jobRequest)
     {
-        $this->om->remove($offer);
+        $this->om->persist($jobRequest);
         $this->om->flush();
     }
 
-    public function persistJobRequest(JobRequest $request)
+    public function deleteJobRequest(JobRequest $jobRequest)
     {
-        $this->om->persist($request);
-        $this->om->flush();
-    }
+        $fileName = $jobRequest->getCv();
 
-    public function deleteJobRequest(JobRequest $request)
-    {
-        $this->om->remove($request);
+        if (!is_null($fileName)) {
+            $this->deleteFile($fileName, 'cv');
+        }
+        $this->om->remove($jobRequest);
         $this->om->flush();
     }
 
@@ -193,6 +228,59 @@ class JobManager
     }
 
 
+    /*****************************************
+     * Access to AnnouncerRepository methods *
+     *****************************************/
+
+
+    public function getAnnouncersByUser(
+        User $user,
+        $orderedBy = 'id',
+        $order = 'ASC',
+        $executeQuery = true
+    )
+    {
+        return $this->announcerRepo->findAnnouncersByUser(
+            $user,
+            $orderedBy,
+            $order,
+            $executeQuery
+        );
+    }
+
+    public function getAnnouncersByCommunity(
+        Community $community,
+        $orderedBy = 'id',
+        $order = 'ASC',
+        $executeQuery = true
+    )
+    {
+        return $this->announcerRepo->findAnnouncersByCommunity(
+            $community,
+            $orderedBy,
+            $order,
+            $executeQuery
+        );
+    }
+
+    public function getAnnouncerByUserAndCommunity(
+        User $user,
+        Community $community,
+        $orderedBy = 'id',
+        $order = 'ASC',
+        $executeQuery = true
+    )
+    {
+        return $this->announcerRepo->findAnnouncerByUserAndCommunity(
+            $user,
+            $community,
+            $orderedBy,
+            $order,
+            $executeQuery
+        );
+    }
+
+
     /************************************************
      * Access to PendingAnnouncerRepository methods *
      ************************************************/
@@ -206,6 +294,26 @@ class JobManager
     {
         return $this->pendingRepo->findPendingAnnouncersByCommunity(
             $community,
+            $orderedBy,
+            $order,
+            $executeQuery
+        );
+    }
+
+
+    /****************************************
+     * Access to JobOfferRepository methods *
+     ****************************************/
+
+    public function getJobOffersByAnnouncer(
+        Announcer $announcer,
+        $orderedBy = 'id',
+        $order = 'ASC',
+        $executeQuery = true
+    )
+    {
+        return $this->jobOfferRepo->findJobOffersByAnnouncer(
+            $announcer,
             $orderedBy,
             $order,
             $executeQuery

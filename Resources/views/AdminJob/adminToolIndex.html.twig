@@ -28,7 +28,10 @@
         </a>
 
         {% if communities|length > 0 %}
-            <a class="list-group-item" href="{{ path('formalibre_job_admin_community_management', {'community': communities[0].getId()}) }}">
+            <a class="list-group-item" href="{{ path('formalibre_job_admin_announcers_management', {'community': communities[0].getId()}) }}">
+                {{ 'announcers'|trans({}, 'job') }}
+            </a>
+            <a class="list-group-item" href="{{ path('formalibre_job_admin_pending_announcers_management', {'community': communities[0].getId()}) }}">
                 {{ 'pending_announcers'|trans({}, 'job') }}
             </a>
         {% endif %}

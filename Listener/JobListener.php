@@ -2,7 +2,9 @@
 
 namespace FormaLibre\JobBundle\Listener;
 
+use Claroline\CoreBundle\Event\DisplayWidgetEvent;
 use Claroline\CoreBundle\Event\OpenAdministrationToolEvent;
+use Claroline\CoreBundle\Listener\NoHttpRequestException;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -40,6 +42,58 @@ class JobListener
         $response = $this->httpKernel
             ->handle($subRequest, HttpKernelInterface::SUB_REQUEST);
         $event->setResponse($response);
+        $event->stopPropagation();
+    }
+
+    /**
+     * @DI\Observe("widget_formalibre_announcer_widget")
+     *
+     * @param DisplayWidgetEvent $event
+     * @throws \Claroline\CoreBundle\Listener\NoHttpRequestException
+     */
+    public function onAnnouncerWidgetDisplay(DisplayWidgetEvent $event)
+    {
+        if (!$this->request) {
+
+            throw new NoHttpRequestException();
+        }
+        $widgetInstance = $event->getInstance();
+        $params = array();
+        $params['_controller'] = 'FormaLibreJobBundle:Job:announcerWidget';
+        $params['widgetInstance'] = $widgetInstance->getId();
+        $subRequest = $this->request->duplicate(
+            array(),
+            null,
+            $params
+        );
+        $response = $this->httpKernel->handle($subRequest, HttpKernelInterface::SUB_REQUEST);
+        $event->setContent($response->getContent());
+        $event->stopPropagation();
+    }
+
+    /**
+     * @DI\Observe("widget_formalibre_seeker_widget")
+     *
+     * @param DisplayWidgetEvent $event
+     * @throws \Claroline\CoreBundle\Listener\NoHttpRequestException
+     */
+    public function onSeekerWidgetDisplay(DisplayWidgetEvent $event)
+    {
+        if (!$this->request) {
+
+            throw new NoHttpRequestException();
+        }
+        $widgetInstance = $event->getInstance();
+        $params = array();
+        $params['_controller'] = 'FormaLibreJobBundle:Job:seekerWidget';
+        $params['widgetInstance'] = $widgetInstance->getId();
+        $subRequest = $this->request->duplicate(
+            array(),
+            null,
+            $params
+        );
+        $response = $this->httpKernel->handle($subRequest, HttpKernelInterface::SUB_REQUEST);
+        $event->setContent($response->getContent());
         $event->stopPropagation();
     }
 }
