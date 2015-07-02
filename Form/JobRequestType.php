@@ -28,7 +28,7 @@ class JobRequestType extends AbstractType
             'datepicker',
             array(
                 'required' => false,
-                'format' => 'dd-MM-yyyy',
+                'format' => 'dd-mm-yyyy',
                 'widget' => 'single_text',
                 'attr' => $attr,
                 'input' => 'datetime'

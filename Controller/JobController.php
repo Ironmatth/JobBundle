@@ -363,7 +363,7 @@ class JobController extends Controller
     )
     {
         $this->checkAnnouncerAccess($announcer, $authenticatedUser);
-        $jobRequests = $this->jobManager->getAvailableJobOffersByCommunity(
+        $jobRequests = $this->jobManager->getAvailableJobRequestsByCommunity(
             $announcer->getCommunity(),
             true,
             $orderedBy,

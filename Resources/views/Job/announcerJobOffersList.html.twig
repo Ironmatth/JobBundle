@@ -21,10 +21,14 @@
 
 {% extends "ClarolineCoreBundle:Desktop:layout.html.twig" %}
 
+{% block title %}
+    {{ 'job_offers_list'|trans({}, 'job') }}
+{% endblock %}
+
 {% block section_content %}
     <div class="panel-heading">
         <h3 class="panel-title">
-            {{ 'formalibre_job_admin_tool'|trans({}, 'tools') }}
+            {{ 'job_offers_list'|trans({}, 'tools') }}
         </h3>
     </div>
     <div class="panel-body" id="announcer-job-offers-list-body">
@@ -36,8 +40,19 @@
             <div class="table-responsive">
                 <table class="table">
                     {% for jobOffer in jobOffers %}
-                        <tr id="job-offer-row-{{ jobOffer.getId() }}">
-                            <td>{{ jobOffer.getTitle() }}</td>
+                        {% set expirationDate = jobOffer.getExpirationDate() %}
+                        <tr id="job-offer-row-{{ jobOffer.getId() }}"
+                            {% if expirationDate is not empty and expirationDate|date('Y-m-d H:i:s') < 'now'|date('Y-m-d H:i:s') %}style="background-color: grey"{% endif %}
+                        >
+                            <td>
+                                {{ jobOffer.getTitle() }}
+                            </td>
+                            <td>
+                                {{ expirationDate|date('d/m/Y') }}
+                            </td>
+                            <td>
+                                {{ jobOffer.getOriginalName() }}
+                            </td>
                             <td>
                                 <div class="btn-group">
                                     <a class="btn btn-default"

@@ -306,7 +306,7 @@ class AdminJobController extends Controller
     public function announcersCreateFormAction(Community $community)
     {
         $users = array();
-        $announcers = $this->jobManager->getAnnouncersByCommunity($community);
+        $announcers = $this->jobManager->getAllAnnouncers();
 
         foreach ($announcers as $announcer) {
             $users[] = $announcer->getUser();
@@ -328,7 +328,7 @@ class AdminJobController extends Controller
     public function announcersCreateAction(Community $community)
     {
         $users = array();
-        $announcers = $this->jobManager->getAnnouncersByCommunity($community);
+        $announcers = $this->jobManager->getAllAnnouncers();
 
         foreach ($announcers as $announcer) {
             $users[] = $announcer->getUser();

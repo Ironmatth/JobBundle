@@ -8,6 +8,22 @@ use FormaLibre\JobBundle\Entity\Community;
 
 class AnnouncerRepository extends EntityRepository
 {
+    public function findAllAnnouncers(
+        $orderedBy = 'id',
+        $order = 'ASC',
+        $executeQuery = true
+    )
+    {
+        $dql = "
+            SELECT a
+            FROM FormaLibre\JobBundle\Entity\Announcer a
+            ORDER BY a.{$orderedBy} {$order}
+        ";
+        $query = $this->_em->createQuery($dql);
+
+        return $executeQuery ? $query->getResult() : $query;
+    }
+
     public function findAnnouncersByUser(
         User $user,
         $orderedBy = 'id',

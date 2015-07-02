@@ -1,0 +1,70 @@
+{% macro renderPager(pager, announcerId, orderedBy, order, max) %}
+    {{
+        pagerfanta(
+            pager,
+            'twitter_bootstrap_translated',
+            {
+                'proximity' : 1,
+                'routeName': 'formalibre_job_announcer_job_requests_list',
+                'routeParams': {
+                    'announcer': announcerId,
+                    'orderedBy': orderedBy,
+                    'order': order,
+                    'max': max
+                }
+            }
+        )
+    }}
+{% endmacro %}
+
+{% from _self import renderPager %}
+
+{% extends "ClarolineCoreBundle:Desktop:layout.html.twig" %}
+
+{% block title %}
+    {{ 'job_requests_list'|trans({}, 'job') }}
+{% endblock %}
+
+{% block section_content %}
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            {{ 'job_requests_list'|trans({}, 'tools') }}
+        </h3>
+    </div>
+    <div class="panel-body" id="announcer-job-requests-list-body">
+        {% if jobRequests|length > 0 %}
+
+            {% if jobRequests.getNbPages() > 1 %}
+                {{ renderPager(jobRequests, announcer.getId(), orderedBy, order, max) }}
+            {% endif %}
+            <div class="table-responsive">
+                <table class="table">
+                    <tr>
+                        <th>{{ 'title'|trans({}, 'platform') }}</th>
+                        <th>{{ 'user'|trans({}, 'platform') }}</th>
+                        <th>{{ 'cv'|trans({}, 'job') }}</th>
+                    </tr>
+                    {% for jobRequest in jobRequests %}
+                        {% set user = jobRequest.getUser() %}
+                        <tr>
+                            <td>{{ jobRequest.getTitle() }}</td>
+                            <td>
+                                {{ user.getFirstName() }}
+                                {{ user.getLastName() }}
+                            </td>
+                            <td>{{ jobRequest.getOriginalName() }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+            {% if jobRequests.getNbPages() > 1 %}
+                {{ renderPager(jobRequests, announcer.getId(), orderedBy, order, max) }}
+            {% endif %}
+        {% else %}
+            <div class="alert alert-warning">
+                {{ 'no_job_offer'|trans({}, 'job') }}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

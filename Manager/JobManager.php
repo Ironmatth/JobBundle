@@ -273,6 +273,19 @@ class JobManager
      * Access to AnnouncerRepository methods *
      *****************************************/
 
+    public function getAllAnnouncers(
+        $orderedBy = 'id',
+        $order = 'ASC',
+        $executeQuery = true
+    )
+    {
+        return $this->announcerRepo->findAllAnnouncers(
+            $orderedBy,
+            $order,
+            $executeQuery
+        );
+    }
+
     public function getAnnouncersByUser(
         User $user,
         $orderedBy = 'id',
