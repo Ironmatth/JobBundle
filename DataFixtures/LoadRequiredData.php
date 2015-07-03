@@ -53,12 +53,12 @@ class LoadRequiredData extends AbstractFixture implements ContainerAwareInterfac
         $communityAdminRole = $roleRepo->findOneByName('ROLE_JOB_COMMUNITY_ADMIN');
 
         if (is_null($communityAdminRole)) {
-            $seekerRole = new Role();
-            $seekerRole->setName('ROLE_JOB_COMMUNITY_ADMIN');
-            $seekerRole->setTranslationKey('job_community_admin');
-            $seekerRole->setReadOnly(true);
-            $seekerRole->setPersonalWorkspaceCreationEnabled(true);
-            $seekerRole->setType(Role::PLATFORM_ROLE);
+            $communityAdminRole = new Role();
+            $communityAdminRole->setName('ROLE_JOB_COMMUNITY_ADMIN');
+            $communityAdminRole->setTranslationKey('job_community_admin');
+            $communityAdminRole->setReadOnly(true);
+            $communityAdminRole->setPersonalWorkspaceCreationEnabled(true);
+            $communityAdminRole->setType(Role::PLATFORM_ROLE);
             $om->persist($communityAdminRole);
             $created = true;
         }
