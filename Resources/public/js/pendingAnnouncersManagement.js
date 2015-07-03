@@ -6,7 +6,7 @@
         
         window.Claroline.Modal.confirmRequest(
             Routing.generate(
-                'formalibre_job_admin_pending_announcer_accept',
+                'formalibre_job_pending_announcer_accept',
                 {'pendingAnnouncer': pendingAnnouncerId}
             ),
             removePendingAnnouncerRow,
@@ -21,7 +21,7 @@
         
         window.Claroline.Modal.confirmRequest(
             Routing.generate(
-                'formalibre_job_admin_pending_announcer_decline',
+                'formalibre_job_pending_announcer_decline',
                 {'pendingAnnouncer': pendingAnnouncerId}
             ),
             removePendingAnnouncerRow,

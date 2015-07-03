@@ -26,7 +26,8 @@ class AnnouncersType extends AbstractType
                 'label' => 'announcers',
                 'multiple' => true,
                 'show_filters' => false,
-                'blacklist' => $this->users
+                'blacklist' => $this->users,
+                'show_all_users' => true
             )
         );
     }

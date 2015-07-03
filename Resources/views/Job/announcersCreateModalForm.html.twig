@@ -15,7 +15,7 @@
         </div>
         <div class="modal-body">
             <form id="announcers-create-form"
-                  action="{{ path('formalibre_job_admin_announcers_create', {'community': community.getId()}) }}"
+                  action="{{ path('formalibre_job_announcers_create', {'community': community.getId()}) }}"
                   method="POST"
                   {{ form_enctype(form) }}
             > 

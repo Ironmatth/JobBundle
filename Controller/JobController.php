@@ -15,6 +15,7 @@ use FormaLibre\JobBundle\Entity\JobRequest;
 use FormaLibre\JobBundle\Entity\JobOffer;
 use FormaLibre\JobBundle\Entity\PendingAnnouncer;
 use FormaLibre\JobBundle\Form\AnnouncerType;
+use FormaLibre\JobBundle\Form\AnnouncersType;
 use FormaLibre\JobBundle\Form\JobOfferType;
 use FormaLibre\JobBundle\Form\JobRequestType;
 use FormaLibre\JobBundle\Form\PendingAnnouncerType;
@@ -162,7 +163,7 @@ class JobController extends Controller
                         '%faseNumber%' => $form->get('registrationNumber')->getData(),
                         '%phone%' => $user->getPhone(),
                         '%url%' => $this->generateUrl(
-                            'formalibre_job_admin_pending_announcers_management',
+                            'formalibre_job_pending_announcers_management',
                             array('community' => $community->getId())
                         )
                     ),
@@ -869,6 +870,7 @@ class JobController extends Controller
      */
     public function announcersManagementAction(User $authenticatedUser, Community $community)
     {
+        $this->checkCommunityAdminAccess($community, $authenticatedUser);
         $communities = $this->jobManager->getCommunitiesByUser($authenticatedUser);
         $announcers = $this->jobManager->getAnnouncersByCommunity($community);
 
@@ -890,6 +892,7 @@ class JobController extends Controller
      */
     public function pendingAnnouncersManagementAction(User $authenticatedUser, Community $community)
     {
+        $this->checkCommunityAdminAccess($community, $authenticatedUser);
         $communities = $this->jobManager->getCommunitiesByUser($authenticatedUser);
         $pendingAnnouncers = $this->jobManager->getPendingAnnouncersByCommunity($community);
 
@@ -898,6 +901,163 @@ class JobController extends Controller
             'communities' => $communities,
             'pendingAnnouncers' => $pendingAnnouncers
         );
+    }
+
+    /**
+     * @EXT\Route(
+     *     "/community/{community}/announcers/create/form",
+     *     name="formalibre_job_announcers_create_form",
+     *     options={"expose"=true}
+     * )
+     * @EXT\ParamConverter("authenticatedUser", options={"authenticatedUser" = true})
+     * @EXT\Template("FormaLibreJobBundle:Job:announcersCreateModalForm.html.twig")
+     */
+    public function announcersCreateFormAction(User $authenticatedUser, Community $community)
+    {
+        $this->checkCommunityAdminAccess($community, $authenticatedUser);
+        $users = array();
+        $announcers = $this->jobManager->getAllAnnouncers();
+
+        foreach ($announcers as $announcer) {
+            $users[] = $announcer->getUser();
+        }
+        $form = $this->formFactory->create(new AnnouncersType($users));
+
+        return array('form' => $form->createView(), 'community' => $community);
+    }
+
+    /**
+     * @EXT\Route(
+     *     "/community/{community}/announcers/create",
+     *     name="formalibre_job_announcers_create",
+     *     options={"expose"=true}
+     * )
+     * @EXT\ParamConverter("authenticatedUser", options={"authenticatedUser" = true})
+     * @EXT\Template("FormaLibreJobBundle:Job:announcersCreateModalForm.html.twig")
+     */
+    public function announcersCreateAction(User $authenticatedUser, Community $community)
+    {
+        $this->checkCommunityAdminAccess($community, $authenticatedUser);
+        $users = array();
+        $announcers = $this->jobManager->getAllAnnouncers();
+
+        foreach ($announcers as $announcer) {
+            $users[] = $announcer->getUser();
+        }
+        $form = $this->formFactory->create(new AnnouncersType($users));
+        $form->handleRequest($this->request);
+
+        if ($form->isValid()) {
+            $users = $form->get('announcers')->getData();
+
+            if (count($users) > 0) {
+                $this->jobManager->createAnnouncersFromUsers($community, $users);
+            }
+
+            return new JsonResponse('success', 200);
+        } else {
+
+            return array('form' => $form->createView(), 'community' => $community);
+        }
+    }
+
+    /**
+     * @EXT\Route(
+     *     "/announcer/{announcer}/delete",
+     *     name="formalibre_job_announcer_delete",
+     *     options={"expose"=true}
+     * )
+     * @EXT\ParamConverter("authenticatedUser", options={"authenticatedUser" = true})
+     */
+    public function deleteAnnouncerAction(User $authenticatedUser, Announcer $announcer)
+    {
+        $community = $announcer->getCommunity();
+        $this->checkCommunityAdminAccess($community, $authenticatedUser);
+        $this->jobManager->deleteAnnouncer($announcer);
+
+        return new JsonResponse('success', 200);
+    }
+
+    /**
+     * @EXT\Route(
+     *     "/pending/announcer/{pendingAnnouncer}/accept",
+     *     name="formalibre_job_pending_announcer_accept",
+     *     options={"expose"=true}
+     * )
+     * @EXT\ParamConverter("authenticatedUser", options={"authenticatedUser" = true})
+     */
+    public function acceptPendingAnnouncerAction(
+        User $authenticatedUser,
+        PendingAnnouncer $pendingAnnouncer
+    )
+    {
+        $community = $pendingAnnouncer->getCommunity();
+        $this->checkCommunityAdminAccess($community, $authenticatedUser);
+        $user = $pendingAnnouncer->getUser();
+        $this->jobManager->acceptPendingAnnouncer($pendingAnnouncer);
+
+        $object = $this->translator->trans(
+            'accept_pending_announcer_object',
+            array(),
+            'job'
+        );
+        $content = $this->translator->trans(
+            'accept_pending_announcer_content',
+            array('%name%' => $user->getFirstName() . ' ' . $user->getLastName()),
+            'job'
+        );
+        $receivers = array($user);
+        $sender = null;
+
+        $this->mailManager->send(
+            $object,
+            $content,
+            $receivers,
+            $sender
+        );
+
+        return new JsonResponse('success', 200);
+    }
+
+    /**
+     * @EXT\Route(
+     *     "/pending/announcer/{pendingAnnouncer}/decline",
+     *     name="formalibre_job_pending_announcer_decline",
+     *     options={"expose"=true}
+     * )
+     * @EXT\ParamConverter("authenticatedUser", options={"authenticatedUser" = true})
+     */
+    public function declinePendingAnnouncerAction(
+        User $authenticatedUser,
+        PendingAnnouncer $pendingAnnouncer
+    )
+    {
+        $community = $pendingAnnouncer->getCommunity();
+        $this->checkCommunityAdminAccess($community, $authenticatedUser);
+        $user = $pendingAnnouncer->getUser();
+        $this->jobManager->deletePendingAnnouncer($pendingAnnouncer);
+
+        $object = $this->translator->trans(
+            'decline_pending_announcer_object',
+            array(),
+            'job'
+        );
+        $content = $this->translator->trans(
+            'decline_pending_announcer_content',
+            array(),
+            'job'
+        );
+        $receivers = array($user);
+        $sender = null;
+
+        $this->mailManager->send(
+            $object,
+            $content,
+            $receivers,
+            $sender
+        );
+
+        return new JsonResponse('success', 200);
     }
 
     private function checkAnnouncerAccess(Announcer $announcer, User $user)
@@ -933,6 +1093,16 @@ class JobController extends Controller
         $jobRequestUser = $jobRequest->getUser();
 
         if ($jobRequestUser->getId() !== $user->getId()) {
+
+            throw new AccessDeniedException();
+        }
+    }
+
+    private function checkCommunityAdminAccess(Community $community, User $user)
+    {
+        $admins = $community->getAdmins();
+
+        if (!in_array($user, $admins)) {
 
             throw new AccessDeniedException();
         }

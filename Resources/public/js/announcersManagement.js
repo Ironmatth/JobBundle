@@ -6,7 +6,7 @@
         
         window.Claroline.Modal.confirmRequest(
             Routing.generate(
-                'formalibre_job_admin_announcer_delete',
+                'formalibre_job_announcer_delete',
                 {'announcer': announcerId}
             ),
             removeAnnouncerRow,
@@ -21,7 +21,7 @@
         
         window.Claroline.Modal.displayForm(
             Routing.generate(
-                'formalibre_job_admin_announcers_create_form',
+                'formalibre_job_announcers_create_form',
                 {'community': communityId}
             ),
             refreshPage,
