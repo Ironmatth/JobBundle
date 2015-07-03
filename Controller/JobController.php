@@ -1060,6 +1060,39 @@ class JobController extends Controller
         return new JsonResponse('success', 200);
     }
 
+    /**
+     * @EXT\Route(
+     *     "/job/offers/list/page/{page}/max/{max}/ordered/by/{orderedBy}/order/{order}",
+     *     name="formalibre_job_job_offers_list",
+     *     defaults={"page"=1, "max"=20, "orderedBy"="id","order"="DESC"},
+     *     options={"expose"=true}
+     * )
+     * @EXT\Template()
+     */
+    public function jobOffersListAction(
+        $page = 1,
+        $max = 20,
+        $orderedBy = 'id',
+        $order = 'DESC'
+    )
+    {
+        $jobOffers = $this->jobManager->getAllAvailableJobOffers(
+            true,
+            $orderedBy,
+            $order,
+            $page,
+            $max
+        );
+
+        return array(
+            'jobOffers' => $jobOffers,
+            'page' => $page,
+            'max' => $max,
+            'orderedBy' => $orderedBy,
+            'order' => $order
+        );
+    }
+
     private function checkAnnouncerAccess(Announcer $announcer, User $user)
     {
         $announcerUser = $announcer->getUser();

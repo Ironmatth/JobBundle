@@ -48,4 +48,19 @@ class JobOfferRepository extends EntityRepository
 
         return $query->getResult();
     }
+
+    public function findAllAvailableJobOffers($orderedBy = 'id', $order = 'DESC')
+    {
+        $dql = "
+            SELECT o
+            FROM FormaLibre\JobBundle\Entity\JobOffer o
+            WHERE o.expirationDate IS NULL
+            OR o.expirationDate > :now
+            ORDER BY o.{$orderedBy} {$order}
+        ";
+        $query = $this->_em->createQuery($dql);
+        $query->setParameter('now', new \DateTime());
+
+        return $query->getResult();
+    }
 }

@@ -1,0 +1,74 @@
+{% macro renderPager(pager, orderedBy, order, max) %}
+    {{
+        pagerfanta(
+            pager,
+            'twitter_bootstrap_translated',
+            {
+                'proximity' : 1,
+                'routeName': 'formalibre_job_job_offers_list',
+                'routeParams': {
+                    'orderedBy': orderedBy,
+                    'order': order,
+                    'max': max
+                }
+            }
+        )
+    }}
+{% endmacro %}
+
+{% from _self import renderPager %}
+
+{% extends 'ClarolineCoreBundle::layout.html.twig' %}
+
+{% block content %}
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            {{ 'job_offers_list'|trans({}, 'job') }}
+        </h3>
+    </div>
+    <div class="panel-body" id="announcer-job-offers-list-body">
+        {% if jobOffers|length > 0 %}
+
+            {% if jobOffers.getNbPages() > 1 %}
+                {{ renderPager(jobOffers, orderedBy, order, max) }}
+            {% endif %}
+            <div class="table-responsive">
+                <table class="table">
+                    <tr>
+                        <th>{{ 'title'|trans({}, 'platform') }}</th>
+                        <th>{{ 'community'|trans({}, 'job') }}</th>
+                        <th>{{ 'announcer'|trans({}, 'job') }}</th>
+                        <th></th>
+                    </tr>
+                    {% for jobOffer in jobOffers %}
+                        {% set community = jobOffer.getCommunity() %}
+                        {% set announcer = jobOffer.getAnnouncer() %}
+                        {% set user = announcer.getUser() %}
+                        <tr>
+                            <td>
+                                {{ jobOffer.getTitle() }}
+                            </td>
+                            <td>
+                                {{ community.getName() }}
+                            </td>
+                            <td>
+                                {{ user.getFirstName() }}
+                                {{ user.getLastName() }}
+                            </td>
+                            <td>
+                                {{ jobOffer.getOriginalName() }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+            {% if jobOffers.getNbPages() > 1 %}
+                {{ renderPager(jobOffers, orderedBy, order, max) }}
+            {% endif %}
+        {% else %}
+            <div class="alert alert-warning">
+                {{ 'no_job_offer'|trans({}, 'job') }}
+            </div>
+        {% endif %}
+{% endblock %}

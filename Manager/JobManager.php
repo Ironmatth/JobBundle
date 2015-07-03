@@ -409,6 +409,24 @@ class JobManager
             $jobOffers;
     }
 
+    public function getAllAvailableJobOffers(
+        $withPager = true,
+        $orderedBy = 'id',
+        $order = 'DESC',
+        $page = 1,
+        $max = 20
+    )
+    {
+        $jobOffers = $this->jobOfferRepo->findAllAvailableJobOffers(
+            $orderedBy,
+            $order
+        );
+
+        return $withPager ?
+            $this->pagerFactory->createPagerFromArray($jobOffers, $page, $max) :
+            $jobOffers;
+    }
+
 
     /******************************************
      * Access to JobRequestRepository methods *
