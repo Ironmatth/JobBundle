@@ -76,8 +76,15 @@ class JobManager
 
     public function persistCommunity(Community $community)
     {
+        $this->om->startFlushSuite();
         $this->om->persist($community);
-        $this->om->flush();
+        $communityAdminRole = $this->roleManager->getRoleByName('ROLE_JOB_COMMUNITY_ADMIN');
+        $users = $community->getAdmins();
+
+        foreach ($users as $user) {
+            $this->roleManager->associateRole($user, $communityAdminRole);
+        }
+        $this->om->endFlushSuite();
     }
 
     public function deleteCommunity(Community $community)
