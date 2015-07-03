@@ -429,6 +429,20 @@ class JobController extends Controller
 
     /**
      * @EXT\Route(
+     *     "/admin/widget",
+     *     name="formalibre_job_admin_widget",
+     *     options={"expose"=true}
+     * )
+     * @EXT\ParamConverter("authenticatedUser", options={"authenticatedUser" = true})
+     * @EXT\Template()
+     */
+    public function adminWidgetAction()
+    {
+        return array();
+    }
+
+    /**
+     * @EXT\Route(
      *     "/seeker/job/requests/list/page/{page}/max/{max}/ordered/by/{orderedBy}/order/{order}",
      *     name="formalibre_job_seeker_job_requests_list",
      *     defaults={"page"=1, "max"=20, "orderedBy"="id","order"="ASC"},

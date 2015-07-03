@@ -96,4 +96,30 @@ class JobListener
         $event->setContent($response->getContent());
         $event->stopPropagation();
     }
+
+    /**
+     * @DI\Observe("widget_formalibre_admin_widget")
+     *
+     * @param DisplayWidgetEvent $event
+     * @throws \Claroline\CoreBundle\Listener\NoHttpRequestException
+     */
+    public function onAdminWidgetDisplay(DisplayWidgetEvent $event)
+    {
+        if (!$this->request) {
+
+            throw new NoHttpRequestException();
+        }
+        $widgetInstance = $event->getInstance();
+        $params = array();
+        $params['_controller'] = 'FormaLibreJobBundle:Job:adminWidget';
+        $params['widgetInstance'] = $widgetInstance->getId();
+        $subRequest = $this->request->duplicate(
+            array(),
+            null,
+            $params
+        );
+        $response = $this->httpKernel->handle($subRequest, HttpKernelInterface::SUB_REQUEST);
+        $event->setContent($response->getContent());
+        $event->stopPropagation();
+    }
 }
