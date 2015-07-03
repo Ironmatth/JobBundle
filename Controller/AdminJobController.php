@@ -145,9 +145,8 @@ class AdminJobController extends Controller
      */
     public function communityCreateFormAction()
     {
-        $roleAdmin = $this->roleManager->getRoleByName('ROLE_ADMIN');
         $form = $this->formFactory->create(
-            new CommunityType(array($roleAdmin)),
+            new CommunityType(),
             new Community()
         );
 
@@ -165,10 +164,9 @@ class AdminJobController extends Controller
      */
     public function communityCreateAction()
     {
-        $roleAdmin = $this->roleManager->getRoleByName('ROLE_ADMIN');
         $community = new Community();
         $form = $this->formFactory->create(
-            new CommunityType(array($roleAdmin)),
+            new CommunityType(),
             $community
         );
         $form->handleRequest($this->request);
@@ -194,9 +192,8 @@ class AdminJobController extends Controller
      */
     public function communityEditFormAction(Community $community)
     {
-        $roleAdmin = $this->roleManager->getRoleByName('ROLE_ADMIN');
         $form = $this->formFactory->create(
-            new CommunityType(array($roleAdmin)),
+            new CommunityType(),
             $community
         );
 
@@ -214,9 +211,8 @@ class AdminJobController extends Controller
      */
     public function communityEditAction(Community $community)
     {
-        $roleAdmin = $this->roleManager->getRoleByName('ROLE_ADMIN');
         $form = $this->formFactory->create(
-            new CommunityType(array($roleAdmin)),
+            new CommunityType(),
             $community
         );
         $form->handleRequest($this->request);

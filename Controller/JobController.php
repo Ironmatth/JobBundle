@@ -10,6 +10,7 @@ use Claroline\CoreBundle\Manager\MailManager;
 use Claroline\CoreBundle\Manager\RoleManager;
 use Claroline\CoreBundle\Manager\UserManager;
 use FormaLibre\JobBundle\Entity\Announcer;
+use FormaLibre\JobBundle\Entity\Community;
 use FormaLibre\JobBundle\Entity\JobRequest;
 use FormaLibre\JobBundle\Entity\JobOffer;
 use FormaLibre\JobBundle\Entity\PendingAnnouncer;
@@ -839,6 +840,64 @@ class JobController extends Controller
 
             return array('form' => $form->createView(), 'announcer' => $announcer);
         }
+    }
+
+    /**
+     * @EXT\Route(
+     *     "/announcers/management/menu",
+     *     name="formalibre_job_announcers_management_menu",
+     *     options={"expose"=true}
+     * )
+     * @EXT\ParamConverter("authenticatedUser", options={"authenticatedUser" = true})
+     * @EXT\Template()
+     */
+    public function announcersManagementMenuAction(User $authenticatedUser)
+    {
+        $communities = $this->jobManager->getCommunitiesByUser($authenticatedUser);
+
+        return array('communities' => $communities);
+    }
+
+    /**
+     * @EXT\Route(
+     *     "/community/{community}/annnouncers/management",
+     *     name="formalibre_job_announcers_management",
+     *     options={"expose"=true}
+     * )
+     * @EXT\ParamConverter("authenticatedUser", options={"authenticatedUser" = true})
+     * @EXT\Template()
+     */
+    public function announcersManagementAction(User $authenticatedUser, Community $community)
+    {
+        $communities = $this->jobManager->getCommunitiesByUser($authenticatedUser);
+        $announcers = $this->jobManager->getAnnouncersByCommunity($community);
+
+        return array(
+            'currentCommunity' => $community,
+            'communities' => $communities,
+            'announcers' => $announcers
+        );
+    }
+
+    /**
+     * @EXT\Route(
+     *     "/community/{community}/pending/annnouncers/management",
+     *     name="formalibre_job_pending_announcers_management",
+     *     options={"expose"=true}
+     * )
+     * @EXT\ParamConverter("authenticatedUser", options={"authenticatedUser" = true})
+     * @EXT\Template()
+     */
+    public function pendingAnnouncersManagementAction(User $authenticatedUser, Community $community)
+    {
+        $communities = $this->jobManager->getCommunitiesByUser($authenticatedUser);
+        $pendingAnnouncers = $this->jobManager->getPendingAnnouncersByCommunity($community);
+
+        return array(
+            'currentCommunity' => $community,
+            'communities' => $communities,
+            'pendingAnnouncers' => $pendingAnnouncers
+        );
     }
 
     private function checkAnnouncerAccess(Announcer $announcer, User $user)
