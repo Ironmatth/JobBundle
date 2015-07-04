@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class SeekerType extends AbstractType
 {
@@ -102,6 +103,34 @@ class SeekerType extends AbstractType
                 'mapped' => false,
                 'required' => false,
                 'label' => 'cv'
+            )
+        );
+        $attr = array();
+        $attr['class'] = 'datepicker input-small';
+        $attr['data-date-format'] = 'dd-mm-yyyy';
+        $attr['autocomplete'] = 'off';
+        $builder->add(
+            'expirationDate',
+            'datepicker',
+            array(
+                'required' => false,
+                'format' => 'dd-mm-yyyy',
+                'widget' => 'single_text',
+                'attr' => $attr,
+                'input' => 'datetime',
+                'mapped' => false,
+                'label' => 'expiration_date'
+            )
+        );
+        $builder->add(
+            'visible',
+            'checkbox',
+            array(
+                'required' => true,
+                'label' => 'accept_visibility_message',
+                'translation_domain' => 'job',
+                'constraints' => array(new NotBlank()),
+                'mapped' => false
             )
         );
     }

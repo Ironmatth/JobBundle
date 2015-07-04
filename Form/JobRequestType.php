@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class JobRequestType extends AbstractType
 {
@@ -67,14 +68,17 @@ class JobRequestType extends AbstractType
             array(
                 'required' => true,
                 'label' => 'accept_visibility_message',
-                'translation_domain' => 'job'
+                'translation_domain' => 'job',
+                'constraints' => array(new NotBlank())
             )
         );
     }
+    
     public function getName()
     {
         return 'job_request_form';
     }
+    
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array('translation_domain' => 'job'));
