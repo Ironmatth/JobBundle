@@ -100,7 +100,7 @@ class PendingAnnouncerType extends AbstractType
             array(
                 'required' => true,
                 'translation_domain' => 'platform',
-                'label' => 'User name'
+                'label' => 'username'
             )
         );
         $builder->add(
@@ -121,7 +121,7 @@ class PendingAnnouncerType extends AbstractType
                 'required' => true,
                 'label' => 'allow_notification_for_new_job_request',
                 'mapped' => false,
-                'translation_domain' => 'platform',
+                'translation_domain' => 'job',
             )
         );
     }

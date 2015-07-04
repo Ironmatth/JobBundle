@@ -90,7 +90,7 @@ class JobController extends Controller
 
     /**
      * @EXT\Route(
-     *     "/pending/announcer/create/form/lang/{lang}",
+     *     "/pending/announcer/create/form/{lang}",
      *     name="formalibre_job_pending_announcer_create_form",
      *     options={"expose"=true},
      *     defaults={"lang"="fr"}
@@ -110,7 +110,7 @@ class JobController extends Controller
 
     /**
      * @EXT\Route(
-     *     "/pending/announcer/create/lang/{lang}",
+     *     "/pending/announcer/create/{lang}",
      *     name="formalibre_job_pending_announcer_create",
      *     options={"expose"=true},
      *     defaults={"lang"="fr"}
