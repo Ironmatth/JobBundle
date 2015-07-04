@@ -18,6 +18,7 @@ class PendingAnnouncerType extends AbstractType
                 'label' => 'candidate_for',
                 'class' => 'FormaLibreJobBundle:Community',
                 'choice_translation_domain' => true,
+                'translation_domain' => 'job',
                 'query_builder' => function (EntityRepository $er) {
 
                     return $er->createQueryBuilder('c')->orderBy('c.name', 'ASC');
@@ -47,7 +48,7 @@ class PendingAnnouncerType extends AbstractType
                 'translation_domain' => 'platform',
                 'label' => 'first_name'
             )
-        );
+        );/*
         $builder->add(
             'registrationNumber',
             'text',
@@ -57,7 +58,7 @@ class PendingAnnouncerType extends AbstractType
                 'label' => 'registration_number',
                 'mapped' => false
             )
-        );
+        );*/
         $builder->add(
             'faseNumber',
             'text',
@@ -112,7 +113,8 @@ class PendingAnnouncerType extends AbstractType
             array(
                 'required' => true,
                 'label' => 'allow_notification_for_new_job_request',
-                'mapped' => false
+                'mapped' => false,
+                'translation_domain' => 'platform',
             )
         );
     }

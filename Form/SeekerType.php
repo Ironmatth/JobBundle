@@ -16,6 +16,7 @@ class SeekerType extends AbstractType
             'entity',
             array(
                 'label' => 'candidate_for',
+                'translation_domain' => 'job',
                 'class' => 'FormaLibreJobBundle:Community',
                 'choice_translation_domain' => true,
                 'query_builder' => function (EntityRepository $er) {
@@ -52,7 +53,7 @@ class SeekerType extends AbstractType
             'text',
             array(
                 'required' => true,
-                'translation_domain' => 'job',
+                'translation_domain' => 'platform',
                 'label' => 'registration_number',
                 'mapped' => false
             )
@@ -90,6 +91,7 @@ class SeekerType extends AbstractType
             'file',
             'file',
             array(
+                'translation_domain' => 'platform',
                 'mapped' => false,
                 'required' => false,
                 'label' => 'cv'

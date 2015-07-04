@@ -2,10 +2,14 @@
 
 {% block content %}
     <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">
-                {{ 'register'|trans({}, 'platform') }}
-            </h3>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-3"> <img width=50% src="{{ asset('bundles/formalibrejob/images/fwb.jpg') }}"> </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">  </div>
+                <div class="col-md-9" style="color: red;"> <h1><b> {{ 'seeker_form_message'|trans({}, 'job') }} </b></h1> </div>
+            </div>
         </div>
         <div class="panel-body">
             <form id="pending-announcer-create-form"
