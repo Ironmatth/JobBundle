@@ -9,8 +9,15 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class PendingAnnouncerType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    private $lang;
+    
+    public function __construct($lang)
     {
+        $this->lang = $lang;
+    }
+    
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {        
         $builder->add(
             'community',
             'entity',

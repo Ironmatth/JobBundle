@@ -9,6 +9,13 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class SeekerType extends AbstractType
 {
+    private $lang;
+    
+    public function __construct($lang = null)
+    {
+        $this->lang = $lang;
+    }
+        
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(
@@ -53,7 +60,7 @@ class SeekerType extends AbstractType
             'text',
             array(
                 'required' => true,
-                'translation_domain' => 'platform',
+                'translation_domain' => 'job',
                 'label' => 'registration_number',
                 'mapped' => false
             )
@@ -91,7 +98,7 @@ class SeekerType extends AbstractType
             'file',
             'file',
             array(
-                'translation_domain' => 'platform',
+                'translation_domain' => 'job',
                 'mapped' => false,
                 'required' => false,
                 'label' => 'cv'

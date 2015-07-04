@@ -13,7 +13,7 @@
         </div>
         <div class="panel-body">
             <form id="pending-announcer-create-form"
-                  action="{{ path('formalibre_job_pending_announcer_create') }}"
+                  action="{{ path('formalibre_job_pending_announcer_create', {'lang': lang}) }}"
                   method="POST"
                   {{ form_enctype(form) }}
             > 

@@ -1,82 +1,61 @@
-accept_pending_announcer_content: |
-    Cher %name%,<br>
-    Votre accès à la plate-forme http://teachersmobility.be vient d'être validée.<br>
-    Vous pouvez désormais y poster vos annonces.<br><br>
-    Cordialement
+accept_pending_announcer_content: "Cher %name%,<br>\nVotre accès à la plate-forme http://teachersmobility.be vient d'être validée.<br>\nVous pouvez désormais y poster vos annonces.<br><br>\nCordialement\n"
 accept_pending_announcer_object: 'Votre accès à Teachers mobility a été validé'
-decline_pending_announcer_content:
-decline_pending_announcer_object:
-new_job_request_content: |
-    %name%,<br>
-    Un nouveau CV de candidature en communaute %communityName% vient d'être enregistré.<br>
-    Rendez vous sur http://teachersmobility.be pour en prendre connaissance.<br><br>
-    Cordialement
-new_job_request_object: 'Une nouvelle candidature a été postée sur Teachers Mobility'
-new_pending_announcer_content: |
-    Cher %name%<br>
-    Un nouvel utilisateur désire pouvoir poster des offres sur http://teachersmobility.be<br>
-
-    Il s'agit de :<br>
-    %firstName% %lastName%<br>
-    %registrationNumber%<br>
-    %faseNumber%<br>
-    %phone%<br>
-
-    Veuillez confirmer son accès en vous rendant sur %url%<br><br>
-    Cordialement
-new_pending_announcer_object: 'Une nouvelle direction souhaite s inscrire sur Teachers mobility'
-seeker_form_message: 'que dois-je mettre ici ?'
-pending_announcement_form_message: 'que dois-je mettre ici aussi ?'
-communities_management: Gestion des communautés
-no_community: Aucune communauté
-add_community: Ajouter une communauté
-community_creation: Création d'une communauté
+accept_visibility_message: 'J''accepte que mon CV soit visible par les directeurs d''écoles'
+add_announcers: 'Ajouter des chefs d''établissement'
+add_community: 'Ajouter une communauté'
+add_cv: 'Ajouter un CV'
 administrators: Administrateurs
-community_edition: Modification d'une communauté
-delete_community: Supprimer une communauté
-delete_community_message: Êtes-vous sûr de vouloir supprimer cette communauté ?
-my_cv: Mes CVs
-add_cv: Ajouter un CV
-no_job_offer: Aucune offre d'emploi
-candidate_for: Candidat pour
-registration_number: Matricule
-cv: CV
-fase_number: Numéro fase
-allow_notification_for_new_job_request: Activer les notifications
-job_request_form_expirationDate: Date d'expiration
-accept_visibility_message : J'accepte que mon CV soit visible par les directeurs d'écoles
-job_request_creation: Effectuer une postulation
+allow_notification_for_new_job_request: 'Activer les notifications'
+announcers: 'Chefs d''établissement'
+announcers_creation: 'Ajout des chefs d''établissement'
+announcers_management: 'Gestion des chefs d''établissements'
+announcers_management_menu: 'Gestion des chefs d''établissements'
+announcers_managemnet: 'Gestion des chefs d''établissement'
+candidate_for: 'Candidat pour'
+communities_management: 'Gestion des communautés'
 community: Communauté
-expiration_date: Date d'expiration
-job_request_edition: Modifier une postulation
-delete_job_request: Supprimer une postulation
-delete_job_request_message: Êtes-vous sûr de vouloir supprimer cette postulation
-announcers_management: Gestion des chefs d'établissements
-announcers_management_menu: Gestion des chefs d'établissements
-announcers: Chefs d'établissement
-pending_announcers: Chefs d'établissement en attente
-no_pending_announcer: Aucun chef d'établissement en attente 
-pending_announcers_managemnet: Gestion des chefs d'établissements en attente
-no_announcer: Aucun chef d'établissement
-add_announcers: Ajouter des chefs d'établissement
-announcers_managemnet: Gestion des chefs d'établissement
-announcers_creation: Ajout des chefs d'établissement
-announcers: Chefs d'établissement
-delete_announcer: Supprimer un chef d'établissement
-delete_announcer_message: Êtes-vous sûr de vouloir supprimer un chef d'établissement
-my_job_offers: Mes offres d'emplois
-job_requests_list: Mes postulations
-job_offers_list: Liste des offres d'emplois
-create_job_offer: Créer une offre d'emploi
-establishment: Établissement
-immersion: Immersion
+community_creation: 'Création d''une communauté'
+community_edition: 'Modification d''une communauté'
+create_job_offer: 'Créer une offre d''emploi'
+cv: CV
+decline_pending_announcer_content: null
+decline_pending_announcer_object: null
+delete_announcer: 'Supprimer un chef d''établissement'
+delete_announcer_message: 'Êtes-vous sûr de vouloir supprimer un chef d''établissement'
+delete_community: 'Supprimer une communauté'
+delete_community_message: 'Êtes-vous sûr de vouloir supprimer cette communauté ?'
+delete_job_offer: 'Supprimer une offre d''emploi'
+delete_job_offer_message: 'Êtes-vous sûr de vouloir supprimer une offre d''emploi'
+delete_job_request: 'Supprimer une postulation'
+delete_job_request_message: 'Êtes-vous sûr de vouloir supprimer cette postulation'
 discipline: Discipline
-level: Niveau
 duration: Durée
-job_offer_form_expirationDate : Date d'expiration
-job_offer: Offre d'emploi
-job_offer_creation: Création d'une offre d'emploi
-delete_job_offer: Supprimer une offre d'emploi
-delete_job_offer_message: Êtes-vous sûr de vouloir supprimer une offre d'emploi
-job_offer_edition: Modifier une offre d'emploi
- 
+establishment: Établissement
+expiration_date: 'Date d''expiration'
+fase_number: 'Numéro fase'
+immersion: Immersion
+job_offer: 'Offre d''emploi'
+job_offer_creation: 'Création d''une offre d''emploi'
+job_offer_edition: 'Modifier une offre d''emploi'
+job_offer_form_expirationDate: 'Date d''expiration'
+job_offers_list: 'Liste des offres d''emplois'
+job_request_creation: 'Effectuer une postulation'
+job_request_edition: 'Modifier une postulation'
+job_request_form_expirationDate: 'Date d''expiration'
+job_requests_list: 'Mes postulations'
+level: Niveau
+my_cv: 'Mes CVs'
+my_job_offers: 'Mes offres d''emplois'
+new_job_request_content: "%name%,<br>\nUn nouveau CV de candidature en communaute %communityName% vient d'être enregistré.<br>\nRendez vous sur http://teachersmobility.be pour en prendre connaissance.<br><br>\nCordialement\n"
+new_job_request_object: 'Une nouvelle candidature a été postée sur Teachers Mobility'
+new_pending_announcer_content: "Cher %name%<br>\nUn nouvel utilisateur désire pouvoir poster des offres sur http://teachersmobility.be<br>\n\nIl s'agit de :<br>\n%firstName% %lastName%<br>\n%registrationNumber%<br>\n%faseNumber%<br>\n%phone%<br>\n\nVeuillez confirmer son accès en vous rendant sur %url%<br><br>\nCordialement\n"
+new_pending_announcer_object: 'Une nouvelle direction souhaite s inscrire sur Teachers mobility'
+no_announcer: 'Aucun chef d''établissement'
+no_community: 'Aucune communauté'
+no_job_offer: 'Aucune offre d''emploi'
+no_pending_announcer: 'Aucun chef d''établissement en attente'
+pending_announcement_form_message: 'que dois-je mettre ici aussi ?'
+pending_announcers: 'Chefs d''établissement en attente'
+pending_announcers_managemnet: 'Gestion des chefs d''établissements en attente'
+registration_number: Matricule
+seeker_form_message: 'que dois-je mettre ici ?'

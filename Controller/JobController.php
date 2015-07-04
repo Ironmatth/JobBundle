@@ -9,6 +9,7 @@ use Claroline\CoreBundle\Manager\FacetManager;
 use Claroline\CoreBundle\Manager\MailManager;
 use Claroline\CoreBundle\Manager\RoleManager;
 use Claroline\CoreBundle\Manager\UserManager;
+use Claroline\CoreBundle\Manager\LocaleManager;
 use FormaLibre\JobBundle\Entity\Announcer;
 use FormaLibre\JobBundle\Entity\Community;
 use FormaLibre\JobBundle\Entity\JobRequest;
@@ -43,6 +44,7 @@ class JobController extends Controller
     private $roleManager;
     private $translator;
     private $userManager;
+    private $localeManager;
 
     /**
      * @DI\InjectParams({
@@ -55,7 +57,8 @@ class JobController extends Controller
      *     "requestStack"  = @DI\Inject("request_stack"),
      *     "roleManager"   = @DI\Inject("claroline.manager.role_manager"),
      *     "translator"    = @DI\Inject("translator"),
-     *     "userManager"   = @DI\Inject("claroline.manager.user_manager")
+     *     "userManager"   = @DI\Inject("claroline.manager.user_manager"),
+     *     "localeManager" = @DI\Inject("claroline.common.locale_manager")
      * })
      */
     public function __construct(
@@ -68,7 +71,8 @@ class JobController extends Controller
         RequestStack $requestStack,
         RoleManager $roleManager,
         TranslatorInterface $translator,
-        UserManager $userManager
+        UserManager $userManager,
+        LocaleManager $localeManager
     )
     {
         $this->authorization = $authorization;
@@ -81,35 +85,39 @@ class JobController extends Controller
         $this->roleManager = $roleManager;
         $this->translator = $translator;
         $this->userManager = $userManager;
+        $this->localeManager = $localeManager;
     }
 
     /**
      * @EXT\Route(
-     *     "/pending/announcer/create/form",
+     *     "/pending/announcer/create/form/lang/{lang}",
      *     name="formalibre_job_pending_announcer_create_form",
-     *     options={"expose"=true}
+     *     options={"expose"=true},
+     *     defaults={"lang"="fr"}
      * )
      * @EXT\Template()
      */
-    public function pendingAnnouncerCreateFormAction()
+    public function pendingAnnouncerCreateFormAction($lang)
     {
+        $this->request->setLocale($lang);
         $form = $this->formFactory->create(
-            new PendingAnnouncerType(),
+            new PendingAnnouncerType($lang),
             new User()
         );
 
-        return array('form' => $form->createView());
+        return array('form' => $form->createView(), 'lang' => $lang);
     }
 
     /**
      * @EXT\Route(
-     *     "/pending/announcer/create",
+     *     "/pending/announcer/create/lang/{lang}",
      *     name="formalibre_job_pending_announcer_create",
-     *     options={"expose"=true}
+     *     options={"expose"=true},
+     *     defaults={"lang"="fr"}
      * )
      * @EXT\Template("FormaLibreJobBundle:Job:pendingAnnouncerCreateForm.html.twig")
      */
-    public function pendingAnnouncerCreateAction()
+    public function pendingAnnouncerCreateAction($lang)
     {
         $user = new User();
 
@@ -120,6 +128,7 @@ class JobController extends Controller
         $form->handleRequest($this->request);
 
         if ($form->isValid()) {
+            $user->setLocale($lang);
             $this->roleManager->setRoleToRoleSubject(
                 $user,
                 $this->configHandler->getParameter('default_role')
@@ -212,31 +221,34 @@ class JobController extends Controller
 
     /**
      * @EXT\Route(
-     *     "/seeker/create/form",
+     *     "/seeker/create/form/{lang}",
      *     name="formalibre_job_seeker_create_form",
-     *     options={"expose"=true}
+     *     options={"expose"=true},
+     *     defaults={"lang"="fr"}
      * )
      * @EXT\Template()
      */
-    public function seekerCreateFormAction()
+    public function seekerCreateFormAction($lang)
     {
+        $this->request->setLocale($lang);
         $form = $this->formFactory->create(
-            new SeekerType(),
+            new SeekerType($lang),
             new User()
         );
 
-        return array('form' => $form->createView());
+        return array('form' => $form->createView(), 'lang' => $lang);
     }
 
     /**
      * @EXT\Route(
-     *     "/seeker/create",
+     *     "/seeker/create/{lang}",
      *     name="formalibre_job_seeker_create",
-     *     options={"expose"=true}
+     *     options={"expose"=true},
+     *     defaults={"lang"="fr"}
      * )
      * @EXT\Template("FormaLibreJobBundle:Job:seekerCreateForm.html.twig")
      */
-    public function seekerCreateAction()
+    public function seekerCreateAction($lang)
     {
         $user = new User();
 
@@ -244,6 +256,7 @@ class JobController extends Controller
             new SeekerType(),
             $user
         );
+        $user->setLocale($lang);
         $form->handleRequest($this->request);
 
         if ($form->isValid()) {
