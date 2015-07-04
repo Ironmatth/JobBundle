@@ -48,7 +48,7 @@ my_cv: 'Mes CVs'
 my_job_offers: 'Mes offres d''emplois'
 new_job_request_content: "%name%,<br>\nUn nouveau CV de candidature en communaute %communityName% vient d'être enregistré.<br>\nRendez vous sur http://teachersmobility.be pour en prendre connaissance.<br><br>\nCordialement\n"
 new_job_request_object: 'Une nouvelle candidature a été postée sur Teachers Mobility'
-new_pending_announcer_content: "Cher %name%<br>\nUn nouvel utilisateur désire pouvoir poster des offres sur http://teachersmobility.be<br>\n\nIl s'agit de :<br>\n%firstName% %lastName%<br>\n%registrationNumber%<br>\n%faseNumber%<br>\n%phone%<br>\n\nVeuillez confirmer son accès en vous rendant sur %url%<br><br>\nCordialement\n"
+new_pending_announcer_content: "Cher %name%<br>\nUn nouvel utilisateur désire pouvoir poster des offres sur http://teachersmobility.be<br>\n\nIl s'agit de :<br>\n%firstName% %lastName%<br>\n<br>\n%faseNumber%<br>\n%phone%<br>\n\nVeuillez confirmer son accès en vous rendant sur %url%<br><br>\nCordialement\n"
 new_pending_announcer_object: 'Une nouvelle direction souhaite s inscrire sur Teachers mobility'
 no_announcer: 'Aucun chef d''établissement'
 no_community: 'Aucune communauté'
