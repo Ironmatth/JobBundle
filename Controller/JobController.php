@@ -1138,7 +1138,7 @@ class JobController extends Controller
         $currentUser = $this->tokenStorage->getToken()->getUser();
         $requestUser = $jobRequest->getUser();
         
-        if (!$this->authorization->isGranted('ROLE_JOB_ANNOUNCER') || $currentUser !== $requestUser) {
+        if (!$this->authorization->isGranted('ROLE_JOB_ANNOUNCER') && $currentUser !== $requestUser) {
             throw new AccessDeniedException();
         }
         
@@ -1165,7 +1165,7 @@ class JobController extends Controller
         $currentUser = $this->tokenStorage->getToken()->getUser();
         $requestUser = $jobRequest->getUser();
         
-        if (!$this->authorization->isGranted('ROLE_JOB_ANNOUNCER') || $currentUser !== $requestUser) {
+        if (!$this->authorization->isGranted('ROLE_JOB_ANNOUNCER') && ($currentUser !== $requestUser)) {
             throw new AccessDeniedException();
         }
         

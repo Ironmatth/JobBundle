@@ -1,6 +1,9 @@
 accept_pending_announcer_content: "Cher %name%,<br>\nVotre accès à la plate-forme http://teachersmobility.be vient d'être validée.<br>\nVous pouvez désormais y poster vos annonces.<br><br>\nCordialement\n"
 accept_pending_announcer_object: 'Votre accès à Teachers mobility a été validé'
+accept_pending_announcer: Accepter le directeur d'école
+accept_pending_announcer_message: Êtes-vous sûr de vouloir valider l'inscription de ce directeur d'école ?
 accept_visibility_message: 'J''accepte que mon CV soit visible par les directeurs d''écoles'
+application_date: application_date: Date d'application
 add_announcers: 'Ajouter des chefs d''établissement'
 add_community: 'Ajouter une communauté'
 add_cv: 'Ajouter un CV'

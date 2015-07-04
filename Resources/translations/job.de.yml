@@ -1,6 +1,9 @@
 accept_pending_announcer_content: accept_pending_announcer_content
 accept_pending_announcer_object: accept_pending_announcer_object
+accept_pending_announcer: accept_pending_announcer
+accept_pending_announcer_message: accept_pending_announcer_message
 accept_visibility_message: accept_visibility_message
+application_date: application_date
 add_announcers: add_announcers
 add_community: add_community
 add_cv: add_cv
