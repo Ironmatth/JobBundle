@@ -37,7 +37,7 @@
                 {{ renderPager(jobRequests, orderedBy, order, max) }}
             {% endif %}
             <div class="table-responsive">
-                <table class="table">
+                <table class="table table-striped table-bordered table-condensed">
                     <tr>
                         <th>{{ 'title'|trans({}, 'platform') }}</th>
                         <th>{{ 'community'|trans({}, 'job') }}</th>
@@ -61,6 +61,11 @@
                                        href="{{ path('formalibre_job_job_request_edit_form', {'jobRequest': jobRequest.getId()}) }}"
                                     >
                                         <i class="fa fa-edit"></i>
+                                    </a>
+                                    <a class="btn btn-default"
+                                       href="{{ path('formalibre_job_request_open', {'jobRequest': jobRequest.getId() }) }}"
+                                    >
+                                        <i class="fa fa-download"></i>
                                     </a>
                                     <button class="btn btn-danger delete-job-request-btn"
                                             data-job-request-id="{{ jobRequest.getId() }}"

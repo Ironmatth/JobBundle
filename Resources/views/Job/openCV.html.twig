@@ -1,0 +1,110 @@
+{% extends "ClarolineCoreBundle:Desktop:layout.html.twig" %}
+
+{% block title %}{{ jobRequest.getTitle() ~ ' - ' ~ parent() | striptags | raw }}{% endblock %}
+
+{% block section_content %}
+    <div class="panel-heading">
+        <h3 class="panel-title">{{ jobRequest.getTitle() }}</h3>
+    </div>
+    <div class="panel-body">
+        {% block controls %}
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" onclick="goPrevious()"><i class="fa fa-backward"></i></button>
+                            <button class="btn btn-primary" onclick="goNext()"><i class="fa fa-forward"></i></button>
+                        </span>
+                        <span class="text-center form-control input-group-btn">{{ 'Page' | trans({}, 'widget')}}: <span class="page_num"></span> / <span class="page_count"></span></span>
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" onclick="zoomIn()"><i class="fa fa-search-plus"></i></button>
+                            <button class="btn btn-primary" onclick="zoomOut()"><i class="fa fa-search-minus"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        {% endblock controls %}
+        <hr>
+        <div style="overflow:auto; border:1px solid #ddd">
+            <canvas id="the-canvas"></canvas>
+        </div>
+        <hr>
+        {{ block('controls') }}
+    </div>
+    <div class="panel-footer">
+        <a class="btn btn-primary" href="{{ path('formalibre_job_request_download', {"jobRequest": jobRequest.getId() }) }}">
+            <i class="fa fa-download"></i> {{ 'download'|trans({}, 'platform') }}
+        </a>
+    </div>
+{% endblock %}
+{% block javascripts %}
+        {{ parent() }}
+        <script type="text/javascript" src="{{ asset('bundles/clarolinepdfplayer/js/pdf.js') }}"></script>
+        <script type="text/javascript">
+
+        var url = '{{ path('formalibre_job_request_download', {"jobRequest": jobRequest.getId(), "force": "false" }) }}';
+
+        PDFJS.disableWorker = true;
+
+        var pdfDoc = null,
+                pageNum = 1,
+                scale = 1,
+                canvas = document.getElementById('the-canvas'),
+                ctx = canvas.getContext('2d');
+
+        function renderPage(num) {
+            // Using promise to fetch the page
+            pdfDoc.getPage(num).then(function(page) {
+                var viewport = page.getViewport(scale);
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                // Render PDF page into canvas context
+                var renderContext = {
+                    canvasContext: ctx,
+                    viewport: viewport
+                };
+                page.render(renderContext);
+            });
+
+            // Update page counters
+            $('.page_num').html(pageNum);
+            $('.page_count').html(pdfDoc.numPages);
+        }
+
+        function goPrevious() {
+            if (pageNum <= 1)
+                return;
+            pageNum--;
+            renderPage(pageNum);
+        }
+
+        function goNext() {
+            if (pageNum >= pdfDoc.numPages)
+                return;
+            pageNum++;
+            renderPage(pageNum);
+        }
+
+        function zoomIn(){
+                scale*=1.1;
+                renderPdf(url);
+        }
+
+        function zoomOut(){
+                scale*=0.9
+                renderPdf(url);
+        }
+
+        function renderPdf(url){
+                PDFJS.getDocument(url).then(function getPdf(_pdfDoc) {
+                    pdfDoc = _pdfDoc;
+                    renderPage(pageNum);
+                });
+        }
+
+        renderPdf(url);
+
+        </script>
+{% endblock %}
+

@@ -52,7 +52,7 @@
                                 {{ user.getFirstName() }}
                                 {{ user.getLastName() }}
                             </td>
-                            <td>{{ jobRequest.getOriginalName() }}</td>
+                            <td><a href="{{ path('formalibre_job_request_open', {'jobRequest': jobRequest.getId() }) }}"> {{ jobRequest.getOriginalName() }} </a></td>
                         </tr>
                     {% endfor %}
                 </table>

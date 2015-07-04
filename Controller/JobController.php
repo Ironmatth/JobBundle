@@ -27,11 +27,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration as EXT;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class JobController extends Controller
 {
@@ -46,6 +48,10 @@ class JobController extends Controller
     private $translator;
     private $userManager;
     private $localeManager;
+    private $fileDir;
+    private $cvDirectory;
+    private $offersDirectory;
+    private $extGuesser;
 
     /**
      * @DI\InjectParams({
@@ -59,7 +65,10 @@ class JobController extends Controller
      *     "roleManager"   = @DI\Inject("claroline.manager.role_manager"),
      *     "translator"    = @DI\Inject("translator"),
      *     "userManager"   = @DI\Inject("claroline.manager.user_manager"),
-     *     "localeManager" = @DI\Inject("claroline.common.locale_manager")
+     *     "localeManager" = @DI\Inject("claroline.common.locale_manager"),
+     *     "tokenStorage"  = @DI\Inject("security.token_storage"),
+     *     "fileDir"       = @DI\Inject("%claroline.param.files_directory%"),
+     *     "extGuesser"    = @DI\Inject("claroline.utilities.mime_type_guesser")
      * })
      */
     public function __construct(
@@ -73,7 +82,10 @@ class JobController extends Controller
         RoleManager $roleManager,
         TranslatorInterface $translator,
         UserManager $userManager,
-        LocaleManager $localeManager
+        LocaleManager $localeManager,
+        TokenStorageInterface $tokenStorage,
+        $fileDir,
+        $extGuesser
     )
     {
         $this->authorization = $authorization;
@@ -87,6 +99,11 @@ class JobController extends Controller
         $this->translator = $translator;
         $this->userManager = $userManager;
         $this->localeManager = $localeManager;
+        $this->tokenStorage = $tokenStorage;
+        $this->fileDir = $fileDir;
+        $this->cvDirectory = $fileDir . '/jobbundle/cv/';
+        $this->offersDirectory = $fileDir . '/jobbundle/offers/';
+        $this->extGuesser = $extGuesser;
     }
 
     /**
@@ -1106,6 +1123,72 @@ class JobController extends Controller
             'orderedBy' => $orderedBy,
             'order' => $order
         );
+    }
+    
+    /**
+     * @EXT\Route(
+     *     "/open/job/request/{jobRequest}",
+     *     name="formalibre_job_request_open",
+     *     options={"expose"=true}
+     * )
+     * @EXT\Template()
+     */
+    public function openCVAction(JobRequest $jobRequest)
+    {
+        $currentUser = $this->tokenStorage->getToken()->getUser();
+        $requestUser = $jobRequest->getUser();
+        
+        if (!$this->authorization->isGranted('ROLE_JOB_ANNOUNCER') || $currentUser !== $requestUser) {
+            throw new AccessDeniedException();
+        }
+        
+        $path = $this->cvDirectory . DIRECTORY_SEPARATOR . $jobRequest->getCv();
+        if (pathinfo($path, PATHINFO_EXTENSION) !== 'pdf') return $this->downloadCVAction($jobRequest, true);
+        
+        return array(
+            'path' => $path,
+            'jobRequest' => $jobRequest
+        );
+    }
+    
+    /**
+     * @EXT\Route(
+     *     "/download/job/request/{jobRequest}/force/{force}",
+     *     name="formalibre_job_request_download",
+     *     options={"expose"=true},
+     *     defaults={"force"="true"}
+     * )
+     * @EXT\Template()
+     */
+    public function downloadCVAction(JobRequest $jobRequest, $force)
+    {
+        $currentUser = $this->tokenStorage->getToken()->getUser();
+        $requestUser = $jobRequest->getUser();
+        
+        if (!$this->authorization->isGranted('ROLE_JOB_ANNOUNCER') || $currentUser !== $requestUser) {
+            throw new AccessDeniedException();
+        }
+        
+        $response = new StreamedResponse();
+        $path = $this->cvDirectory . DIRECTORY_SEPARATOR . $jobRequest->getCv();
+        $response->setCallBack(
+            function () use ($path) {
+                readfile($path);
+            }
+        );
+        
+        
+        $ext = pathinfo($path, PATHINFO_EXTENSION);
+        $mimeType = $this->extGuesser->guess($ext);
+        $response->headers->set('Content-Type', $mimeType);
+        
+        if ($force === 'true') {
+            $response->headers->set('Content-Transfer-Encoding', 'octet-stream');
+            $response->headers->set('Content-Type', 'application/force-download');
+            $response->headers->set('Content-Disposition', 'attachment; filename=' . urlencode($jobRequest->getTitle() . '.' . $ext));
+        }
+        
+        return $response;
     }
 
     private function checkAnnouncerAccess(Announcer $announcer, User $user)
