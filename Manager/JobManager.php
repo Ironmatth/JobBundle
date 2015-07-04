@@ -471,4 +471,11 @@ class JobManager
             $this->pagerFactory->createPagerFromArray($jobRequests, $page, $max) :
             $jobRequests;
     }
+    
+    public function getFieldFacet($fieldName)
+    {
+        $repo = $this->om->getRepository('Claroline\CoreBundle\Entity\Facet\FieldFacet');
+        
+        return $repo->findOneByName($fieldName);
+    }
 }

@@ -31,6 +31,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class JobController extends Controller
 {
@@ -137,14 +138,13 @@ class JobController extends Controller
                 $user,
                 PlatformRoles::USER
             );
-//            //then we adds the differents value for facets.
-//            foreach ($facets as $facet) {
-//                foreach ($facet->getPanelFacets() as $panel) {
-//                    foreach ($panel->getFieldsFacet() as $field) {
-//                        $this->facetManager->setFieldValue($user, $field, $form->get($field->getName())->getData(), true);
-//                    }
-//                }
-//            }
+            
+            $this->facetManager->setFieldValue(
+                $user, 
+                $this->jobManager->getFieldFacet('fase_number'), 
+                $form->get('faseNumber')->getData(),
+                true
+            );
             $pendingAnnouncer = new PendingAnnouncer();
             $pendingAnnouncer->setUser($user);
             $community = $form->get('community')->getData();
@@ -168,8 +168,8 @@ class JobController extends Controller
                         '%name%' => $receivers[0]->getFirstName() . ' ' . $receivers[0]->getLastName(),
                         '%firstName%' => $user->getFirstName(),
                         '%lastName%' => $user->getLastName(),
-                        '%registrationNumber%' => $form->get('registrationNumber')->getData(),
-                        '%faseNumber%' => $form->get('registrationNumber')->getData(),
+                        //'%registrationNumber%' => $form->get('registrationNumber')->getData(),
+                        '%faseNumber%' => $form->get('faseNumber')->getData(),
                         '%phone%' => $user->getPhone(),
                         '%url%' => $this->generateUrl(
                             'formalibre_job_pending_announcers_management',
@@ -215,7 +215,7 @@ class JobController extends Controller
             return $this->redirect($this->generateUrl('claro_security_login'));
         } else {
 
-            return array('form' => $form->createView());
+            return array('form' => $form->createView(), 'lang' => $lang);
         }
     }
 
@@ -268,14 +268,14 @@ class JobController extends Controller
                 $user,
                 PlatformRoles::USER
             );
-//            //then we adds the differents value for facets.
-//            foreach ($facets as $facet) {
-//                foreach ($facet->getPanelFacets() as $panel) {
-//                    foreach ($panel->getFieldsFacet() as $field) {
-//                        $this->facetManager->setFieldValue($user, $field, $form->get($field->getName())->getData(), true);
-//                    }
-//                }
-//            }
+            
+            $this->facetManager->setFieldValue(
+                $user, 
+                $this->jobManager->getFieldFacet('registration_number'), 
+                $form->get('registrationNumber')->getData(),
+                true
+            );
+            
             $seekerRole = $this->roleManager->getRoleByName('ROLE_JOB_SEEKER');
 
             if (!is_null($seekerRole)) {
@@ -323,7 +323,7 @@ class JobController extends Controller
             return $this->redirect($this->generateUrl('claro_security_login'));
         } else {
 
-            return array('form' => $form->createView());
+            return array('form' => $form->createView(), 'lang' => $lang);
         }
     }
 

@@ -80,7 +80,7 @@ class SeekerType extends AbstractType
             array(
                 'required' => true,
                 'translation_domain' => 'platform',
-                'label' => 'User name'
+                'label' => 'username'
             )
         );
         $builder->add(

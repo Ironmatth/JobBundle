@@ -11,7 +11,7 @@ class PendingAnnouncerType extends AbstractType
 {
     private $lang;
     
-    public function __construct($lang)
+    public function __construct($lang = null)
     {
         $this->lang = $lang;
     }
