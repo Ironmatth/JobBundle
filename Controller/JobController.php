@@ -1143,7 +1143,7 @@ class JobController extends Controller
         }
         
         $path = $this->cvDirectory . DIRECTORY_SEPARATOR . $jobRequest->getCv();
-        if (pathinfo($path, PATHINFO_EXTENSION) !== 'pdf') return $this->downloadCVAction($jobRequest, true);
+        if (pathinfo($path, PATHINFO_EXTENSION) !== 'pdf') return $this->downloadCVAction($jobRequest, 'true');
         
         return array(
             'path' => $path,
@@ -1181,7 +1181,7 @@ class JobController extends Controller
         $ext = pathinfo($path, PATHINFO_EXTENSION);
         $mimeType = $this->extGuesser->guess($ext);
         $response->headers->set('Content-Type', $mimeType);
-        
+
         if ($force === 'true') {
             $response->headers->set('Content-Transfer-Encoding', 'octet-stream');
             $response->headers->set('Content-Type', 'application/force-download');
