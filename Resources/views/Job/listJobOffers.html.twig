@@ -70,9 +70,6 @@
                             {{ 'title'|trans({}, 'platform') }}
                         </th>
                         <th>
-                            {{ 'code'|trans({}, 'platform') }}
-                        </th>
-                        <th>
                             {{ 'establishment'|trans({}, 'job') }}
                         </th>
                         <th>
@@ -89,8 +86,7 @@
                 <tbody>
                     {% for offer in pager.currentPageResults %}
                         <tr>
-                            <td> {{ offer.getTitle() }} </td>
-                            <td> {{ offer.getCode() }} </td>
+                            <td> <a href="{{ path('formalibre_job_offer_open', {'jobOffer': offer.getId() } ) }}"> {{ offer.getTitle() }} </a> </td>
                             <td> {{ offer.getEstablishment() }} </td>
                             <td> {{ offer.getDiscipline() }} </td>
                             <td> {{ offer.getCreationDate()|intl_date_format() }} </td>

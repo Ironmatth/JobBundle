@@ -1225,6 +1225,59 @@ class JobController extends Controller
             'communities' => $communities
         );
     }
+    
+        /**
+     * @EXT\Route(
+     *     "/open/job/offer/{jobOffer}",
+     *     name="formalibre_job_offer_open",
+     *     options={"expose"=true}
+     * )
+     * @EXT\Template()
+     */
+    public function openJobOfferAction(JobOffer $jobOffer)
+    {
+        $path = $this->offersDirectory . DIRECTORY_SEPARATOR . $jobOffer->getOffer();
+        if (pathinfo($path, PATHINFO_EXTENSION) !== 'pdf') return $this->downloadJobOfferAction($jobOffer, 'true');
+        
+        return array(
+            'path' => $path,
+            'jobOffer' => $jobOffer
+        );
+    }
+    
+    /**
+     * @EXT\Route(
+     *     "/download/job/offer/{jobOffer}/force/{force}",
+     *     name="formalibre_job_offer_download",
+     *     options={"expose"=true},
+     *     defaults={"force"="true"}
+     * )
+     * @EXT\Template()
+     */
+    public function downloadJobOfferAction(JobOffer $jobOffer, $force)
+    {        
+        $response = new StreamedResponse();
+        $path = $this->offersDirectory . DIRECTORY_SEPARATOR . $jobOffer->getOffer();
+        
+        $response->setCallBack(
+            function () use ($path) {
+                readfile($path);
+            }
+        );
+        
+        
+        $ext = pathinfo($path, PATHINFO_EXTENSION);
+        $mimeType = $this->extGuesser->guess($ext);
+        $response->headers->set('Content-Type', $mimeType);
+
+        if ($force === 'true') {
+            $response->headers->set('Content-Transfer-Encoding', 'octet-stream');
+            $response->headers->set('Content-Type', 'application/force-download');
+            $response->headers->set('Content-Disposition', 'attachment; filename=' . urlencode($jobOffer->getTitle() . '.' . $ext));
+        }
+        
+        return $response;
+    }
 
     private function checkAnnouncerAccess(Announcer $announcer, User $user)
     {

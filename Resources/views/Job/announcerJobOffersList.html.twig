@@ -60,6 +60,11 @@
                                     >
                                         <i class="fa fa-edit"></i>
                                     </a>
+                                    <a class="btn btn-default"
+                                       href="{{ path('formalibre_job_offer_open', {'jobOffer': jobOffer.getId()}) }}"
+                                    >
+                                        <i class="fa fa-download"></i>
+                                    </a>
                                     <button class="btn btn-danger delete-job-offer-btn"
                                             data-job-offer-id="{{ jobOffer.getId() }}"
                                     >
