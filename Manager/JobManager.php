@@ -472,6 +472,40 @@ class JobManager
             $jobRequests;
     }
     
+    public function getJobOffers(Community $community, $search = '', $from = 0, $to = 2147483647, $getQuery = false)
+    {
+        $dql = "
+            SELECT j FROM FormaLibre\JobBundle\Entity\JobOffer j
+            JOIN j.community c
+            WHERE c.id = :community
+            AND j.creationDate BETWEEN :from and :to
+        ";
+        if ($search !== '') {
+            $search = strtoupper($search);
+            $dql .= '
+            AND (
+                UPPER(j.discipline) LIKE :search OR
+                UPPER(j.establishment) LIKE :search OR
+                UPPER(j.code) like :search OR
+                UPPER(j.title) like :search
+            )
+            ';
+        }
+        
+        $fromTime = new \DateTime();
+        $fromTime->setTimeStamp($from);
+        $toTime = new \DateTime();
+        $toTime->setTimeStamp($to);
+        $query = $this->container->get('doctrine.orm.entity_manager')->createQuery($dql);
+        $query->setParameter('from', $fromTime);
+        $query->setParameter('to', $toTime);
+        $query->setParameter('community', $community->getId());
+        
+        if ($search) $query->setParameter('search', "%{$search}%");
+        
+        return $getQuery ? $query: $query->getResult();
+    }
+    
     public function getFieldFacet($fieldName)
     {
         $repo = $this->om->getRepository('Claroline\CoreBundle\Entity\Facet\FieldFacet');

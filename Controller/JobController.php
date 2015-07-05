@@ -457,8 +457,8 @@ class JobController extends Controller
      * @EXT\Template()
      */
     public function seekerWidgetAction()
-    {
-        return array();
+    {        
+        return array('communities' => $communities);
     }
 
     /**
@@ -501,13 +501,16 @@ class JobController extends Controller
             $page,
             $max
         );
+        
+        $communities = $this->jobManager->getAllCommunities();
 
         return array(
             'jobRequests' => $jobRequests,
             'page' => $page,
             'max' => $max,
             'orderedBy' => $orderedBy,
-            'order' => $order
+            'order' => $order,
+            'communities' => $communities
         );
     }
 
@@ -1189,6 +1192,38 @@ class JobController extends Controller
         }
         
         return $response;
+    }
+    
+    /**
+     * @EXT\Route(
+     *     "/job_offers/community/{community}/page/{page}/from/{from}/to/{to}",
+     *     name="formalibre_job_offers_open",
+     *     defaults={"page"=1, "search"="", "from": "1420153200", "to": "1451689200"},
+     *     options = {"expose"=true}
+     * )
+     * @EXT\Route(
+     *     "/job_offers/community/{community}/search/{search}/page/{page}/from/{from}/to/{to}",
+     *     name="formalibre_job_offers_open_search",
+     *     defaults={"page"=1, "from": "1420153200", "to": "1451689200"},
+     *     options = {"expose"=true}
+     * )
+     * @EXT\Template
+     */
+    public function listJobOffersAction(Community $community, $page, $search, $from, $to)
+    {
+         $query = $this->jobManager->getJobOffers($community, $search, $from, $to, true);
+         $pager = $this->get('claroline.pager.pager_factory')->createPager($query, $page, 25);
+         $communities = $this->jobManager->getAllCommunities();
+         
+         return array(
+            'pager' => $pager,
+            'search' => $search,
+            'community' => $community,
+            'page' => $page,
+            'from' => $from,
+            'to' => $to,
+            'communities' => $communities
+        );
     }
 
     private function checkAnnouncerAccess(Announcer $announcer, User $user)

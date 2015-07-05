@@ -23,6 +23,8 @@ create_job_offer: create_job_offer
 cv: cv
 decline_pending_announcer_content: decline_pending_announcer_content
 decline_pending_announcer_object: decline_pending_announcer_object
+decline_pending_announcer: decline_pending_announcer
+decline_pending_announcer_message: decline_pending_announcer_message
 delete_announcer: delete_announcer
 delete_announcer_message: delete_announcer_message
 delete_community: delete_community

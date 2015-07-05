@@ -93,6 +93,13 @@
         >
             {{ 'add_cv'|trans({}, 'job') }}
         </a>
+        {% for community in communities %}
+            <a href="{{ path('formalibre_job_offers_open', {'community': community.getId()}) }}"
+                class="btn btn-primary"
+            >
+                {{ community.getName() }}
+            </a>
+        {% endfor %}
     </div>
 {% endblock %}
 

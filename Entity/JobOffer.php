@@ -4,6 +4,7 @@ namespace FormaLibre\JobBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="FormaLibre\JobBundle\Repository\JobOfferRepository")
@@ -93,6 +94,12 @@ class JobOffer
      * @ORM\Column(nullable=true)
      */
     protected $duration;
+    
+    /**
+     * @ORM\Column(name="creation_date", type="datetime")
+     * @Gedmo\Timestampable(on="create")
+     */
+    protected $creationDate;
 
     function getId()
     {
@@ -242,5 +249,10 @@ class JobOffer
     function setDuration($duration)
     {
         $this->duration = $duration;
+    }
+    
+    public function getCreationDate()
+    {
+        return $this->creationDate;
     }
 }

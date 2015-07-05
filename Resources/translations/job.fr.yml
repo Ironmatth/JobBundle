@@ -3,7 +3,7 @@ accept_pending_announcer_object: 'Votre accès à Teachers mobility a été vali
 accept_pending_announcer: Accepter le directeur d'école
 accept_pending_announcer_message: Êtes-vous sûr de vouloir valider l'inscription de ce directeur d'école ?
 accept_visibility_message: 'J''accepte que mon CV soit visible par les directeurs d''écoles'
-application_date: application_date: Date d'application
+application_date: Date d'application
 add_announcers: 'Ajouter des chefs d''établissement'
 add_community: 'Ajouter une communauté'
 add_cv: 'Ajouter un CV'
@@ -23,6 +23,8 @@ create_job_offer: 'Créer une offre d''emploi'
 cv: CV
 decline_pending_announcer_content: null
 decline_pending_announcer_object: null
+decline_pending_announcer: 'Refuser un directeur d''établissement'
+decline_pending_announcer_message: 'Êtes-vous sûr de vouloir refuser ce directeur d''établissement ?'
 delete_announcer: 'Supprimer un chef d''établissement'
 delete_announcer_message: 'Êtes-vous sûr de vouloir supprimer un chef d''établissement'
 delete_community: 'Supprimer une communauté'

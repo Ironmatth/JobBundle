@@ -5,6 +5,7 @@ namespace FormaLibre\JobBundle\Entity;
 use Claroline\CoreBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="FormaLibre\JobBundle\Repository\JobRequestRepository")
@@ -65,6 +66,12 @@ class JobRequest
      * @ORM\Column(type="boolean")
      */
     protected $visible = true;
+    
+    /**
+     * @ORM\Column(name="creation_date", type="datetime")
+     * @Gedmo\Timestampable(on="create")
+     */
+    protected $creationDate;
 
     function getId()
     {
@@ -154,5 +161,10 @@ class JobRequest
     function setVisible($visible)
     {
         $this->visible = $visible;
+    }
+    
+    public function getCreationDate()
+    {
+        return $this->creationDate;
     }
 }
