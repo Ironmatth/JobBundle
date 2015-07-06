@@ -616,8 +616,8 @@ class JobController extends Controller
                 $hashName = $this->jobManager->saveFile($file, 'offer');
                 $jobOffer->setOffer($hashName);
                 $jobOffer->setOriginalName($originalName);
-                $this->jobManager->persistJobOffer($jobOffer);
             }
+            $this->jobManager->persistJobOffer($jobOffer);
 
             return $this->redirect(
                 $this->generateUrl(

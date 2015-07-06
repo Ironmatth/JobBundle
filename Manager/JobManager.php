@@ -478,6 +478,10 @@ class JobManager
             SELECT j FROM FormaLibre\JobBundle\Entity\JobOffer j
             JOIN j.community c
             WHERE c.id = :community
+            AND (
+                j.expirationDate IS NULL
+                OR j.expirationDate > :now
+            )
             AND j.creationDate BETWEEN :from and :to
         ";
         if ($search !== '') {
@@ -500,6 +504,7 @@ class JobManager
         $query->setParameter('from', $fromTime);
         $query->setParameter('to', $toTime);
         $query->setParameter('community', $community->getId());
+        $query->setParameter('now', new \DateTime());
         
         if ($search) $query->setParameter('search', "%{$search}%");
         
