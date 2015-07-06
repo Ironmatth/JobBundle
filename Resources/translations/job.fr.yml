@@ -20,6 +20,8 @@ community: Communauté
 community_creation: 'Création d''une communauté'
 community_edition: 'Modification d''une communauté'
 create_job_offer: 'Créer une offre d''emploi'
+created_pending_announcer_content: "Cher %lastName% %firstName%,<br>\nVotre profil a été enregistré sur teachersmobility.be.<br>Votre profil doit être validé par les administrateurs pour pouvoir poster vos offres.<br>Vous recevrez un mail de confirmation dès la validation enregistrée.<br><br>\nL'équipe Teachers mobility\n"
+created_pending_announcer_object: 'Votre profil a été créé sur teachersmobility.be'
 cv: CV
 cv_title: Titre du cv
 decline_pending_announcer_content: null
