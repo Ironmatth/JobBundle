@@ -714,10 +714,12 @@ class JobController extends Controller
      * @EXT\ParamConverter("authenticatedUser", options={"authenticatedUser" = true})
      * @EXT\Template()
      */
-    public function jobRequestCreateFormAction()
+    public function jobRequestCreateFormAction(User $authenticatedUser)
     {
         $this->checkSeekerAccess();
-        $form = $this->formFactory->create(new JobRequestType(), new JobRequest());
+        $seeker = $this->jobManager->getSeekerByUser($authenticatedUser);
+        $community = $seeker->getCommunity();
+        $form = $this->formFactory->create(new JobRequestType($community), new JobRequest());
 
         return array('form' => $form->createView());
     }
@@ -734,9 +736,11 @@ class JobController extends Controller
     public function jobRequestCreateAction(User $authenticatedUser)
     {
         $this->checkSeekerAccess();
+        $seeker = $this->jobManager->getSeekerByUser($authenticatedUser);
+        $community = $seeker->getCommunity();
         $jobRequest = new JobRequest();
         $this->checkSeekerAccess();
-        $form = $this->formFactory->create(new JobRequestType(), $jobRequest);
+        $form = $this->formFactory->create(new JobRequestType($community), $jobRequest);
         $form->handleRequest($this->request);
 
         if ($form->isValid()) {
@@ -811,7 +815,9 @@ class JobController extends Controller
     )
     {
         $this->checkJobRequestEditAccess($jobRequest, $authenticatedUser);
-        $form = $this->formFactory->create(new JobRequestType(), $jobRequest);
+        $seeker = $this->jobManager->getSeekerByUser($authenticatedUser);
+        $community = $seeker->getCommunity();
+        $form = $this->formFactory->create(new JobRequestType($community), $jobRequest);
 
         return array('form' => $form->createView(), 'jobRequest' => $jobRequest);
     }
@@ -831,7 +837,9 @@ class JobController extends Controller
     )
     {
         $this->checkJobRequestEditAccess($jobRequest, $authenticatedUser);
-        $form = $this->formFactory->create(new JobRequestType(), $jobRequest);
+        $seeker = $this->jobManager->getSeekerByUser($authenticatedUser);
+        $community = $seeker->getCommunity();
+        $form = $this->formFactory->create(new JobRequestType($community), $jobRequest);
         $form->handleRequest($this->request);
 
         if ($form->isValid()) {

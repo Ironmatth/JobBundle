@@ -3,6 +3,7 @@
 namespace FormaLibre\JobBundle\Form;
 
 use Doctrine\ORM\EntityRepository;
+use FormaLibre\JobBundle\Entity\Community;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -10,8 +11,17 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class JobRequestType extends AbstractType
 {
+    private $community;
+
+    public function __construct(Community $community)
+    {
+        $this->community = $community;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $community = $this->community;
+
         $builder->add(
             'community',
             'entity',
@@ -19,9 +29,12 @@ class JobRequestType extends AbstractType
                 'label' => 'candidate_for',
                 'class' => 'FormaLibreJobBundle:Community',
                 'choice_translation_domain' => true,
-                'query_builder' => function (EntityRepository $er) {
+                'query_builder' => function (EntityRepository $er) use ($community) {
 
-                    return $er->createQueryBuilder('c')->orderBy('c.name', 'ASC');
+                    return $er->createQueryBuilder('c')
+                        ->where('c.id = :communityId')
+                        ->setParameter('communityId', $community->getId())
+                        ->orderBy('c.name', 'ASC');
                 },
                 'property' => 'name',
                 'expanded' => false,
