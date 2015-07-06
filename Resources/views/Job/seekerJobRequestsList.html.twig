@@ -106,11 +106,13 @@
         <h3> {{ 'show_job_offers'|trans({}, 'job') }} </h3>
     </br>
         {% for community in communities %}
-            <a href="{{ path('formalibre_job_offers_open', {'community': community.getId()}) }}"
-                class="btn btn-primary"
-            >
-                {{ community.getName() }}
-            </a>
+            {% if community.getLocale() != app.user.getLocale() %}
+                <a href="{{ path('formalibre_job_offers_open', {'community': community.getId()}) }}"
+                    class="btn btn-primary"
+                >
+                    {{ community.getName() }}
+                </a>
+            {% endif %}
         {% endfor %}
     </div>
 {% endblock %}

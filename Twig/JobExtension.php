@@ -34,11 +34,12 @@ class JobExtension extends \Twig_Extension
     {
         $this->om = $om;
     }
-    
+
     public function getFunctions()
     {
         return array(
-            'getAnnouncer' => new \Twig_Function_Method($this, 'getAnnouncer')
+            'getAnnouncer' => new \Twig_Function_Method($this, 'getAnnouncer'),
+            'getCommunity' => new \Twig_Function_Method($this, 'getCommunity')
         );
     }
 
@@ -50,6 +51,11 @@ class JobExtension extends \Twig_Extension
     public function getAnnouncer(User $user)
     {
         return $this->om->getRepository('FormaLibre\JobBundle\Entity\Announcer')->findOneByUser($user);
+    }
+
+    public function getCommunity($locale)
+    {
+        return $this->om->getRepository('FormaLibre\JobBundle\Entity\Community')->findOneByLocale($locale);
     }
 
 }

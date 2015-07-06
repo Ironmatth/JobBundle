@@ -11,12 +11,12 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 class SeekerType extends AbstractType
 {
     private $lang;
-    
+
     public function __construct($lang = null)
     {
         $this->lang = $lang;
     }
-        
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(
@@ -144,10 +144,12 @@ class SeekerType extends AbstractType
             )
         );
     }
+
     public function getName()
     {
-        return 'announcer_form';
+        return 'seeker_form';
     }
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array('translation_domain' => 'job'));

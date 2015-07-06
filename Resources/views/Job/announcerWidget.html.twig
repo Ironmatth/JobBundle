@@ -16,6 +16,11 @@
                     {{ 'preferences'|trans({}, 'platform') }}
                 </a>
             </li>
+            <li>
+                <a href="{{ path('formalibre_job_offers_open', {'community': getCommunity(app.user.getLocale()).getId() }) }}">
+                    {{ 'show_job_offers'|trans({}, 'job') }}
+                </a>
+            </li>
         </ul>
     {% endif %}
 </div>

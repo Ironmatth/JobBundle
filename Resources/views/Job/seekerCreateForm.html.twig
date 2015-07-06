@@ -4,7 +4,15 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="row">
-                <div class="col-md-3"> <img width=50% src="{{ asset('bundles/formalibrejob/images/fwb.jpg') }}"> </div>
+                {% set params = app.request.attributes.get('_route_params') %}
+                {% if params.lang == 'fr' %}
+                    {% set img = asset('bundles/formalibrejob/images/fwb.jpg') %}
+                {% elseif params.lang == 'nl' %}
+                    {% set img = asset('bundles/formalibrejob/images/vgs.jpg') %}
+                {% else %}
+                    {% set img = asset('bundles/formalibrejob/images/dgpp.jpg') %}
+                {% endif %}
+                <div class="col-md-3"> <img width=200px src="{{ img }}"> </div>
             </div>
             <div class="row">
                 <div class="col-md-3">  </div>
@@ -16,7 +24,7 @@
                   action="{{ path('formalibre_job_seeker_create', {'lang': lang}) }}"
                   method="POST"
                   {{ form_enctype(form) }}
-            > 
+            >
                 {{ form_widget(form) }}
                 <br>
                 <button type="submit" class="btn btn-primary">

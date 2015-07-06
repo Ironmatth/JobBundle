@@ -35,14 +35,35 @@
 {% block section_content %}
     <div class="panel-body">
         <ul id="communities-nav-tabs-list" class="nav nav-tabs margin-bottom-md">
-
-            {% for oneCommunity in communities %}
-                <li class="{% if oneCommunity.getId() == community.getId() %}active{% endif %}">
-                    <a href="{{ path('formalibre_job_offers_open', { 'community': oneCommunity.getId()}) }}">
-                        {{ oneCommunity.getName() }}
-                    </a>
-                </li>
-            {% endfor %}
+            {% if is_granted('ROLE_JOB_SEEKER') %}
+                {% for oneCommunity in communities %}
+                    {% if app.user.getLocale() != oneCommunity.getLocale() %}
+                        <li class="{% if oneCommunity.getId() == community.getId() %}active{% endif %}">
+                            <a href="{{ path('formalibre_job_offers_open', { 'community': oneCommunity.getId()}) }}">
+                                {{ oneCommunity.getName() }}
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            {% elseif is_granted('ROLE_JOB_ANNOUNCER') %}
+                {% for oneCommunity in communities %}
+                    {% if app.user.getLocale() == oneCommunity.getLocale() %}
+                        <li class="{% if oneCommunity.getId() == community.getId() %}active{% endif %}">
+                            <a href="{{ path('formalibre_job_offers_open', { 'community': oneCommunity.getId()}) }}">
+                                {{ oneCommunity.getName() }}
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                {% for oneCommunity in communities %}
+                    <li class="{% if oneCommunity.getId() == community.getId() %}active{% endif %}">
+                        <a href="{{ path('formalibre_job_offers_open', { 'community': oneCommunity.getId()}) }}">
+                            {{ oneCommunity.getName() }}
+                        </a>
+                    </li>
+                {% endfor %}
+            {% endif %}
         </ul>
         <br>
         <div class="row">
@@ -138,4 +159,3 @@
         });
     </script>
 {% endblock %}
-
