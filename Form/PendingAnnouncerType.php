@@ -111,6 +111,7 @@ class PendingAnnouncerType extends AbstractType
                 'required' => true,
                 'label' => 'allow_notification_for_new_job_request',
                 'mapped' => false,
+                'attr' => array('checked' => 'checked'),
                 'translation_domain' => 'job',
             )
         );

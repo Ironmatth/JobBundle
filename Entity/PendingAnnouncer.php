@@ -42,7 +42,7 @@ class PendingAnnouncer
     /**
      * @ORM\Column(name="with_notification", type="boolean")
      */
-    protected $withNotification = false;
+    protected $withNotification = true;
 
     function getId()
     {
