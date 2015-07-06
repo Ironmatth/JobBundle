@@ -153,7 +153,8 @@ class JobController extends Controller
             );
             $user = $this->userManager->createUserWithRole(
                 $user,
-                PlatformRoles::USER
+                PlatformRoles::USER,
+                false
             );
             
             $this->facetManager->setFieldValue(
@@ -171,6 +172,30 @@ class JobController extends Controller
             $pendingAnnouncer->setApplicationDate(new \DateTime());
             $this->jobManager->persistPendingAnnouncer($pendingAnnouncer);
 
+            // Send message to user
+            $object = $this->translator->trans(
+                'created_pending_announcer_object',
+                array(),
+                'job'
+            );
+            $content = $this->translator->trans(
+                'created_pending_announcer_content',
+                array(
+                    '%firstName%' => $user->getFirstName(),
+                    '%lastName%' => $user->getLastName()
+                ),
+                'job'
+            );
+            $sender = null;
+
+            $this->mailManager->send(
+                $object,
+                $content,
+                array($user),
+                $sender
+            );
+
+            // Send message to community admin
             $receivers = $community->getAdmins();
 
             if (count($receivers) > 0) {
