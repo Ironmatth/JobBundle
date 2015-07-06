@@ -40,11 +40,6 @@ class Announcer
     protected $withNotification = true;
 
     /**
-     * @ORM\Column(name="registration_number")
-     */
-    protected $registrationNumber;
-
-    /**
      * @ORM\Column(name="fase_number")
      */
     protected $faseNumber;
@@ -87,16 +82,6 @@ class Announcer
     function setWithNotification($withNotification)
     {
         $this->withNotification = $withNotification;
-    }
-
-    function getRegistrationNumber()
-    {
-        return $this->registrationNumber;
-    }
-
-    function setRegistrationNumber($registrationNumber)
-    {
-        $this->registrationNumber = $registrationNumber;
     }
 
     function getFaseNumber()

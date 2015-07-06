@@ -44,6 +44,11 @@ class PendingAnnouncer
      */
     protected $withNotification = true;
 
+    /**
+     * @ORM\Column(name="fase_number")
+     */
+    protected $faseNumber;
+
     function getId()
     {
         return $this->id;
@@ -102,5 +107,15 @@ class PendingAnnouncer
     function setWithNotification($withNotification)
     {
         $this->withNotification = $withNotification;
+    }
+
+    function getFaseNumber()
+    {
+        return $this->faseNumber;
+    }
+
+    function setFaseNumber($faseNumber)
+    {
+        $this->faseNumber = $faseNumber;
     }
 }

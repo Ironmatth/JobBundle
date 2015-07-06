@@ -15,6 +15,7 @@ use FormaLibre\JobBundle\Entity\Community;
 use FormaLibre\JobBundle\Entity\JobRequest;
 use FormaLibre\JobBundle\Entity\JobOffer;
 use FormaLibre\JobBundle\Entity\PendingAnnouncer;
+use FormaLibre\JobBundle\Entity\Seeker;
 use FormaLibre\JobBundle\Form\AnnouncerType;
 use FormaLibre\JobBundle\Form\AnnouncersType;
 use FormaLibre\JobBundle\Form\JobOfferType;
@@ -156,20 +157,15 @@ class JobController extends Controller
                 PlatformRoles::USER,
                 false
             );
-            
-            $this->facetManager->setFieldValue(
-                $user, 
-                $this->jobManager->getFieldFacet('fase_number'), 
-                $form->get('faseNumber')->getData(),
-                true
-            );
             $pendingAnnouncer = new PendingAnnouncer();
             $pendingAnnouncer->setUser($user);
             $community = $form->get('community')->getData();
             $withNotification = $form->get('withNotification')->getData();
+            $faseNumber = $form->get('faseNumber')->getData();
             $pendingAnnouncer->setCommunity($community);
             $pendingAnnouncer->setWithNotification($withNotification);
             $pendingAnnouncer->setApplicationDate(new \DateTime());
+            $pendingAnnouncer->setFaseNumber($faseNumber);
             $this->jobManager->persistPendingAnnouncer($pendingAnnouncer);
 
             // Send message to user
@@ -295,13 +291,6 @@ class JobController extends Controller
                 PlatformRoles::USER
             );
             
-            $this->facetManager->setFieldValue(
-                $user, 
-                $this->jobManager->getFieldFacet('registration_number'), 
-                $form->get('registrationNumber')->getData(),
-                true
-            );
-            
             $seekerRole = $this->roleManager->getRoleByName('ROLE_JOB_SEEKER');
 
             if (!is_null($seekerRole)) {
@@ -309,11 +298,19 @@ class JobController extends Controller
             }
             $cvFile = $form->get('file')->getData();
             $community = $form->get('community')->getData();
+            $registrationNumber = $form->get('registrationNumber')->getData();
+
+            $seeker = new Seeker();
+            $seeker->setCommunity($community);
+            $seeker->setUser($user);
+            $seeker->setRegistrationNumber($registrationNumber);
+            $this->jobManager->persistSeeker($seeker);
 
             if (!is_null($cvFile)) {
                 $originalName = $cvFile->getClientOriginalName();
                 $hashName = $this->jobManager->saveFile($cvFile, 'cv');
                 $jobRequest = new JobRequest();
+                $community = $this->jobManager->getCommunityByLocale($locale);
                 $jobRequest->setCommunity($community);
                 $jobRequest->setUser($user);
                 $jobRequest->setCv($hashName);

@@ -11,6 +11,7 @@ use FormaLibre\JobBundle\Entity\Community;
 use FormaLibre\JobBundle\Entity\JobOffer;
 use FormaLibre\JobBundle\Entity\JobRequest;
 use FormaLibre\JobBundle\Entity\PendingAnnouncer;
+use FormaLibre\JobBundle\Entity\Seeker;
 use FormaLibre\JobBundle\Event\Log\LogJobAnnouncerCreateEvent;
 use FormaLibre\JobBundle\Event\Log\LogJobOfferCreateEvent;
 use FormaLibre\JobBundle\Event\Log\LogJobRequestCreateEvent;
@@ -35,6 +36,7 @@ class JobManager
     private $jobOfferRepo;
     private $jobRequestRepo;
     private $pendingRepo;
+    private $seekerRepo;
 
     private $cvDirectory;
     private $offersDirectory;
@@ -67,6 +69,7 @@ class JobManager
         $this->jobOfferRepo = $om->getRepository('FormaLibreJobBundle:JobOffer');
         $this->jobRequestRepo = $om->getRepository('FormaLibreJobBundle:JobRequest');
         $this->pendingRepo = $om->getRepository('FormaLibreJobBundle:PendingAnnouncer');
+        $this->seekerRepo = $om->getRepository('FormaLibreJobBundle:Seeker');
 
         $this->cvDirectory = $this->container->getParameter('claroline.param.files_directory') .
             '/jobbundle/cv/';
@@ -112,6 +115,12 @@ class JobManager
         $this->roleManager->dissociateRole($user, $announcerRole);
         $this->om->remove($announcer);
         $this->om->endFlushSuite();
+    }
+
+    public function persistSeeker(Seeker $seeker)
+    {
+        $this->om->persist($seeker);
+        $this->om->flush();
     }
 
     public function createAnnouncersFromUsers(Community $community, array $users)
@@ -203,6 +212,7 @@ class JobManager
         $announcer->setUser($user);
         $announcer->setCommunity($community);
         $announcer->setWithNotification($pendingAnnouncer->getWithNotification());
+        $announcer->setFaseNumber($pendingAnnouncer->getFaseNumber());
         $this->persistAnnouncer($announcer);
         $event = new LogJobAnnouncerCreateEvent($announcer);
         $this->eventDispatcher->dispatch('log', $event);
@@ -262,6 +272,21 @@ class JobManager
             $order,
             $executeQuery
         );
+    }
+
+    public function getCommunityByLocale($locale)
+    {
+        return $this->findCommunityByLocale($locale);
+    }
+
+
+    /*****************************************
+     * Access to AnnouncerRepository methods *
+     *****************************************/
+
+    public function getSeekerByUser(User $user)
+    {
+        return $this->findSeekerByUser($user);
     }
 
 
