@@ -23,7 +23,7 @@ class SeekerType extends AbstractType
             'community',
             'entity',
             array(
-                'label' => 'candidate_for',
+                'label' => 'candidate_from',
                 'translation_domain' => 'job',
                 'class' => 'FormaLibreJobBundle:Community',
                 'choice_translation_domain' => true,

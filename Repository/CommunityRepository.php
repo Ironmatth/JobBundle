@@ -42,4 +42,17 @@ class CommunityRepository extends EntityRepository
 
         return $executeQuery ? $query->getResult() : $query;
     }
+
+    public function findCommunityByLocale($locale)
+    {
+        $dql = '
+            SELECT c
+            FROM FormaLibre\JobBundle\Entity\Community c
+            WHERE c.locale = :locale
+        ';
+        $query = $this->_em->createQuery($dql);
+        $query->setParameter('locale', $locale);
+
+        return $query->getOneOrNullResult();
+    }
 }

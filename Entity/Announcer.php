@@ -41,6 +41,11 @@ class Announcer
     protected $withNotification = true;
 
     /**
+     * @ORM\Column(name="fase_number")
+     */
+    protected $faseNumber;
+
+    /**
      * @ORM\ManyToOne(
      *     targetEntity="FormaLibre\JobBundle\Entity\Province"
      * )
@@ -92,6 +97,16 @@ class Announcer
     public function setWithNotification($withNotification)
     {
         $this->withNotification = $withNotification;
+    }
+
+    function getFaseNumber()
+    {
+        return $this->faseNumber;
+    }
+
+    function setFaseNumber($faseNumber)
+    {
+        $this->faseNumber = $faseNumber;
     }
 
     public function setAdress($adress)

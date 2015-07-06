@@ -4,6 +4,7 @@ namespace FormaLibre\JobBundle\Entity;
 
 use Claroline\CoreBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="FormaLibre\JobBundle\Repository\PendingAnnouncerRepository")
@@ -58,6 +59,11 @@ class PendingAnnouncer
      */
     protected $adress;
 
+    /**
+     * @ORM\Column(name="fase_number")
+     */
+    protected $faseNumber;
+
     function getId()
     {
         return $this->id;
@@ -98,22 +104,22 @@ class PendingAnnouncer
         $this->applicationDate = $applicationDate;
     }
 
-    function getOffer()
+    public function getOffer()
     {
         return $this->offer;
     }
 
-    function setOffer($offer)
+    public function setOffer($offer)
     {
         $this->offer = $offer;
     }
 
-    function getWithNotification()
+    public function getWithNotification()
     {
         return $this->withNotification;
     }
 
-    function setWithNotification($withNotification)
+    public function setWithNotification($withNotification)
     {
         $this->withNotification = $withNotification;
     }
@@ -136,5 +142,15 @@ class PendingAnnouncer
     public function getProvince()
     {
         return $this->province;
+    }
+
+    public function getFaseNumber()
+    {
+        return $this->faseNumber;
+    }
+
+    public function setFaseNumber($faseNumber)
+    {
+        $this->faseNumber = $faseNumber;
     }
 }
