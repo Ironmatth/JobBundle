@@ -506,7 +506,9 @@ class JobManager
         $query->setParameter('community', $community->getId());
         $query->setParameter('now', new \DateTime());
         
-        if ($search) $query->setParameter('search', "%{$search}%");
+        if ($search) {
+            $query->setParameter('search', "%{$search}%");
+        }
         
         return $getQuery ? $query: $query->getResult();
     }

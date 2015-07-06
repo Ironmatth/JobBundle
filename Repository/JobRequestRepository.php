@@ -17,7 +17,9 @@ class JobRequestRepository extends EntityRepository
         $dql = "
             SELECT r
             FROM FormaLibre\JobBundle\Entity\JobRequest r
-            WHERE r.user = :user
+            JOIN r.user u
+            WHERE u = :user
+            AND u.isEnabled = true
             ORDER BY r.{$orderedBy} {$order}
         ";
         $query = $this->_em->createQuery($dql);
@@ -35,7 +37,9 @@ class JobRequestRepository extends EntityRepository
         $dql = "
             SELECT r
             FROM FormaLibre\JobBundle\Entity\JobRequest r
+            JOIN r.user u
             WHERE r.community = :community
+            AND u.isEnabled = true
             AND r.visible = true
             AND (
                 r.expirationDate IS NULL
