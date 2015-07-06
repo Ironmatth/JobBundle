@@ -17,7 +17,10 @@ class JobOfferRepository extends EntityRepository
         $dql = "
             SELECT o
             FROM FormaLibre\JobBundle\Entity\JobOffer o
+            JOIN o.announcer a
+            JOIN a.user u
             WHERE o.announcer = :announcer
+            AND u.isEnabled = true
             ORDER BY o.{$orderedBy} {$order}
         ";
         $query = $this->_em->createQuery($dql);
@@ -35,7 +38,10 @@ class JobOfferRepository extends EntityRepository
         $dql = "
             SELECT o
             FROM FormaLibre\JobBundle\Entity\JobOffer o
+            JOIN o.announcer a
+            JOIN a.user u
             WHERE o.community = :community
+            AND u.isEnabled = true
             AND (
                 o.expirationDate IS NULL
                 OR o.expirationDate > :now
@@ -54,8 +60,13 @@ class JobOfferRepository extends EntityRepository
         $dql = "
             SELECT o
             FROM FormaLibre\JobBundle\Entity\JobOffer o
-            WHERE o.expirationDate IS NULL
-            OR o.expirationDate > :now
+            JOIN o.announcer a
+            JOIN a.user u
+            WHERE u.isEnabled = true
+            AND (
+                o.expirationDate IS NULL
+                OR o.expirationDate > :now
+            )
             ORDER BY o.{$orderedBy} {$order}
         ";
         $query = $this->_em->createQuery($dql);

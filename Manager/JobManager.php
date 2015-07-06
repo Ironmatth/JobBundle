@@ -475,9 +475,13 @@ class JobManager
     public function getJobOffers(Community $community, $search = '', $from = 0, $to = 2147483647, $getQuery = false)
     {
         $dql = "
-            SELECT j FROM FormaLibre\JobBundle\Entity\JobOffer j
+            SELECT j
+            FROM FormaLibre\JobBundle\Entity\JobOffer j
             JOIN j.community c
+            JOIN j.announcer a
+            JOIN a.user u
             WHERE c.id = :community
+            AND u.isEnabled = true
             AND (
                 j.expirationDate IS NULL
                 OR j.expirationDate > :now
