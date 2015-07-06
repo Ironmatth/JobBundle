@@ -2,10 +2,39 @@
 
 {% block title %}{{ jobRequest.getTitle() ~ ' - ' ~ parent() | striptags | raw }}{% endblock %}
 
+{% block breadcrumb %}
+    {% if is_granted('ROLE_JOB_ANNOUNCER') %}
+        {% set announcer = getAnnouncer(app.user) %}
+            {{
+                macros.desktopBreadcrumbs([
+                    {
+                        'name': 'job_offers_list'|trans({}, 'job'),
+                        'href': path('formalibre_job_announcer_job_offers_list', {'announcer': announcer.getId()})
+                    },
+                    {
+                        'name': jobRequest.getTitle(),
+                        'href': ''
+                    }
+                ])
+            }}
+
+    {% else %}
+            {{
+                macros.desktopBreadcrumbs([
+                    {
+                        'name': 'my_cv'|trans({}, 'job'),
+                        'href': path('formalibre_job_seeker_job_requests_list')
+                    },
+                    {
+                        'name': jobRequest.getTitle(),
+                        'href': ''
+                    }
+                ])
+            }}
+{% endif %}
+{% endblock %}
+
 {% block section_content %}
-    <div class="panel-heading">
-        <h3 class="panel-title">{{ jobRequest.getTitle() }}</h3>
-    </div>
     <div class="panel-body">
         {% block controls %}
             <div class="row">

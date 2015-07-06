@@ -1,9 +1,25 @@
 {% extends "ClarolineCoreBundle:Desktop:layout.html.twig" %}
 
+
 {% block title %}
     {{ 'job_offer_creation'|trans({}, 'job') }}
 {% endblock %}
 
+{% block breadcrumb %}
+    {{
+        macros.desktopBreadcrumbs([
+            {
+                'name': 'job_offers_list'|trans({}, 'job'),
+                'href': path('formalibre_job_announcer_job_offers_list', {'announcer': announcer.getId()})
+            },
+            {
+                'name': 'job_offer_creation'|trans({}, 'job'),
+                'href': ''
+            }
+        ])
+    }}
+{% endblock %}
+        
 {% block section_content %}
     <div class="panel-heading">
         <h3 class="panel-title">

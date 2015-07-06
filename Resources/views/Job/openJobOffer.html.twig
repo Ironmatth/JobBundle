@@ -2,10 +2,22 @@
 
 {% block title %}{{ jobOffer.getTitle() ~ ' - ' ~ parent() | striptags | raw }}{% endblock %}
 
+{% block breadcrumb %}
+    {{
+        macros.desktopBreadcrumbs([
+            {
+                'name': 'job_offers_list'|trans({}, 'job'),
+                'href': path('formalibre_job_announcer_job_offers_list', {'announcer': jobOffer.getAnnouncer().getId()})
+            },
+            {
+                'name': jobOffer.getTitle(),
+                'href': ''
+            }
+        ])
+    }}
+{% endblock %}
+    
 {% block section_content %}
-    <div class="panel-heading">
-        <h3 class="panel-title">{{ jobOffer.getTitle() }}</h3>
-    </div>
     <div class="panel-body">
         {% block controls %}
             <div class="row">

@@ -24,12 +24,18 @@
     {{ 'my_cv'|trans({}, 'job') }}
 {% endblock %}
 
+{% block breadcrumb %}
+    {{
+        macros.desktopBreadcrumbs([
+            {
+                'name': 'my_cv'|trans({}, 'job'),
+                'href': ''
+            }
+        ])
+    }}
+{% endblock %}
+
 {% block section_content %}
-    <div class="panel-heading">
-        <h3 class="panel-title">
-            {{ 'my_cv'|trans({}, 'job') }}
-        </h3>
-    </div>
     <div class="panel-body" id="seeker-job-requests-list-body">
         {% if jobRequests|length > 0 %}
 

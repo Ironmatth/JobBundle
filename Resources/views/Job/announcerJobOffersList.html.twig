@@ -25,12 +25,18 @@
     {{ 'job_offers_list'|trans({}, 'job') }}
 {% endblock %}
 
+{% block breadcrumb %}
+    {{
+        macros.desktopBreadcrumbs([
+            {
+                'name': 'job_offers_list'|trans({}, 'job'),
+                'href': ''
+            }
+        ])
+    }}
+{% endblock %}
+
 {% block section_content %}
-    <div class="panel-heading">
-        <h3 class="panel-title">
-            {{ 'job_offers_list'|trans({}, 'job') }}
-        </h3>
-    </div>
     <div class="panel-body" id="announcer-job-offers-list-body">
         {% if jobOffers|length > 0 %}
 

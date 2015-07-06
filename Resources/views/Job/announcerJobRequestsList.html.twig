@@ -22,15 +22,22 @@
 {% extends "ClarolineCoreBundle:Desktop:layout.html.twig" %}
 
 {% block title %}
-    {{ 'job_requests_list'|trans({}, 'job') }}
+    {{ 'job_requests_list'|trans({'%community%': announcer.getCommunity().getName()}, 'job') }}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{
+        macros.desktopBreadcrumbs([
+            {
+                'name': 'job_requests_list'|trans({'%community%': announcer.getCommunity().getName()}, 'job'),
+                'href': ''
+            }
+        ])
+    }}
 {% endblock %}
 
 {% block section_content %}
-    <div class="panel-heading">
-        <h3 class="panel-title">
-            {{ 'job_requests_list'|trans({}, 'job') }}
-        </h3>
-    </div>
+
     <div class="panel-body" id="announcer-job-requests-list-body">
         {% if jobRequests|length > 0 %}
 

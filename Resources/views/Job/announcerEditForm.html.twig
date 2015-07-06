@@ -4,6 +4,17 @@
     {{ 'preferences'|trans({}, 'platform') }}
 {% endblock %}
 
+{% block breadcrumb %}
+    {{
+        macros.desktopBreadcrumbs([
+            {
+                'name': 'preferences'|trans({}, 'platform'),
+                'href': ''
+            }
+        ])
+    }}
+{% endblock %}
+
 {% block section_content %}
     <div class="panel-heading">
         <h3 class="panel-title">

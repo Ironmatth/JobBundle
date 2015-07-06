@@ -1,5 +1,16 @@
 {% extends "ClarolineCoreBundle:Desktop:layout.html.twig" %}
 
+{% block breadcrumb %}
+    {{
+        macros.desktopBreadcrumbs([
+            {
+                'name': 'announcers_management_menu'|trans({}, 'job'),
+                'href': ''
+            },
+        ])
+    }}
+{% endblock %}
+
 {% block section_content %}
     <div class="panel-heading">
         <h3 class="panel-title">

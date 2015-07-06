@@ -4,12 +4,22 @@
     {{ 'job_offer_edition'|trans({}, 'job') }}
 {% endblock %}
 
+{% block breadcrumb %}
+    {{
+        macros.desktopBreadcrumbs([
+            {
+                'name': 'job_offers_list'|trans({}, 'job'),
+                'href': path('formalibre_job_announcer_job_offers_list', {'announcer': jobOffer.getAnnouncer().getId()})
+            },
+            {
+                'name': 'job_offer_edition'|trans({}, 'job'),
+                'href': ''
+            }
+        ])
+    }}
+{% endblock %}
+
 {% block section_content %}
-    <div class="panel-heading">
-        <h3 class="panel-title">
-            {{ 'job_offer_edition'|trans({}, 'job') }}
-        </h3>
-    </div>
     <form action="{{ path('formalibre_job_job_offer_edit', {'jobOffer': jobOffer.getId()}) }}" 
           method="POST"
           {{ form_enctype(form) }}

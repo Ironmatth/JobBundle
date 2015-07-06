@@ -213,22 +213,6 @@ class JobController extends Controller
                 $this->request->getSession()->getFlashBag()->add('success', $msg);
             }
 
-            if ($this->configHandler->getParameter('auto_logging_after_registration')) {
-                //this is bad but I don't know any other way (yet)
-                $tokenStorage = $this->get('security.token_storage');
-                $providerKey = 'main';
-                $token = new UsernamePasswordToken(
-                    $user,
-                    $user->getPassword(),
-                    $providerKey,
-                    $user->getRoles()
-                );
-                $tokenStorage->setToken($token);
-                //a bit hacky I know ~
-
-                return $this->get('claroline.authentication_handler')->onAuthenticationSuccess($this->request, $token);
-            }
-
             return $this->redirect($this->generateUrl('claro_security_login'));
         } else {
 
@@ -458,6 +442,8 @@ class JobController extends Controller
      */
     public function seekerWidgetAction()
     {        
+        $communities = $this->jobManager->getAllCommunities();
+        
         return array('communities' => $communities);
     }
 
