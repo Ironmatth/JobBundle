@@ -4,6 +4,7 @@ namespace FormaLibre\JobBundle\Entity;
 
 use Claroline\CoreBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="FormaLibre\JobBundle\Repository\PendingAnnouncerRepository")
@@ -25,7 +26,7 @@ class PendingAnnouncer
      * @ORM\JoinColumn(name="user_id", onDelete="CASCADE")
      */
     protected $user;
-    
+
     /**
      * @ORM\ManyToOne(
      *     targetEntity="FormaLibre\JobBundle\Entity\Community"
@@ -43,6 +44,20 @@ class PendingAnnouncer
      * @ORM\Column(name="with_notification", type="boolean")
      */
     protected $withNotification = true;
+
+    /**
+     * @ORM\ManyToOne(
+     *     targetEntity="FormaLibre\JobBundle\Entity\Province"
+     * )
+     * @ORM\JoinColumn(name="province_id", onDelete="CASCADE")
+     */
+    protected $province;
+
+    /**
+     * @ORM\Column()
+     * @Assert\NotBlank()
+     */
+    protected $adress;
 
     /**
      * @ORM\Column(name="fase_number")
@@ -89,32 +104,52 @@ class PendingAnnouncer
         $this->applicationDate = $applicationDate;
     }
 
-    function getOffer()
+    public function getOffer()
     {
         return $this->offer;
     }
 
-    function setOffer($offer)
+    public function setOffer($offer)
     {
         $this->offer = $offer;
     }
 
-    function getWithNotification()
+    public function getWithNotification()
     {
         return $this->withNotification;
     }
 
-    function setWithNotification($withNotification)
+    public function setWithNotification($withNotification)
     {
         $this->withNotification = $withNotification;
     }
 
-    function getFaseNumber()
+    public function setAdress($adress)
+    {
+        $this->adress = $adress;
+    }
+
+    public function getAdress()
+    {
+        return $this->adress;
+    }
+
+    public function setProvince(Province $province)
+    {
+        $this->province = $province;
+    }
+
+    public function getProvince()
+    {
+        return $this->province;
+    }
+
+    public function getFaseNumber()
     {
         return $this->faseNumber;
     }
 
-    function setFaseNumber($faseNumber)
+    public function setFaseNumber($faseNumber)
     {
         $this->faseNumber = $faseNumber;
     }

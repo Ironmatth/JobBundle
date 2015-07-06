@@ -214,6 +214,8 @@ class JobManager
         $announcer->setCommunity($community);
         $announcer->setWithNotification($pendingAnnouncer->getWithNotification());
         $announcer->setFaseNumber($pendingAnnouncer->getFaseNumber());
+        $announcer->setProvince($pendingAnnouncer->getProvince());
+        $announcer->setAdress($pendingAnnouncer->getAdress());
         $this->persistAnnouncer($announcer);
         $event = new LogJobAnnouncerCreateEvent($announcer);
         $this->eventDispatcher->dispatch('log', $event);

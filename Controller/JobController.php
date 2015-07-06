@@ -162,10 +162,14 @@ class JobController extends Controller
             $community = $form->get('community')->getData();
             $withNotification = $form->get('withNotification')->getData();
             $faseNumber = $form->get('faseNumber')->getData();
+            $province = $form->get('province')->getData();
+            $adress = $form->get('adress')->getData();
             $pendingAnnouncer->setCommunity($community);
             $pendingAnnouncer->setWithNotification($withNotification);
             $pendingAnnouncer->setApplicationDate(new \DateTime());
             $pendingAnnouncer->setFaseNumber($faseNumber);
+            $pendingAnnouncer->setAdress($adress);
+            $pendingAnnouncer->setProvince($province);
             $this->jobManager->persistPendingAnnouncer($pendingAnnouncer);
 
             // Send message to user
@@ -290,7 +294,7 @@ class JobController extends Controller
                 $user,
                 PlatformRoles::USER
             );
-            
+
             $seekerRole = $this->roleManager->getRoleByName('ROLE_JOB_SEEKER');
 
             if (!is_null($seekerRole)) {
@@ -499,9 +503,9 @@ class JobController extends Controller
      * @EXT\Template()
      */
     public function seekerWidgetAction()
-    {        
+    {
         $communities = $this->jobManager->getAllCommunities();
-        
+
         return array('communities' => $communities);
     }
 
@@ -545,7 +549,7 @@ class JobController extends Controller
             $page,
             $max
         );
-        
+
         $communities = $this->jobManager->getAllCommunities();
 
         return array(
@@ -1179,7 +1183,7 @@ class JobController extends Controller
             'order' => $order
         );
     }
-    
+
     /**
      * @EXT\Route(
      *     "/open/job/request/{jobRequest}",
@@ -1192,20 +1196,20 @@ class JobController extends Controller
     {
         $currentUser = $this->tokenStorage->getToken()->getUser();
         $requestUser = $jobRequest->getUser();
-        
+
         if (!$this->authorization->isGranted('ROLE_JOB_ANNOUNCER') && $currentUser !== $requestUser) {
             throw new AccessDeniedException();
         }
-        
+
         $path = $this->cvDirectory . DIRECTORY_SEPARATOR . $jobRequest->getCv();
         if (pathinfo($path, PATHINFO_EXTENSION) !== 'pdf') return $this->downloadCVAction($jobRequest, 'true');
-        
+
         return array(
             'path' => $path,
             'jobRequest' => $jobRequest
         );
     }
-    
+
     /**
      * @EXT\Route(
      *     "/download/job/request/{jobRequest}/force/{force}",
@@ -1219,11 +1223,11 @@ class JobController extends Controller
     {
         $currentUser = $this->tokenStorage->getToken()->getUser();
         $requestUser = $jobRequest->getUser();
-        
+
         if (!$this->authorization->isGranted('ROLE_JOB_ANNOUNCER') && ($currentUser !== $requestUser)) {
             throw new AccessDeniedException();
         }
-        
+
         $response = new StreamedResponse();
         $path = $this->cvDirectory . DIRECTORY_SEPARATOR . $jobRequest->getCv();
         $response->setCallBack(
@@ -1231,8 +1235,8 @@ class JobController extends Controller
                 readfile($path);
             }
         );
-        
-        
+
+
         $ext = pathinfo($path, PATHINFO_EXTENSION);
         $mimeType = $this->extGuesser->guess($ext);
         $response->headers->set('Content-Type', $mimeType);
@@ -1242,10 +1246,10 @@ class JobController extends Controller
             $response->headers->set('Content-Type', 'application/force-download');
             $response->headers->set('Content-Disposition', 'attachment; filename=' . urlencode($jobRequest->getTitle() . '.' . $ext));
         }
-        
+
         return $response;
     }
-    
+
     /**
      * @EXT\Route(
      *     "/job_offers/community/{community}/page/{page}/from/{from}/to/{to}",
@@ -1266,7 +1270,7 @@ class JobController extends Controller
          $query = $this->jobManager->getJobOffers($community, $search, $from, $to, true);
          $pager = $this->get('claroline.pager.pager_factory')->createPager($query, $page, 25);
          $communities = $this->jobManager->getAllCommunities();
-         
+
          return array(
             'pager' => $pager,
             'search' => $search,
@@ -1277,7 +1281,7 @@ class JobController extends Controller
             'communities' => $communities
         );
     }
-    
+
         /**
      * @EXT\Route(
      *     "/open/job/offer/{jobOffer}",
@@ -1290,13 +1294,13 @@ class JobController extends Controller
     {
         $path = $this->offersDirectory . DIRECTORY_SEPARATOR . $jobOffer->getOffer();
         if (pathinfo($path, PATHINFO_EXTENSION) !== 'pdf') return $this->downloadJobOfferAction($jobOffer, 'true');
-        
+
         return array(
             'path' => $path,
             'jobOffer' => $jobOffer
         );
     }
-    
+
     /**
      * @EXT\Route(
      *     "/download/job/offer/{jobOffer}/force/{force}",
@@ -1307,17 +1311,17 @@ class JobController extends Controller
      * @EXT\Template()
      */
     public function downloadJobOfferAction(JobOffer $jobOffer, $force)
-    {        
+    {
         $response = new StreamedResponse();
         $path = $this->offersDirectory . DIRECTORY_SEPARATOR . $jobOffer->getOffer();
-        
+
         $response->setCallBack(
             function () use ($path) {
                 readfile($path);
             }
         );
-        
-        
+
+
         $ext = pathinfo($path, PATHINFO_EXTENSION);
         $mimeType = $this->extGuesser->guess($ext);
         $response->headers->set('Content-Type', $mimeType);
@@ -1327,7 +1331,7 @@ class JobController extends Controller
             $response->headers->set('Content-Type', 'application/force-download');
             $response->headers->set('Content-Disposition', 'attachment; filename=' . urlencode($jobOffer->getTitle() . '.' . $ext));
         }
-        
+
         return $response;
     }
 

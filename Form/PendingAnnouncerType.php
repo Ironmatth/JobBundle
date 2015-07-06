@@ -107,7 +107,7 @@ class PendingAnnouncerType extends AbstractType
             'text',
             array(
                 'required' => true,
-                'translation_domain' => 'platform',
+                'translation_domain' => 'job',
                 'label' => 'adress',
                 'mapped' => false
             )
