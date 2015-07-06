@@ -99,6 +99,12 @@
         >
             {{ 'add_cv'|trans({}, 'job') }}
         </a>
+    </div>
+    </hr>
+
+    <div class="panel-footer">
+        <h3> {{ 'show_job_offers'|trans({}, 'job') }} </h3>
+    </br>
         {% for community in communities %}
             <a href="{{ path('formalibre_job_offers_open', {'community': community.getId()}) }}"
                 class="btn btn-primary"
@@ -119,4 +125,4 @@
             type="text/javascript"
     >
     </script>
-{% endblock %}    
+{% endblock %}
