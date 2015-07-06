@@ -10,6 +10,7 @@ use FormaLibre\JobBundle\Entity\Announcer;
 use FormaLibre\JobBundle\Entity\Community;
 use FormaLibre\JobBundle\Entity\JobOffer;
 use FormaLibre\JobBundle\Entity\JobRequest;
+use FormaLibre\JobBundle\Entity\Province;
 use FormaLibre\JobBundle\Entity\PendingAnnouncer;
 use FormaLibre\JobBundle\Event\Log\LogJobAnnouncerCreateEvent;
 use FormaLibre\JobBundle\Event\Log\LogJobOfferCreateEvent;
@@ -471,7 +472,7 @@ class JobManager
             $this->pagerFactory->createPagerFromArray($jobRequests, $page, $max) :
             $jobRequests;
     }
-    
+
     public function getJobOffers(Community $community, $search = '', $from = 0, $to = 2147483647, $getQuery = false)
     {
         $dql = "
@@ -499,7 +500,7 @@ class JobManager
             )
             ';
         }
-        
+
         $fromTime = new \DateTime();
         $fromTime->setTimeStamp($from);
         $toTime = new \DateTime();
@@ -509,18 +510,42 @@ class JobManager
         $query->setParameter('to', $toTime);
         $query->setParameter('community', $community->getId());
         $query->setParameter('now', new \DateTime());
-        
+
         if ($search) {
             $query->setParameter('search', "%{$search}%");
         }
-        
+
         return $getQuery ? $query: $query->getResult();
     }
-    
+
     public function getFieldFacet($fieldName)
     {
         $repo = $this->om->getRepository('Claroline\CoreBundle\Entity\Facet\FieldFacet');
-        
+
         return $repo->findOneByName($fieldName);
+    }
+
+    public function createProvinces()
+    {
+        $provinces = array(
+            'antwerpen',
+            'limburg',
+            'oost_vlanderen',
+            'vlaams_brabant',
+            'west_vlaanderen',
+            'brabant_wallon',
+            'hainaut',
+            'liege',
+            'luxembourg',
+            'namur'
+        );
+
+        foreach ($provinces as $province) {
+            $entity = new Province();
+            $entity->setTranslationKey($province);
+            $this->om->persist($entity);
+        }
+
+        $this->om->flush();
     }
 }

@@ -4,6 +4,7 @@ namespace FormaLibre\JobBundle\Entity;
 
 use Claroline\CoreBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="FormaLibre\JobBundle\Repository\AnnouncerRepository")
@@ -39,43 +40,77 @@ class Announcer
      */
     protected $withNotification = true;
 
-    function getId()
+    /**
+     * @ORM\ManyToOne(
+     *     targetEntity="FormaLibre\JobBundle\Entity\Province"
+     * )
+     * @ORM\JoinColumn(name="province_id", onDelete="CASCADE")
+     */
+    protected $province;
+
+    /**
+     * @ORM\Column()
+     * @Assert\NotBlank()
+     */
+    protected $adress;
+
+    public function getId()
     {
         return $this->id;
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->id = $id;
     }
 
-    function getUser()
+    public function getUser()
     {
         return $this->user;
     }
 
-    function setUser(User $user)
+    public function setUser(User $user)
     {
         $this->user = $user;
     }
 
-    function getCommunity()
+    public function getCommunity()
     {
         return $this->community;
     }
 
-    function setCommunity(Community $community)
+    public function setCommunity(Community $community)
     {
         $this->community = $community;
     }
 
-    function getWithNotification()
+    public function getWithNotification()
     {
         return $this->withNotification;
     }
 
-    function setWithNotification($withNotification)
+    public function setWithNotification($withNotification)
     {
         $this->withNotification = $withNotification;
+    }
+
+    public function setAdress($adress)
+    {
+        $this->adress = $adress;
+    }
+
+    public function getAdress()
+    {
+        return $this->adress;
+    }
+
+    public function setProvince(Province $province)
+    {
+        $this->province = $province;
+    }
+
+    public function getProvince()
+    {
+        return $this->province;
     }
 }
