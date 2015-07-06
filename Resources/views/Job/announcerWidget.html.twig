@@ -2,11 +2,6 @@
     {% if announcer is not empty %}
         <ul>
             <li>
-                <a href="{{ path('formalibre_job_announcer_edit_form', {'announcer': announcer.getId()}) }}">
-                    {{ 'preferences'|trans({}, 'platform') }}
-                </a>
-            </li>
-            <li>
                 <a href="{{ path('formalibre_job_announcer_job_offers_list', {'announcer': announcer.getId()}) }}">
                     {{ 'my_job_offers'|trans({}, 'job') }}
                 </a>
@@ -14,6 +9,11 @@
             <li>
                 <a href="{{ path('formalibre_job_announcer_job_requests_list', {'announcer': announcer.getId()}) }}">
                     {{ 'job_requests_list'|trans({'%community%': announcer.getCommunity().getName()}, 'job') }}
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('formalibre_job_announcer_edit_form', {'announcer': announcer.getId()}) }}">
+                    {{ 'preferences'|trans({}, 'platform') }}
                 </a>
             </li>
         </ul>
