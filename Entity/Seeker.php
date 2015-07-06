@@ -6,10 +6,10 @@ use Claroline\CoreBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="FormaLibre\JobBundle\Repository\AnnouncerRepository")
- * @ORM\Table(name="formalibre_jobbundle_announcer")
+ * @ORM\Entity(repositoryClass="FormaLibre\JobBundle\Repository\SeekerRepository")
+ * @ORM\Table(name="formalibre_jobbundle_seeker")
  */
-class Announcer
+class Seeker
 {
     /**
      * @ORM\Column(type="integer")
@@ -35,19 +35,10 @@ class Announcer
     protected $community;
 
     /**
-     * @ORM\Column(name="with_notification", type="boolean")
-     */
-    protected $withNotification = true;
-
-    /**
      * @ORM\Column(name="registration_number")
      */
     protected $registrationNumber;
 
-    /**
-     * @ORM\Column(name="fase_number")
-     */
-    protected $faseNumber;
 
     function getId()
     {
@@ -79,16 +70,6 @@ class Announcer
         $this->community = $community;
     }
 
-    function getWithNotification()
-    {
-        return $this->withNotification;
-    }
-
-    function setWithNotification($withNotification)
-    {
-        $this->withNotification = $withNotification;
-    }
-
     function getRegistrationNumber()
     {
         return $this->registrationNumber;
@@ -97,15 +78,5 @@ class Announcer
     function setRegistrationNumber($registrationNumber)
     {
         $this->registrationNumber = $registrationNumber;
-    }
-
-    function getFaseNumber()
-    {
-        return $this->faseNumber;
-    }
-
-    function setFaseNumber($faseNumber)
-    {
-        $this->faseNumber = $faseNumber;
     }
 }
