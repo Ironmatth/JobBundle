@@ -297,6 +297,42 @@ class JobController extends Controller
                 $jobRequest->setVisible($form->get('visible')->getData());
                 $jobRequest->setExpirationDate($form->get('expirationDate')->getData());
                 $this->jobManager->createJobRequest($jobRequest);
+
+                $expirationDate = $jobRequest->getExpirationDate();
+
+                if ($jobRequest->getVisible() && (is_null($expirationDate) || $expirationDate > new \DateTime())) {
+                    $community = $jobRequest->getCommunity();
+                    $notifiableAnnouncers = $this->jobManager->getNotifiableAnnouncersByCommunity($community);
+
+                    if (count($notifiableAnnouncers) > 0) {
+                        $receivers = array();
+
+                        foreach ($notifiableAnnouncers as $announcer) {
+                            $receivers[] = $announcer->getUser();
+                        }
+                        $object = $this->translator->trans(
+                            'new_job_request_object',
+                            array(),
+                            'job'
+                        );
+                        $content = $this->translator->trans(
+                            'new_job_request_content',
+                            array(
+                                '%name%' => $receivers[0]->getFirstName() . ' ' .  $receivers[0]->getLastName(),
+                                '%communityName%' => $community->getName()
+                            ),
+                            'job'
+                        );
+                        $sender = null;
+
+                        $this->mailManager->send(
+                            $object,
+                            $content,
+                            $receivers,
+                            $sender
+                        );
+                    }
+                }
             }
 
             $msg = $this->get('translator')->trans('account_created', array(), 'platform');
