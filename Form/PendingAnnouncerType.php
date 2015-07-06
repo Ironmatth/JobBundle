@@ -10,14 +10,14 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class PendingAnnouncerType extends AbstractType
 {
     private $lang;
-    
+
     public function __construct($lang = null)
     {
         $this->lang = $lang;
     }
-    
+
     public function buildForm(FormBuilderInterface $builder, array $options)
-    {        
+    {
         $builder->add(
             'community',
             'entity',
@@ -85,7 +85,35 @@ class PendingAnnouncerType extends AbstractType
             )
         );
         $builder->add(
-            'username', 
+            'province',
+            'entity',
+            array(
+                'label' => 'province',
+                'class' => 'FormaLibreJobBundle:Province',
+                'choice_translation_domain' => true,
+                'translation_domain' => 'province',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('p');
+                },
+                'property' => 'translation_key',
+                'expanded' => false,
+                'multiple' => false,
+                'required' => true,
+                'mapped' => false
+            )
+        );
+        $builder->add(
+            'adress',
+            'text',
+            array(
+                'required' => true,
+                'translation_domain' => 'platform',
+                'label' => 'adress',
+                'mapped' => false
+            )
+        );
+        $builder->add(
+            'username',
             'text',
             array(
                 'required' => true,
