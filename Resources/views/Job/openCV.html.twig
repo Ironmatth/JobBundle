@@ -19,6 +19,7 @@
             }}
 
     {% else %}
+        {% if is_granted('ROLE_JOB_SEEKER') %}
             {{
                 macros.desktopBreadcrumbs([
                     {
@@ -31,6 +32,7 @@
                     }
                 ])
             }}
+        {% endif %}
 {% endif %}
 {% endblock %}
 

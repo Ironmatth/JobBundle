@@ -26,14 +26,18 @@
     {% endif %}
 {% endmacro %}
 {% from _self import renderPager %}
+
 {% extends "ClarolineCoreBundle:Desktop:layout.html.twig" %}
+
 
 {% block title %}{{ parent() ~ ' - ' ~ community.getName()  | striptags | raw }}{% endblock %}
 
 {% block section_content %}
-    <div class="panel-heading">
-        <h3 class="panel-title">{{ community.getName() }}</h3>
-    </div>
+    {% if is_granted('ROLE_ANONYMOUS') %}
+        <div class="panel-heading">
+            <h3 class="panel-title">{{ community.getName() }}</h3>
+        </div>
+    {% endif %}
     <div class="panel-body">
         <div class="row">
             <div class="col-md-4">
@@ -100,9 +104,6 @@
     {% if pager.getNbPages() > 1 %}
          {{ renderPager(community.getId(), search, pager, from, to) }}
     {% endif %}
-    <div class="panel-footer">
-
-    </div>
 {% endblock %}
 
 {% block javascripts %}

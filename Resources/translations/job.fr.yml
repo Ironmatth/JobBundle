@@ -21,6 +21,7 @@ community_creation: 'Création d''une communauté'
 community_edition: 'Modification d''une communauté'
 create_job_offer: 'Créer une offre d''emploi'
 cv: CV
+cv_title: Titre du cv
 decline_pending_announcer_content: null
 decline_pending_announcer_object: null
 decline_pending_announcer: 'Refuser un directeur d''établissement'

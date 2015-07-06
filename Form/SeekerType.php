@@ -105,6 +105,16 @@ class SeekerType extends AbstractType
                 'label' => 'cv'
             )
         );
+        $builder->add(
+            'cv_title',
+            'text',
+            array(
+                'mapped' => false,
+                'required' => true,
+                'translation_domain' => 'job',
+                'label' => 'cv_title'
+            )
+        );
         $attr = array();
         $attr['class'] = 'datepicker input-small';
         $attr['data-date-format'] = 'dd-mm-yyyy';

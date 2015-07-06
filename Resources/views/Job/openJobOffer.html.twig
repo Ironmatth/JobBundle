@@ -3,19 +3,41 @@
 {% block title %}{{ jobOffer.getTitle() ~ ' - ' ~ parent() | striptags | raw }}{% endblock %}
 
 {% block breadcrumb %}
-    {{
-        macros.desktopBreadcrumbs([
-            {
-                'name': 'job_offers_list'|trans({}, 'job'),
-                'href': path('formalibre_job_announcer_job_offers_list', {'announcer': jobOffer.getAnnouncer().getId()})
-            },
-            {
-                'name': jobOffer.getTitle(),
-                'href': ''
-            }
-        ])
-    }}
+    {% if is_granted('ROLE_JOB_SEEKER') %}
+        {{
+            macros.desktopBreadcrumbs([
+                {
+                    'name': 'my_cv'|trans({}, 'job'),
+                    'href': path('formalibre_job_seeker_job_requests_list')
+                },
+                {
+                    'name': jobOffer.getCommunity().getName(),
+                    'href': path('formalibre_job_offers_open', {'community': jobOffer.getCommunity().getId() })
+                },
+                {
+                    'name': jobOffer.getTitle(),
+                    'href': ''
+                }
+            ])
+        }}
+    {% else %}
+        {% if is_granted('ROLE_JOB_ANNOUNCER') %}
+            {{
+                macros.desktopBreadcrumbs([
+                    {
+                        'name': 'job_offers_list'|trans({}, 'job'),
+                        'href': path('formalibre_job_announcer_job_offers_list', {'announcer': jobOffer.getAnnouncer().getId()})
+                    },
+                    {
+                        'name': jobOffer.getTitle(),
+                        'href': ''
+                    }
+                ])
+            }}
+        {% endif %}
+    {% endif %}
 {% endblock %}
+
     
 {% block section_content %}
     <div class="panel-body">

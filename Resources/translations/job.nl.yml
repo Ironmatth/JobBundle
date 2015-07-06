@@ -21,6 +21,7 @@ community_creation: community_creation
 community_edition: community_edition
 create_job_offer: create_job_offer
 cv: cv
+cv_title: cv_title
 decline_pending_announcer_content: decline_pending_announcer_content
 decline_pending_announcer_object: decline_pending_announcer_object
 decline_pending_announcer: decline_pending_announcer

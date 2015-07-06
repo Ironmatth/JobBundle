@@ -293,7 +293,7 @@ class JobController extends Controller
                 $jobRequest->setUser($user);
                 $jobRequest->setCv($hashName);
                 $jobRequest->setOriginalName($originalName);
-                $jobRequest->setTitle($originalName);
+                $jobRequest->setTitle($form->get('cv_title')->getData());
                 $jobRequest->setVisible($form->get('visible')->getData());
                 $jobRequest->setExpirationDate($form->get('expirationDate')->getData());
                 $this->jobManager->createJobRequest($jobRequest);
