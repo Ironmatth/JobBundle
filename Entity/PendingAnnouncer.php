@@ -25,7 +25,7 @@ class PendingAnnouncer
      * @ORM\JoinColumn(name="user_id", onDelete="CASCADE")
      */
     protected $user;
-    
+
     /**
      * @ORM\ManyToOne(
      *     targetEntity="FormaLibre\JobBundle\Entity\Community"
@@ -43,6 +43,20 @@ class PendingAnnouncer
      * @ORM\Column(name="with_notification", type="boolean")
      */
     protected $withNotification = true;
+
+    /**
+     * @ORM\ManyToOne(
+     *     targetEntity="FormaLibre\JobBundle\Entity\Province"
+     * )
+     * @ORM\JoinColumn(name="province_id", onDelete="CASCADE")
+     */
+    protected $province;
+
+    /**
+     * @ORM\Column()
+     * @Assert\NotBlank()
+     */
+    protected $adress;
 
     function getId()
     {
@@ -102,5 +116,25 @@ class PendingAnnouncer
     function setWithNotification($withNotification)
     {
         $this->withNotification = $withNotification;
+    }
+
+    public function setAdress($adress)
+    {
+        $this->adress = $adress;
+    }
+
+    public function getAdress()
+    {
+        return $this->adress;
+    }
+
+    public function setProvince(Province $province)
+    {
+        $this->province = $province;
+    }
+
+    public function getProvince()
+    {
+        return $this->province;
     }
 }
