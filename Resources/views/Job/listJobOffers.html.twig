@@ -33,12 +33,18 @@
 {% block title %}{{ parent() ~ ' - ' ~ community.getName()  | striptags | raw }}{% endblock %}
 
 {% block section_content %}
-    {% if is_granted('ROLE_ANONYMOUS') %}
-        <div class="panel-heading">
-            <h3 class="panel-title">{{ community.getName() }}</h3>
-        </div>
-    {% endif %}
     <div class="panel-body">
+        <ul id="communities-nav-tabs-list" class="nav nav-tabs margin-bottom-md">
+
+            {% for oneCommunity in communities %}
+                <li class="{% if oneCommunity.getId() == community.getId() %}active{% endif %}">
+                    <a href="{{ path('formalibre_job_offers_open', { 'community': oneCommunity.getId()}) }}">
+                        {{ oneCommunity.getName() }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+        <br>
         <div class="row">
             <div class="col-md-4">
                  <div class="input-group">
@@ -50,19 +56,10 @@
                     </span>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-8">
                 {% set format = 'date_form_datepicker_php'|trans({}, 'platform') %}
                 {{ 'from'|trans({}, 'platform') }}: <input class="input-sm" id="date-from" type="text" value="{{ from|date(format) }}"></input>
                 {{ 'to'|trans({}, 'platform') }}: <input class="input-sm" id="date-to" type="text" value="{{ to|date(format) }}"></input>
-            </div>
-            <div class="col-md-4">
-                {% for community in communities %}
-                    <a href="{{ path('formalibre_job_offers_open', {'community': community.getId()}) }}"
-                        class="btn btn-primary"
-                    >
-                        {{ community.getName() }}
-                    </a>
-                {% endfor %}
             </div>
         </div>
         </br>
