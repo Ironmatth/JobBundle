@@ -284,10 +284,10 @@ class JobController extends Controller
             new SeekerType($lang),
             $user
         );
-        $user->setLocale($lang);
         $form->handleRequest($this->request);
 
         if ($form->isValid()) {
+            $user->setLocale($form->get('community')->getData()->getLocale());
             $this->roleManager->setRoleToRoleSubject(
                 $user,
                 $this->configHandler->getParameter('default_role')
