@@ -29,15 +29,6 @@ class JobOfferType extends AbstractType
             )
         );
         $builder->add(
-            'establishment',
-            'text',
-            array(
-                'required' => false,
-                'label' => 'establishment',
-                'translation_domain' => 'job'
-            )
-        );
-        $builder->add(
             'immersion',
             'checkbox',
             array(

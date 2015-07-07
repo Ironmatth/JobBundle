@@ -72,10 +72,6 @@ class JobOffer
     protected $phone;
 
     /**
-     * @ORM\Column(nullable=true)
-     */
-    protected $establishment;
-    /**
      * @ORM\Column(type="boolean")
      */
     protected $immersion = false;
@@ -94,7 +90,7 @@ class JobOffer
      * @ORM\Column(nullable=true)
      */
     protected $duration;
-    
+
     /**
      * @ORM\Column(name="creation_date", type="datetime")
      * @Gedmo\Timestampable(on="create")
@@ -201,16 +197,6 @@ class JobOffer
         $this->phone = $phone;
     }
 
-    function getEstablishment()
-    {
-        return $this->establishment;
-    }
-
-    function setEstablishment($establishment)
-    {
-        $this->establishment = $establishment;
-    }
-
     function getImmersion()
     {
         return $this->immersion;
@@ -250,7 +236,7 @@ class JobOffer
     {
         $this->duration = $duration;
     }
-    
+
     public function getCreationDate()
     {
         return $this->creationDate;

@@ -216,6 +216,7 @@ class JobManager
         $announcer->setFaseNumber($pendingAnnouncer->getFaseNumber());
         $announcer->setProvince($pendingAnnouncer->getProvince());
         $announcer->setAdress($pendingAnnouncer->getAdress());
+        $announcer->setEstablishment($pendingAnnouncer->getEstablishment());
         $this->persistAnnouncer($announcer);
         $event = new LogJobAnnouncerCreateEvent($announcer);
         $this->eventDispatcher->dispatch('log', $event);
@@ -279,7 +280,7 @@ class JobManager
 
     public function getCommunityByLocale($locale)
     {
-        return $this->findCommunityByLocale($locale);
+        return $this->communityRepo->findCommunityByLocale($locale);
     }
 
 

@@ -159,17 +159,19 @@ class JobController extends Controller
             );
             $pendingAnnouncer = new PendingAnnouncer();
             $pendingAnnouncer->setUser($user);
-            $community = $form->get('community')->getData();
+            $community = $this->jobManager->getCommunityByLocale($lang);
             $withNotification = $form->get('withNotification')->getData();
             $faseNumber = $form->get('faseNumber')->getData();
             $province = $form->get('province')->getData();
             $adress = $form->get('adress')->getData();
+            $establishment = $form->get('establishment')->getData();
             $pendingAnnouncer->setCommunity($community);
             $pendingAnnouncer->setWithNotification($withNotification);
             $pendingAnnouncer->setApplicationDate(new \DateTime());
             $pendingAnnouncer->setFaseNumber($faseNumber);
             $pendingAnnouncer->setAdress($adress);
             $pendingAnnouncer->setProvince($province);
+            $pendingAnnouncer->setEstablishment($establishment);
             $this->jobManager->persistPendingAnnouncer($pendingAnnouncer);
 
             // Send message to user

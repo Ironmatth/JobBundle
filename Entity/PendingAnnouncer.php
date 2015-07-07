@@ -64,12 +64,17 @@ class PendingAnnouncer
      */
     protected $faseNumber;
 
-    function getId()
+    /**
+     * @ORM\Column(nullable=true)
+     */
+    protected $establishment;
+
+    public function getId()
     {
         return $this->id;
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->id = $id;
     }
@@ -152,5 +157,15 @@ class PendingAnnouncer
     public function setFaseNumber($faseNumber)
     {
         $this->faseNumber = $faseNumber;
+    }
+
+    public function getEstablishment()
+    {
+        return $this->establishment;
+    }
+
+    public function setEstablishment($establishment)
+    {
+        $this->establishment = $establishment;
     }
 }

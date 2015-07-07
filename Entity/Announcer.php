@@ -59,6 +59,11 @@ class Announcer
      */
     protected $adress;
 
+    /**
+     * @ORM\Column(nullable=true)
+     */
+    protected $establishment;
+
     public function getId()
     {
         return $this->id;
@@ -99,12 +104,12 @@ class Announcer
         $this->withNotification = $withNotification;
     }
 
-    function getFaseNumber()
+    public function getFaseNumber()
     {
         return $this->faseNumber;
     }
 
-    function setFaseNumber($faseNumber)
+    public function setFaseNumber($faseNumber)
     {
         $this->faseNumber = $faseNumber;
     }
@@ -127,5 +132,15 @@ class Announcer
     public function getProvince()
     {
         return $this->province;
+    }
+
+    public function getEstablishment()
+    {
+        return $this->establishment;
+    }
+
+    public function setEstablishment($establishment)
+    {
+        $this->establishment = $establishment;
     }
 }

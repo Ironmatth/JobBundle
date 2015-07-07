@@ -19,26 +19,6 @@ class PendingAnnouncerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(
-            'community',
-            'entity',
-            array(
-                'label' => 'candidate_for',
-                'class' => 'FormaLibreJobBundle:Community',
-                'choice_translation_domain' => true,
-                'translation_domain' => 'job',
-                'query_builder' => function (EntityRepository $er) {
-
-                    return $er->createQueryBuilder('c')->orderBy('c.name', 'ASC');
-                },
-                'property' => 'name',
-                'expanded' => false,
-                'multiple' => false,
-                'required' => true,
-                'mapped' => false
-            )
-        );
-
-        $builder->add(
             'lastName',
             'text',
             array(
@@ -109,6 +89,16 @@ class PendingAnnouncerType extends AbstractType
                 'required' => true,
                 'translation_domain' => 'job',
                 'label' => 'adress',
+                'mapped' => false
+            )
+        );
+        $builder->add(
+            'establishment',
+            'text',
+            array(
+                'required' => false,
+                'label' => 'establishment',
+                'translation_domain' => 'job',
                 'mapped' => false
             )
         );

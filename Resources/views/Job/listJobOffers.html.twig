@@ -98,10 +98,16 @@
                             {{ 'discipline'|trans({}, 'job') }}
                         </th>
                         <th>
-                            {{ 'creation_date'|trans({}, 'platform') }}
+                            {{ 'level'|trans({}, 'job') }}
                         </th>
                         <th>
-                            {{ 'expiration_date'|trans({}, 'platform') }}
+                            {{ 'province'|trans({}, 'province') }}
+                        </th>
+                        <th>
+                            {{ 'adress'|trans({}, 'job') }}
+                        </th>
+                        <th>
+                            {{ 'phone'|trans({}, 'province') }}
                         </th>
                     </tr>
                 </thead>
@@ -109,10 +115,12 @@
                     {% for offer in pager.currentPageResults %}
                         <tr>
                             <td> <a href="{{ path('formalibre_job_offer_open', {'jobOffer': offer.getId() } ) }}"> {{ offer.getTitle() }} </a> </td>
-                            <td> {{ offer.getEstablishment() }} </td>
+                            <td> {{ offer.getAnnouncer().getEstablishment() }} </td>
                             <td> {{ offer.getDiscipline() }} </td>
-                            <td> {{ offer.getCreationDate()|intl_date_format() }} </td>
-                            <td> {{ offer.getExpirationDate()|intl_date_format() }} </td>
+                            <td> {{ offer.getLevel() }} </td>
+                            <td> {% if offer.getAnnouncer().getProvince() != null %} {{ offer.getAnnouncer().getProvince().getTranslationKey()|trans({}, 'province') }} {% endif %}</td>
+                            <td> {{ offer.getAnnouncer().getAdress() }} </td>
+                            <td> {{ offer.getPhone() }} </td>
                         </tr>
                     {% endfor %}
                 </tbody>
