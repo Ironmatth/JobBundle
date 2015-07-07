@@ -281,7 +281,7 @@ class JobController extends Controller
         $user = new User();
 
         $form = $this->formFactory->create(
-            new SeekerType(),
+            new SeekerType($lang),
             $user
         );
         $user->setLocale($lang);

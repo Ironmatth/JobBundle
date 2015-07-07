@@ -290,7 +290,7 @@ class JobManager
 
     public function getSeekerByUser(User $user)
     {
-        return $this->findSeekerByUser($user);
+        return $this->seekerRepo->findSeekerByUser($user);
     }
 
 

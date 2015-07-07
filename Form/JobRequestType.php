@@ -32,7 +32,7 @@ class JobRequestType extends AbstractType
                 'query_builder' => function (EntityRepository $er) use ($community) {
 
                     return $er->createQueryBuilder('c')
-                        ->where('c.id = :communityId')
+                        ->where('c.id != :communityId')
                         ->setParameter('communityId', $community->getId())
                         ->orderBy('c.name', 'ASC');
                 },
@@ -86,12 +86,12 @@ class JobRequestType extends AbstractType
             )
         );
     }
-    
+
     public function getName()
     {
         return 'job_request_form';
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array('translation_domain' => 'job'));

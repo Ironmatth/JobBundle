@@ -19,6 +19,7 @@ class SeekerType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $lang = $this->lang;
         $builder->add(
             'community',
             'entity',
@@ -27,9 +28,11 @@ class SeekerType extends AbstractType
                 'translation_domain' => 'job',
                 'class' => 'FormaLibreJobBundle:Community',
                 'choice_translation_domain' => true,
-                'query_builder' => function (EntityRepository $er) {
-
-                    return $er->createQueryBuilder('c')->orderBy('c.name', 'ASC');
+                'query_builder' => function (EntityRepository $er) use ($lang) {
+                    return $er->createQueryBuilder('c')
+                        ->orderBy('c.name', 'ASC')
+                        ->where('c.locale != ?1')
+                        ->setParameter(1, $lang);
                 },
                 'property' => 'name',
                 'expanded' => false,
