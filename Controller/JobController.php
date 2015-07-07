@@ -287,7 +287,7 @@ class JobController extends Controller
         $form->handleRequest($this->request);
 
         if ($form->isValid()) {
-            $user->setLocale($form->get('community')->getData()->getLocale());
+            $user->setLocale($lang);
             $this->roleManager->setRoleToRoleSubject(
                 $user,
                 $this->configHandler->getParameter('default_role')
@@ -307,7 +307,7 @@ class JobController extends Controller
             $registrationNumber = $form->get('registrationNumber')->getData();
 
             $seeker = new Seeker();
-            $seeker->setCommunity($community);
+            $seeker->setCommunity($this->jobManager->getCommunityByLocale($lang));
             $seeker->setUser($user);
             $seeker->setRegistrationNumber($registrationNumber);
             $this->jobManager->persistSeeker($seeker);
@@ -316,7 +316,7 @@ class JobController extends Controller
                 $originalName = $cvFile->getClientOriginalName();
                 $hashName = $this->jobManager->saveFile($cvFile, 'cv');
                 $jobRequest = new JobRequest();
-                $community = $this->jobManager->getCommunityByLocale($lang);
+                $community = $form->get('community')->getData();
                 $jobRequest->setCommunity($community);
                 $jobRequest->setUser($user);
                 $jobRequest->setCv($hashName);

@@ -23,7 +23,7 @@
     </div>
     <div class="panel-body" id="pending-announcers-management-body">
         <ul id="communities-nav-tabs-list" class="nav nav-tabs margin-bottom-md">
-            
+
             {% for community in communities %}
                 <li class="{% if currentCommunity.getId() == community.getId() %}active{% endif %}">
                     <a href="{{ path('formalibre_job_admin_pending_announcers_management', { 'community': community.getId()}) }}">
@@ -33,16 +33,20 @@
             {% endfor %}
         </ul>
         <br>
-        
+
         {% if pendingAnnouncers|length > 0 %}
             <div class="table-responsive">
                 <table class="table">
                     <tr>
                         <th>{{ 'name'|trans({}, 'platform') }}</th>
                         <th>{{ 'application_date'|trans({}, 'job') }}</th>
+                        <th>{{ 'establishment'|trans({}, 'job') }}</th>
+                        <th>{{ 'province'|trans({}, 'province') }}</th>
+                        <th>{{ 'adress'|trans({}, 'job') }}</th>
+                        <th>{{ 'phone'|trans({}, 'platform') }}</th>
                         <th></th>
                     </tr>
-            
+
                     {% for pendingAnnouncer in pendingAnnouncers %}
                         {% set user = pendingAnnouncer.getUser() %}
                         <tr id="pending-announcer-row-{{ pendingAnnouncer.getId() }}">
@@ -50,6 +54,10 @@
                                 {{ user.getFirstName() }}
                                 {{ user.getLastName() }}
                             </td>
+                            <td>{{ pendingAnnouncer.getEstablishment() }}</td>
+                            <td>{{ pendingAnnouncer.getProvince().getTranslationKey()|trans({}, 'province') }}</td>
+                            <td>{{ pendingAnnouncer.getAdress() }}</td>
+                            <td>{{ pendingAnnouncer.getUser().getPhone() }}</td>
                             <td>
                                 {{ pendingAnnouncer.getApplicationDate()|intl_date_format }}
                             </td>

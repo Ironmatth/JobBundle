@@ -110,7 +110,7 @@
                 <a href="{{ path('formalibre_job_offers_open', {'community': community.getId()}) }}"
                     class="btn btn-primary"
                 >
-                    {{ community.getName() }}
+                    {{ 'show_offers_for'|trans({'%community%': community.getName()}, 'job') }}
                 </a>
             {% endif %}
         {% endfor %}

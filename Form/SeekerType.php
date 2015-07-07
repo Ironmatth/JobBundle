@@ -24,7 +24,7 @@ class SeekerType extends AbstractType
             'community',
             'entity',
             array(
-                'label' => 'candidate_from',
+                'label' => 'candidate_for',
                 'translation_domain' => 'job',
                 'class' => 'FormaLibreJobBundle:Community',
                 'choice_translation_domain' => true,
@@ -95,7 +95,7 @@ class SeekerType extends AbstractType
                 'translation_domain' => 'platform',
                 'type' => 'password',
                 'first_options' => array('label' => 'password'),
-                'second_options' => array('label' => 'verification')
+                'second_options' => array('label' => 'password_verification')
             )
         );
         $builder->add(
@@ -132,7 +132,8 @@ class SeekerType extends AbstractType
                 'attr' => $attr,
                 'input' => 'datetime',
                 'mapped' => false,
-                'label' => 'expiration_date'
+                'translation_domain' => 'job',
+                'label' => 'cv_expiration_date'
             )
         );
         $builder->add(

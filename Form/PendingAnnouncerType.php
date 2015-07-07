@@ -47,21 +47,22 @@ class PendingAnnouncerType extends AbstractType
             )
         );
         $builder->add(
-            'phone',
-            'text',
-            array(
-                'required' => false,
-                'translation_domain' => 'platform',
-                'label' => 'phone'
-            )
-        );
-        $builder->add(
             'mail',
             'email',
             array(
                 'required' => true,
                 'translation_domain' => 'platform',
                 'label' => 'email'
+            )
+        );
+        $builder->add(
+            'establishment',
+            'text',
+            array(
+                'required' => false,
+                'label' => 'establishment',
+                'translation_domain' => 'job',
+                'mapped' => false
             )
         );
         $builder->add(
@@ -93,13 +94,12 @@ class PendingAnnouncerType extends AbstractType
             )
         );
         $builder->add(
-            'establishment',
+            'phone',
             'text',
             array(
                 'required' => false,
-                'label' => 'establishment',
-                'translation_domain' => 'job',
-                'mapped' => false
+                'translation_domain' => 'platform',
+                'label' => 'phone'
             )
         );
         $builder->add(
@@ -119,7 +119,7 @@ class PendingAnnouncerType extends AbstractType
                 'translation_domain' => 'platform',
                 'type' => 'password',
                 'first_options' => array('label' => 'password'),
-                'second_options' => array('label' => 'verification')
+                'second_options' => array('label' => 'password_verification')
             )
         );
         $builder->add(

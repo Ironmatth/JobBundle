@@ -7,7 +7,7 @@ application_date: Date d'application
 add_announcers: 'Ajouter des chefs d''établissement'
 add_community: 'Ajouter une communauté'
 add_cv: 'Ajouter un CV'
-adress: Addresse
+adress: Adresse
 administrators: Administrateurs
 allow_notification_for_new_job_request: 'Activer les notifications'
 announcers: 'Chefs d''établissement'
@@ -68,5 +68,7 @@ pending_announcement_form_message: 'Inscrivez votre établissement'
 pending_announcers: 'Chefs d''établissement en attente'
 pending_announcers_managemnet: 'Gestion des chefs d''établissements en attente'
 registration_number: Matricule
-seeker_form_message: 'Détachement vers la Fédération Wallonie-Bruxelles'
+seeker_form_message: 'Détachement de la Fédération Wallonie-Bruxelles'
 show_job_offers: 'Voir les offres d''emplois'
+show_offers_for: 'Offre en %community%'
+cv_expiration_date: Votre CV est visible jusqu'au
