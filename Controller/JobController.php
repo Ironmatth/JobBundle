@@ -316,7 +316,7 @@ class JobController extends Controller
                 $originalName = $cvFile->getClientOriginalName();
                 $hashName = $this->jobManager->saveFile($cvFile, 'cv');
                 $jobRequest = new JobRequest();
-                $community = $this->jobManager->getCommunityByLocale($locale);
+                $community = $this->jobManager->getCommunityByLocale($lang);
                 $jobRequest->setCommunity($community);
                 $jobRequest->setUser($user);
                 $jobRequest->setCv($hashName);
