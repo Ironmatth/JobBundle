@@ -19,6 +19,21 @@ class PendingAnnouncerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(
+            'userType',
+            'choice',
+            array(
+                'label' => 'you_are',
+                'translation_domain' => 'job',
+                'choices' => array(
+                    'announcer' => 'school_director',
+                    'seeker' => 'teacher'
+                ),
+                'multiple' => false,
+                'required' => false,
+                'mapped' => false
+            )
+        );
+        $builder->add(
             'lastName',
             'text',
             array(

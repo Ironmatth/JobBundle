@@ -27,10 +27,27 @@
             >
                 {{ form_widget(form) }}
                 <br>
-                <button type="submit" class="btn btn-primary">
+                <button id="submit-btn" type="submit" class="btn btn-primary disabled">
                     {{ 'ok'|trans({}, 'platform') }}
                 </button>
             </form>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $('#pending_announcer_form_userType').on('change', function () {
+            var value = $(this).val();
+            
+            if (value === 'announcer') {
+                $('#submit-btn').removeClass('disabled');
+            } else if (value === 'seeker') {
+                window.location = Routing.generate('formalibre_job_seeker_create_form');
+            } else {
+                $('#submit-btn').addClass('disabled');
+            }
+        });
+    </script>
 {% endblock %}

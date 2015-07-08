@@ -25,12 +25,48 @@
                   method="POST"
                   {{ form_enctype(form) }}
             >
-                {{ form_widget(form) }}
+                <span id="user-type-field">
+                    {{ form_row(form.userType) }}
+                </span>
+                {{ form_row(form.community) }}
+                {{ form_row(form.lastName) }}
+                {{ form_row(form.firstName) }}
+                {{ form_row(form.registrationNumber) }}
+                {{ form_row(form.mail) }}
+                {{ form_row(form.username) }}
+                {{ form_row(form.plainPassword) }}
+                {{ form_row(form.file) }}
+                {{ form_row(form.cv_title) }}
+                {{ form_row(form.expirationDate) }}
+                <div class="col-md-9 col-md-offset-3">
+                    {{ form_widget(form.visible) }}
+                    <span class="pending-announcer-create-form-accept-chk-label">
+                        <b>{{ 'accept_visibility_message'|trans({}, 'job') }}</b>
+                    </span>
+                </div>
+                {{ form_rest(form) }}
                 <br>
-                <button type="submit" class="btn btn-primary">
+                <button id="submit-btn" type="submit" class="btn btn-primary disabled">
                     {{ 'ok'|trans({}, 'platform') }}
                 </button>
             </form>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $('#seeker_form_userType').on('change', function () {
+            var value = $(this).val();
+            
+            if (value === 'announcer') {
+                window.location = Routing.generate('formalibre_job_pending_announcer_create_form');
+            } else if (value === 'seeker') {
+                $('#submit-btn').removeClass('disabled');
+            } else {
+                $('#submit-btn').addClass('disabled');
+            }
+        });
+    </script>
 {% endblock %}

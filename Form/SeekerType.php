@@ -21,6 +21,21 @@ class SeekerType extends AbstractType
     {
         $lang = $this->lang;
         $builder->add(
+            'userType',
+            'choice',
+            array(
+                'label' => 'you_are',
+                'translation_domain' => 'job',
+                'choices' => array(
+                    'announcer' => 'school_director',
+                    'seeker' => 'teacher'
+                ),
+                'multiple' => false,
+                'required' => false,
+                'mapped' => false
+            )
+        );
+        $builder->add(
             'community',
             'entity',
             array(

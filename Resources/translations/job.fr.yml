@@ -2,7 +2,7 @@ accept_pending_announcer_content: "Cher %name%,<br>\nVotre accès à la plate-fo
 accept_pending_announcer_object: 'Votre accès à Teachers mobility a été validé'
 accept_pending_announcer: Accepter le directeur d'école
 accept_pending_announcer_message: Êtes-vous sûr de vouloir valider l'inscription de ce directeur d'école ?
-accept_visibility_message: 'J''accepte que mon CV soit visible par les directeurs d''écoles'
+accept_visibility_message: 'J''accepte que mon CV soit visible par les directions de la communauté dans laquelle je postule'
 application_date: Date d'application
 add_announcers: 'Ajouter des chefs d''établissement'
 add_community: 'Ajouter une communauté'
@@ -72,3 +72,6 @@ seeker_form_message: 'Détachement de la Fédération Wallonie-Bruxelles'
 show_job_offers: 'Voir les offres d''emplois'
 show_offers_for: 'Offre en %community%'
 cv_expiration_date: Votre CV est visible jusqu'au
+you_are: 'Vous êtes'
+school_director: 'Directeur d''école'
+teacher: Enseignant
