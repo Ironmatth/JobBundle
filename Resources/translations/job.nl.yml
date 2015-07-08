@@ -7,6 +7,7 @@ application_date: application_date
 add_announcers: add_announcers
 add_community: add_community
 add_cv: add_cv
+adress: Adress
 administrators: administrators
 allow_notification_for_new_job_request: allow_notification_for_new_job_request
 announcers: announcers
