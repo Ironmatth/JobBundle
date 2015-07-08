@@ -1,20 +1,20 @@
+accept_pending_announcer: 'Accepter le directeur d''école'
 accept_pending_announcer_content: "Cher %name%,<br>\nVotre accès à la plate-forme http://teachersmobility.be vient d'être validée.<br>\nVous pouvez désormais y poster vos annonces.<br><br>\nCordialement\n"
+accept_pending_announcer_message: 'Êtes-vous sûr de vouloir valider l''inscription de ce directeur d''école ?'
 accept_pending_announcer_object: 'Votre accès à Teachers mobility a été validé'
-accept_pending_announcer: Accepter le directeur d'école
-accept_pending_announcer_message: Êtes-vous sûr de vouloir valider l'inscription de ce directeur d'école ?
-accept_visibility_message: 'J''accepte que mon CV soit visible par les directions de la communauté dans laquelle je postule'
-application_date: Date d'application
+accept_visibility_message: 'J''accepte que mon CV soit visible par les directeurs d''écoles'
 add_announcers: 'Ajouter des chefs d''établissement'
 add_community: 'Ajouter une communauté'
 add_cv: 'Ajouter un CV'
-adress: Adresse
 administrators: Administrateurs
+adress: Adresse
 allow_notification_for_new_job_request: 'Activer les notifications'
 announcers: 'Chefs d''établissement'
 announcers_creation: 'Ajout des chefs d''établissement'
 announcers_management: 'Gestion des chefs d''établissements'
 announcers_management_menu: 'Gestion des chefs d''établissements'
 announcers_managemnet: 'Gestion des chefs d''établissement'
+application_date: 'Date d''application'
 candidate_for: 'Candidat pour'
 candidate_from: 'Candidat de'
 communities_management: 'Gestion des communautés'
@@ -25,11 +25,12 @@ create_job_offer: 'Créer une offre d''emploi'
 created_pending_announcer_content: "Cher %lastName% %firstName%,<br>\nVotre profil a été enregistré sur teachersmobility.be.<br>Votre profil doit être validé par les administrateurs pour pouvoir poster vos offres.<br>Vous recevrez un mail de confirmation dès la validation enregistrée.<br><br>\nL'équipe Teachers mobility\n"
 created_pending_announcer_object: 'Votre profil a été créé sur teachersmobility.be'
 cv: CV
-cv_title: Titre du cv
-decline_pending_announcer_content: null
-decline_pending_announcer_object: null
+cv_expiration_date: 'Votre CV est visible jusqu''au'
+cv_title: 'Titre du cv'
 decline_pending_announcer: 'Refuser un directeur d''établissement'
+decline_pending_announcer_content: null
 decline_pending_announcer_message: 'Êtes-vous sûr de vouloir refuser ce directeur d''établissement ?'
+decline_pending_announcer_object: null
 delete_announcer: 'Supprimer un chef d''établissement'
 delete_announcer_message: 'Êtes-vous sûr de vouloir supprimer un chef d''établissement'
 delete_community: 'Supprimer une communauté'
@@ -68,10 +69,9 @@ pending_announcement_form_message: 'Inscrivez votre établissement'
 pending_announcers: 'Chefs d''établissement en attente'
 pending_announcers_managemnet: 'Gestion des chefs d''établissements en attente'
 registration_number: Matricule
-seeker_form_message: 'Détachement de la Fédération Wallonie-Bruxelles'
+school_director: 'Directeur d''école'
+seeker_form_message: 'Détaché de la Fédération Wallonie-Bruxelles'
 show_job_offers: 'Voir les offres d''emplois'
 show_offers_for: 'Offre en %community%'
-cv_expiration_date: Votre CV est visible jusqu'au
-you_are: 'Vous êtes'
-school_director: 'Directeur d''école'
 teacher: Enseignant
+you_are: 'Vous êtes'

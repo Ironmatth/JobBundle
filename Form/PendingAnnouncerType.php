@@ -144,7 +144,8 @@ class PendingAnnouncerType extends AbstractType
                 'translation_domain' => 'platform',
                 'type' => 'password',
                 'first_options' => array('label' => 'password'),
-                'second_options' => array('label' => 'password_verification')
+                'second_options' => array('label' => 'password_verification'),
+                'theme_options' => array('control_width' => 'col-md-6')
             )
         );
         $builder->add(
@@ -155,7 +156,7 @@ class PendingAnnouncerType extends AbstractType
                 'label' => 'allow_notification_for_new_job_request',
                 'mapped' => false,
                 'attr' => array('checked' => 'checked'),
-                'translation_domain' => 'job',
+                'translation_domain' => 'job'
             )
         );
     }
