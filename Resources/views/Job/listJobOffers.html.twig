@@ -89,16 +89,7 @@
                 <thead>
                     <tr>
                         <th>
-                            {{ 'title'|trans({}, 'platform') }}
-                        </th>
-                        <th>
                             {{ 'establishment'|trans({}, 'job') }}
-                        </th>
-                        <th>
-                            {{ 'discipline'|trans({}, 'job') }}
-                        </th>
-                        <th>
-                            {{ 'level'|trans({}, 'job') }}
                         </th>
                         <th>
                             {{ 'province'|trans({}, 'province') }}
@@ -107,20 +98,29 @@
                             {{ 'adress'|trans({}, 'job') }}
                         </th>
                         <th>
-                            {{ 'phone'|trans({}, 'province') }}
+                            {{ 'phone'|trans({}, 'platform') }}
+                        </th>
+                        <th>
+                            {{ 'discipline'|trans({}, 'job') }}
+                        </th>
+                        <th>
+                            {{ 'level'|trans({}, 'job') }}
+                        </th>
+                        <th>
+                            {{ 'title'|trans({}, 'platform') }}
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for offer in pager.currentPageResults %}
                         <tr>
-                            <td> <a href="{{ path('formalibre_job_offer_open', {'jobOffer': offer.getId() } ) }}"> {{ offer.getTitle() }} </a> </td>
-                            <td> {{ offer.getAnnouncer().getEstablishment() }} </td>
-                            <td> {{ offer.getDiscipline() }} </td>
-                            <td> {{ offer.getLevel() }} </td>
+                            <td> <a href="{{ path('formalibre_job_offer_open', {'jobOffer': offer.getId() } ) }}"> {{ offer.getAnnouncer().getEstablishment() }} </a> </td>
                             <td> {% if offer.getAnnouncer().getProvince() != null %} {{ offer.getAnnouncer().getProvince().getTranslationKey()|trans({}, 'province') }} {% endif %}</td>
                             <td> {{ offer.getAnnouncer().getAdress() }} </td>
                             <td> {{ offer.getPhone() }} </td>
+                            <td> {{ offer.getDiscipline() }} </td>
+                            <td> {{ offer.getLevel() }} </td>
+                            <td> <a href="{{ path('formalibre_job_offer_open', {'jobOffer': offer.getId() } ) }}"> {{ offer.getTitle() }} </a> </td>
                         </tr>
                     {% endfor %}
                 </tbody>

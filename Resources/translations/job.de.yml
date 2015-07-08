@@ -69,6 +69,9 @@ pending_announcement_form_message: pending_announcement_form_message
 pending_announcers: pending_announcers
 pending_announcers_managemnet: pending_announcers_managemnet
 registration_number: registration_number
+school_director: school_director
 seeker_form_message: seeker_form_message
 show_job_offers: show_job_offers
 show_offers_for: show_offers_for
+teacher: teacher
+you_are: you_are
