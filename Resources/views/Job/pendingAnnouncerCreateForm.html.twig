@@ -41,8 +41,8 @@
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript">
-        $('#pending_announcer_form_userType').on('change', function () {
-            var value = $(this).val();
+        function checkIdentity() {
+            var value = $('#pending_announcer_form_userType').val();
 
             if (value === 'announcer') {
                 $('#submit-btn').removeClass('disabled');
@@ -51,6 +51,12 @@
             } else {
                 $('#submit-btn').addClass('disabled');
             }
+        }
+        
+        $('#pending_announcer_form_userType').on('change', function () {
+            checkIdentity();
         });
+        
+        checkIdentity();
     </script>
 {% endblock %}

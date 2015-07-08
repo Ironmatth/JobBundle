@@ -61,8 +61,8 @@
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript">
-        $('#seeker_form_userType').on('change', function () {
-            var value = $(this).val();
+        function checkIdentity() {
+            var value = $('#seeker_form_userType').val();
 
             if (value === 'announcer') {
                 window.location = Routing.generate('formalibre_job_pending_announcer_create_form');
@@ -71,6 +71,12 @@
             } else {
                 $('#submit-btn').addClass('disabled');
             }
+        }
+        
+        $('#seeker_form_userType').on('change', function () {
+            checkIdentity();
         });
+        
+        checkIdentity();
     </script>
 {% endblock %}
