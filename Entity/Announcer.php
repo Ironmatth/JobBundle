@@ -41,6 +41,12 @@ class Announcer
     protected $withNotification = true;
 
     /**
+     * @ORM\Column(name="registration_number")
+     */
+    protected $registrationNumber;
+
+
+    /**
      * @ORM\Column(name="fase_number")
      */
     protected $faseNumber;
@@ -142,5 +148,15 @@ class Announcer
     public function setEstablishment($establishment)
     {
         $this->establishment = $establishment;
+    }
+
+    function getRegistrationNumber()
+    {
+        return $this->registrationNumber;
+    }
+
+    function setRegistrationNumber($registrationNumber)
+    {
+        $this->registrationNumber = $registrationNumber;
     }
 }

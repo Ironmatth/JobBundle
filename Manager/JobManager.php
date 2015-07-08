@@ -213,6 +213,7 @@ class JobManager
         $announcer->setUser($user);
         $announcer->setCommunity($community);
         $announcer->setWithNotification($pendingAnnouncer->getWithNotification());
+        $announcer->setRegistrationNumber($pendingAnnouncer->getRegistrationNumber());
         $announcer->setFaseNumber($pendingAnnouncer->getFaseNumber());
         $announcer->setProvince($pendingAnnouncer->getProvince());
         $announcer->setAdress($pendingAnnouncer->getAdress());

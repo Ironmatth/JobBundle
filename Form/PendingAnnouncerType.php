@@ -52,6 +52,16 @@ class PendingAnnouncerType extends AbstractType
             )
         );
         $builder->add(
+            'registrationNumber',
+            'text',
+            array(
+                'required' => true,
+                'translation_domain' => 'job',
+                'label' => 'registration_number',
+                'mapped' => false
+            )
+        );
+        $builder->add(
             'faseNumber',
             'text',
             array(
