@@ -60,6 +60,11 @@ class PendingAnnouncer
     protected $adress;
 
     /**
+     * @ORM\Column(name="registration_number")
+     */
+    protected $registrationNumber;
+
+    /**
      * @ORM\Column(name="fase_number")
      */
     protected $faseNumber;
@@ -167,5 +172,15 @@ class PendingAnnouncer
     public function setEstablishment($establishment)
     {
         $this->establishment = $establishment;
+    }
+
+    function getRegistrationNumber()
+    {
+        return $this->registrationNumber;
+    }
+
+    function setRegistrationNumber($registrationNumber)
+    {
+        $this->registrationNumber = $registrationNumber;
     }
 }

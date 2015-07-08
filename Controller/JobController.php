@@ -161,6 +161,7 @@ class JobController extends Controller
             $pendingAnnouncer->setUser($user);
             $community = $this->jobManager->getCommunityByLocale($lang);
             $withNotification = $form->get('withNotification')->getData();
+            $registrationNumber = $form->get('registrationNumber')->getData();
             $faseNumber = $form->get('faseNumber')->getData();
             $province = $form->get('province')->getData();
             $adress = $form->get('adress')->getData();
@@ -168,6 +169,7 @@ class JobController extends Controller
             $pendingAnnouncer->setCommunity($community);
             $pendingAnnouncer->setWithNotification($withNotification);
             $pendingAnnouncer->setApplicationDate(new \DateTime());
+            $pendingAnnouncer->setRegistrationNumber($registrationNumber);
             $pendingAnnouncer->setFaseNumber($faseNumber);
             $pendingAnnouncer->setAdress($adress);
             $pendingAnnouncer->setProvince($province);

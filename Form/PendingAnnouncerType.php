@@ -52,6 +52,16 @@ class PendingAnnouncerType extends AbstractType
             )
         );
         $builder->add(
+            'registrationNumber',
+            'text',
+            array(
+                'required' => true,
+                'translation_domain' => 'job',
+                'label' => 'registration_number',
+                'mapped' => false
+            )
+        );
+        $builder->add(
             'faseNumber',
             'text',
             array(
@@ -89,7 +99,7 @@ class PendingAnnouncerType extends AbstractType
                 'choice_translation_domain' => true,
                 'translation_domain' => 'province',
                 'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('p');
+                    return $er->createQueryBuilder('p')->orderBy('p.translationKey', 'ASC');
                 },
                 'property' => 'translation_key',
                 'expanded' => false,
