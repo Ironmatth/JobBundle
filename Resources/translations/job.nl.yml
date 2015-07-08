@@ -17,7 +17,7 @@ announcers_managemnet: announcers_managemnet
 application_date: application_date
 captcha_explanation: captcha_explanation
 captcha_reason: 'captcha_reason'
-candidate_for: candidate_for
+candidate_for: Kandidaat voor
 candidate_from: candidate_from
 communities_management: communities_management
 community: community
@@ -26,9 +26,9 @@ community_edition: community_edition
 create_job_offer: create_job_offer
 created_pending_announcer_content: created_pending_announcer_content
 created_pending_announcer_object: created_pending_announcer_object
-cv: cv
-cv_expiration_date: cv_expiration_date
-cv_title: cv_title
+cv: C.V.
+cv_expiration_date: Uw C.V. is geldig tot
+cv_title: C.V. Titel
 decline_pending_announcer: decline_pending_announcer
 decline_pending_announcer_content: decline_pending_announcer_content
 decline_pending_announcer_message: decline_pending_announcer_message
@@ -43,9 +43,9 @@ delete_job_request: delete_job_request
 delete_job_request_message: delete_job_request_message
 discipline: discipline
 duration: duration
-establishment: establishment
+establishment: inrichting
 expiration_date: expiration_date
-fase_number: fase_number
+fase_number: Fase nummer
 immersion: immersion
 job_offer: job_offer
 job_offer_creation: job_offer_creation
@@ -67,12 +67,12 @@ no_announcer: no_announcer
 no_community: no_community
 no_job_offer: no_job_offer
 no_pending_announcer: no_pending_announcer
-pending_announcement_form_message: pending_announcement_form_message
+pending_announcement_form_message: Registreer uw inrichting
 pending_announcers: pending_announcers
 pending_announcers_managemnet: pending_announcers_managemnet
 registration_number: registration_number
 school_director: school_director
-seeker_form_message: seeker_form_message
+seeker_form_message: Uitwisseling van leerkrachten ‘native speakers’ met de Frans- en Duitstalige Gemeenschap
 show_job_offers: show_job_offers
 show_offers_for: show_offers_for
 teacher: teacher
