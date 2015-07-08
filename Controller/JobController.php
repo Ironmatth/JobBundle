@@ -26,6 +26,7 @@ use FormaLibre\JobBundle\Manager\JobManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as EXT;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -145,6 +146,19 @@ class JobController extends Controller
             $user
         );
         $form->handleRequest($this->request);
+
+        if ($lang === 'fr' || $lang === 'de') {
+            $registrationNumber = $form->get('registrationNumber')->getData();
+            $pattern = '#^[0-9]{1}[\/-]?[0-9]{6}[\/-]?[0-9]{4}$#';
+
+            if (!preg_match($pattern, $registrationNumber)) {
+                $form->addError(
+                    new FormError(
+                        $this->translator->trans('invalid_registration_number', array(), 'job')
+                    )
+                );
+            }
+        }
 
         if ($form->isValid()) {
             $user->setLocale($lang);
@@ -287,6 +301,19 @@ class JobController extends Controller
             $user
         );
         $form->handleRequest($this->request);
+
+        if ($lang === 'fr' || $lang === 'de') {
+            $registrationNumber = $form->get('registrationNumber')->getData();
+            $pattern = '#^[0-9]{1}[\/-]?[0-9]{6}[\/-]?[0-9]{4}$#';
+
+            if (!preg_match($pattern, $registrationNumber)) {
+                $form->addError(
+                    new FormError(
+                        $this->translator->trans('invalid_registration_number', array(), 'job')
+                    )
+                );
+            }
+        }
 
         if ($form->isValid()) {
             $user->setLocale($lang);

@@ -45,6 +45,7 @@ establishment: Établissement
 expiration_date: 'Date d''expiration'
 fase_number: 'Numéro fase'
 immersion: Immersion
+invalid_registration_number: 'Veuillez encoder un numéro de matricule correct'
 job_offer: 'Offre d''emploi'
 job_offer_creation: 'Création d''une offre d''emploi'
 job_offer_edition: 'Modifier une offre d''emploi'
