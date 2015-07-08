@@ -21,6 +21,8 @@ communities_management: 'Gestion des communautés'
 community: Communauté
 community_creation: 'Création d''une communauté'
 community_edition: 'Modification d''une communauté'
+captcha_explanation: Veuillez recopier le texte de l'image dans le champ ci-dessous*
+captcha_reason: '*Un Captcha est un système de protection qui permet de vérifier si le formulaire d''une page web est bien complété par un humain et non par un robot mailveillant qui tente d''envoyer du spam.'
 create_job_offer: 'Créer une offre d''emploi'
 created_pending_announcer_content: "Cher %lastName% %firstName%,<br>\nVotre profil a été enregistré sur teachersmobility.be.<br>Votre profil doit être validé par les administrateurs pour pouvoir poster vos offres.<br>Vous recevrez un mail de confirmation dès la validation enregistrée.<br><br>\nL'équipe Teachers mobility\n"
 created_pending_announcer_object: 'Votre profil a été créé sur teachersmobility.be'
