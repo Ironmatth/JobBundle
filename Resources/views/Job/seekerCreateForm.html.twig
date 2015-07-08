@@ -3,7 +3,7 @@
 {% block content %}
     <div class="panel panel-default">
         <div class="panel-body">
-            <div class="row">
+            <div class="col-md-3">
                 {% set params = app.request.attributes.get('_route_params') %}
                 {% if params.lang == 'fr' %}
                     {% set img = asset('bundles/formalibrejob/images/fwb.jpg') %}
@@ -12,44 +12,48 @@
                 {% else %}
                     {% set img = asset('bundles/formalibrejob/images/dgpp.jpg') %}
                 {% endif %}
-                <div class="col-md-3"> <img width=200px src="{{ img }}"> </div>
+                <img width=200px src="{{ img }}">
             </div>
-            <div class="row">
-                <div class="col-md-3">  </div>
-                <div class="col-md-9" style="color: red;"> <h1><b> {{ 'seeker_form_message'|trans({}, 'job') }} </b></h1> </div>
-            </div>
-        </div>
-        <div class="panel-body">
-            <form id="pending-announcer-create-form"
-                  action="{{ path('formalibre_job_seeker_create', {'lang': lang}) }}"
-                  method="POST"
-                  {{ form_enctype(form) }}
-            >
-                <span id="user-type-field">
-                    {{ form_row(form.userType) }}
-                </span>
-                {{ form_row(form.community) }}
-                {{ form_row(form.lastName) }}
-                {{ form_row(form.firstName) }}
-                {{ form_row(form.registrationNumber) }}
-                {{ form_row(form.mail) }}
-                {{ form_row(form.username) }}
-                {{ form_row(form.plainPassword) }}
-                {{ form_row(form.file) }}
-                {{ form_row(form.cv_title) }}
-                {{ form_row(form.expirationDate) }}
-                <div class="col-md-9 col-md-offset-3">
-                    {{ form_widget(form.visible) }}
-                    <span class="pending-announcer-create-form-accept-chk-label">
-                        <b>{{ 'accept_visibility_message'|trans({}, 'job') }}</b>
+            <div class="col-md-6" style="padding-top: 55px;">
+                {% form_theme form 'FormaLibreJobBundle::form_theme_captcha.html.twig' %}
+                <h1 style="color: red; text-align: center;"><b> {{ 'seeker_form_message'|trans({}, 'job') }} </b></h1>
+                <form id="pending-announcer-create-form"
+                      action="{{ path('formalibre_job_seeker_create', {'lang': lang}) }}"
+                      method="POST"
+                      {{ form_enctype(form) }}
+                >
+                    <span id="user-type-field">
+                        {{ form_row(form.userType) }}
                     </span>
-                </div>
-                {{ form_rest(form) }}
-                <br>
-                <button id="submit-btn" type="submit" class="btn btn-primary disabled">
-                    {{ 'ok'|trans({}, 'platform') }}
-                </button>
-            </form>
+                    {{ form_row(form.community) }}
+                    {{ form_row(form.lastName) }}
+                    {{ form_row(form.firstName) }}
+                    {{ form_row(form.registrationNumber) }}
+                    {{ form_row(form.mail) }}
+                    {{ form_row(form.username) }}
+                    {{ form_row(form.plainPassword) }}
+                    {{ form_row(form.file) }}
+                    {{ form_row(form.cv_title) }}
+                    {{ form_row(form.expirationDate) }}
+                    <div class="col-md-9 col-md-offset-3">
+                        {{ form_widget(form.visible) }}
+                        <span class="pending-announcer-create-form-accept-chk-label">
+                            <b>{{ 'accept_visibility_message'|trans({}, 'job') }}</b>
+                        </span>
+                    </div>
+                    </br>
+                    </br>
+                    {{ form_rest(form) }}
+                    <br>
+                    <div class="captcha" style="font-size: x-small;">
+                        {{ 'captcha_reason'|trans({}, 'job') }}
+                    </div>
+                    </br>
+                    <button id="submit-btn" type="submit" class="btn btn-primary disabled">
+                        {{ 'ok'|trans({}, 'platform') }}
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 {% endblock %}
@@ -59,7 +63,7 @@
     <script type="text/javascript">
         $('#seeker_form_userType').on('change', function () {
             var value = $(this).val();
-            
+
             if (value === 'announcer') {
                 window.location = Routing.generate('formalibre_job_pending_announcer_create_form');
             } else if (value === 'seeker') {

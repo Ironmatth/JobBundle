@@ -15,6 +15,8 @@ announcers_management: announcers_management
 announcers_management_menu: announcers_management_menu
 announcers_managemnet: announcers_managemnet
 application_date: application_date
+captcha_explanation: captcha_explanation
+captcha_reason: 'captcha_reason'
 candidate_for: candidate_for
 candidate_from: candidate_from
 communities_management: communities_management
