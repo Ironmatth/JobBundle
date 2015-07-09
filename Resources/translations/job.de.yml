@@ -1,79 +1,80 @@
-accept_pending_announcer: accept_pending_announcer
-accept_pending_announcer_content: accept_pending_announcer_content
-accept_pending_announcer_message: accept_pending_announcer_message
-accept_pending_announcer_object: accept_pending_announcer_object
-accept_visibility_message: accept_visibility_message
-add_announcers: add_announcers
-add_community: add_community
-add_cv: add_cv
-administrators: administrators
-adress: adress
-allow_notification_for_new_job_request: allow_notification_for_new_job_request
-announcers: announcers
-announcers_creation: announcers_creation
-announcers_management: announcers_management
-announcers_management_menu: announcers_management_menu
-announcers_managemnet: announcers_managemnet
-application_date: application_date
-captcha_explanation: captcha_explanation
-captcha_reason: 'captcha_reason'
-candidate_for: candidate_for
-candidate_from: candidate_from
-communities_management: communities_management
-community: community
-community_creation: community_creation
-community_edition: community_edition
-create_job_offer: create_job_offer
-created_pending_announcer_content: created_pending_announcer_content
-created_pending_announcer_object: created_pending_announcer_object
-cv: cv
-cv_expiration_date: cv_expiration_date
-cv_title: cv_title
-decline_pending_announcer: decline_pending_announcer
-decline_pending_announcer_content: decline_pending_announcer_content
-decline_pending_announcer_message: decline_pending_announcer_message
-decline_pending_announcer_object: decline_pending_announcer_object
-delete_announcer: delete_announcer
-delete_announcer_message: delete_announcer_message
-delete_community: delete_community
-delete_community_message: delete_community_message
-delete_job_offer: delete_job_offer
-delete_job_offer_message: delete_job_offer_message
-delete_job_request: delete_job_request
-delete_job_request_message: delete_job_request_message
-discipline: discipline
-duration: duration
-establishment: establishment
-expiration_date: expiration_date
-fase_number: fase_number
-immersion: immersion
-job_offer: job_offer
-job_offer_creation: job_offer_creation
-job_offer_edition: job_offer_edition
-job_offer_form_expirationDate: job_offer_form_expirationDate
-job_offers_list: job_offers_list
-job_request_creation: job_request_creation
-job_request_edition: job_request_edition
-job_request_form_expirationDate: job_request_form_expirationDate
-job_requests_list: job_requests_list
-level: level
-my_cv: my_cv
-my_job_offers: my_job_offers
-new_job_request_content: new_job_request_content
-new_job_request_object: new_job_request_object
-new_pending_announcer_content: new_pending_announcer_content
-new_pending_announcer_object: new_pending_announcer_object
-no_announcer: no_announcer
-no_community: no_community
-no_job_offer: no_job_offer
-no_pending_announcer: no_pending_announcer
-pending_announcement_form_message: pending_announcement_form_message
-pending_announcers: pending_announcers
-pending_announcers_managemnet: pending_announcers_managemnet
-registration_number: registration_number
-school_director: school_director
-seeker_form_message: seeker_form_message
-show_job_offers: show_job_offers
-show_offers_for: show_offers_for
-teacher: teacher
-you_are: you_are
+accept_pending_announcer: 'Accepter le directeur d''école'
+accept_pending_announcer_content: "Cher %name%,<br>\nVotre accès à la plate-forme http://teachersmobility.be vient d'être validée.<br>\nVous pouvez désormais y poster vos annonces.<br><br>\nCordialement\n"
+accept_pending_announcer_message: 'Êtes-vous sûr de vouloir valider l''inscription de ce directeur d''école ?'
+accept_pending_announcer_object: 'Votre accès à Teachers mobility a été validé'
+accept_visibility_message: 'J''accepte que mon CV soit visible par les directeurs d''écoles'
+add_announcers: 'Ajouter des chefs d''établissement'
+add_community: 'Ajouter une communauté'
+add_cv: 'Ajouter un CV'
+administrators: Administrateurs
+adress: Adresse
+allow_notification_for_new_job_request: 'Activer les notifications'
+announcers: 'Chefs d''établissement'
+announcers_creation: 'Ajout des chefs d''établissement'
+announcers_management: 'Gestion des chefs d''établissements'
+announcers_management_menu: 'Gestion des chefs d''établissements'
+announcers_managemnet: 'Gestion des chefs d''établissement'
+application_date: 'Date d''application'
+candidate_for: 'Candidat pour'
+candidate_from: 'Candidat de'
+communities_management: 'Gestion des communautés'
+community: Communauté
+community_creation: 'Création d''une communauté'
+community_edition: 'Modification d''une communauté'
+captcha_explanation: Veuillez recopier le texte de l'image dans le champ ci-dessous*
+captcha_reason: '*Un Captcha est un système de protection qui permet de vérifier si le formulaire d''une page web est bien complété par un humain et non par un robot mailveillant qui tente d''envoyer du spam.'
+create_job_offer: 'Créer une offre d''emploi'
+created_pending_announcer_content: "Cher %lastName% %firstName%,<br>\nVotre profil a été enregistré sur teachersmobility.be.<br>Votre profil doit être validé par les administrateurs pour pouvoir poster vos offres.<br>Vous recevrez un mail de confirmation dès la validation enregistrée.<br><br>\nL'équipe Teachers mobility\n"
+created_pending_announcer_object: 'Votre profil a été créé sur teachersmobility.be'
+cv: CV
+cv_expiration_date: 'Votre CV est visible jusqu''au'
+cv_title: 'Titre du cv'
+decline_pending_announcer: 'Refuser un directeur d''établissement'
+decline_pending_announcer_content: null
+decline_pending_announcer_message: 'Êtes-vous sûr de vouloir refuser ce directeur d''établissement ?'
+decline_pending_announcer_object: null
+delete_announcer: 'Supprimer un chef d''établissement'
+delete_announcer_message: 'Êtes-vous sûr de vouloir supprimer un chef d''établissement'
+delete_community: 'Supprimer une communauté'
+delete_community_message: 'Êtes-vous sûr de vouloir supprimer cette communauté ?'
+delete_job_offer: 'Supprimer une offre d''emploi'
+delete_job_offer_message: 'Êtes-vous sûr de vouloir supprimer une offre d''emploi'
+delete_job_request: 'Supprimer une postulation'
+delete_job_request_message: 'Êtes-vous sûr de vouloir supprimer cette postulation'
+discipline: Discipline
+duration: Durée
+establishment: Établissement
+expiration_date: 'Date d''expiration'
+fase_number: 'Numéro fase'
+immersion: Immersion
+invalid_registration_number: 'Veuillez encoder un numéro de matricule correct'
+job_offer: 'Offre d''emploi'
+job_offer_creation: 'Création d''une offre d''emploi'
+job_offer_edition: 'Modifier une offre d''emploi'
+job_offer_form_expirationDate: 'Date d''expiration'
+job_offers_list: 'Liste des offres d''emplois'
+job_request_creation: 'Ajouter un CV'
+job_request_edition: 'Modifier un CV'
+job_request_form_expirationDate: 'Date d''expiration'
+job_requests_list: 'C.V. en %community%'
+level: Niveau
+my_cv: 'Mes CVs'
+my_job_offers: 'Mes offres d''emplois'
+new_job_request_content: "%name%,<br>\nUn nouveau CV de candidature en communaute %communityName% vient d'être enregistré.<br>\nRendez vous sur http://teachersmobility.be pour en prendre connaissance.<br><br>\nCordialement\n"
+new_job_request_object: 'Une nouvelle candidature a été postée sur Teachers Mobility'
+new_pending_announcer_content: "Cher %name%<br>\nUn nouvel utilisateur désire pouvoir poster des offres sur http://teachersmobility.be<br>\n\nIl s'agit de :<br>\n%firstName% %lastName%<br>\n<br>\n%faseNumber%<br>\n%phone%<br>\n\nVeuillez confirmer son accès en vous rendant sur %url%<br><br>\nCordialement\n"
+new_pending_announcer_object: 'Une nouvelle direction souhaite s inscrire sur Teachers mobility'
+no_announcer: 'Aucun chef d''établissement'
+no_community: 'Aucune communauté'
+no_job_offer: 'Aucune offre d''emploi'
+no_pending_announcer: 'Aucun chef d''établissement en attente'
+pending_announcement_form_message: 'Inscrivez votre établissement'
+pending_announcers: 'Chefs d''établissement en attente'
+pending_announcers_managemnet: 'Gestion des chefs d''établissements en attente'
+registration_number: Matricule
+school_director: 'Directeur d''école'
+seeker_form_message: 'Détaché de la Fédération Wallonie-Bruxelles'
+show_job_offers: 'Voir les offres d''emplois'
+show_offers_for: 'Offre en %community%'
+teacher: Enseignant
+you_are: 'Vous êtes'
