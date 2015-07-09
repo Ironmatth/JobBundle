@@ -121,7 +121,7 @@ class JobController extends Controller
     {
         $this->request->setLocale($lang);
         $form = $this->formFactory->create(
-            new PendingAnnouncerType($lang),
+            new PendingAnnouncerType($lang, $this->jobManager),
             new User()
         );
 
@@ -142,7 +142,7 @@ class JobController extends Controller
         $user = new User();
 
         $form = $this->formFactory->create(
-            new PendingAnnouncerType(),
+            new PendingAnnouncerType($lang, $this->jobManager),
             $user
         );
         $form->handleRequest($this->request);

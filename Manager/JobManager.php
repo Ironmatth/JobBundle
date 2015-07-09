@@ -566,7 +566,8 @@ class JobManager
             'hainaut',
             'liege',
             'luxembourg',
-            'namur'
+            'namur',
+            'brussels'
         );
 
         foreach ($provinces as $province) {
@@ -576,5 +577,33 @@ class JobManager
         }
 
         $this->om->flush();
+    }
+
+    public function getProvinces($lang)
+    {
+        if ($lang === 'de') {
+            return array('liege');
+        }
+
+        if ($lang === 'fr') {
+            return array(
+                'brabant_wallon',
+                'hainaut',
+                'liege',
+                'luxembourg',
+                'brussels'
+            );
+        }
+
+        if ($lang === 'de') {
+            return array(
+                'antwerpen',
+                'limburg',
+                'oost_vlanderen',
+                'vlaams_brabant',
+                'west_vlaanderen',
+                'brussels'
+            );
+        }
     }
 }

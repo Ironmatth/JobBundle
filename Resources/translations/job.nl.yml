@@ -67,6 +67,7 @@ no_announcer: no_announcer
 no_community: no_community
 no_job_offer: no_job_offer
 no_pending_announcer: no_pending_announcer
+notification_explanations: notification_explanations
 pending_announcement_form_message: Registreer uw inrichting
 pending_announcers: pending_announcers
 pending_announcers_managemnet: pending_announcers_managemnet

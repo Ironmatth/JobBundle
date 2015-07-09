@@ -14,9 +14,8 @@
                 {% endif %}
                 <img width=200px src="{{ img }}">
             </div>
-            <div class="col-md-6" style="padding-top: 55px;">
+            <div class="col-md-6" style="padding-top: 20px;">
                 {% form_theme form 'FormaLibreJobBundle::form_theme_captcha.html.twig' %}
-                <h1 style="color: red; text-align: center;"><b> {{ 'seeker_form_message'|trans({}, 'job') }} </b></h1>
                 <form id="pending-announcer-create-form"
                       action="{{ path('formalibre_job_seeker_create', {'lang': lang}) }}"
                       method="POST"
@@ -72,11 +71,11 @@
                 $('#submit-btn').addClass('disabled');
             }
         }
-        
+
         $('#seeker_form_userType').on('change', function () {
             checkIdentity();
         });
-        
+
         checkIdentity();
     </script>
 {% endblock %}

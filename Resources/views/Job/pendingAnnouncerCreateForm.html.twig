@@ -15,15 +15,34 @@
                 <img width=200px src="{{ img }}">
             </div>
             {% form_theme form 'FormaLibreJobBundle::form_theme_captcha.html.twig' %}
-            <div class="col-md-6" style="padding-top: 55px;">
-                <h1 style="color: red; text-align: center;"><b> {{ 'pending_announcement_form_message'|trans({}, 'job') }} </b></h1>
-                </br>
+            <div class="col-md-6" style="padding-top: 20px;">
                 <form id="pending-announcer-create-form"
                       action="{{ path('formalibre_job_pending_announcer_create', {'lang': lang}) }}"
                       method="POST"
                       {{ form_enctype(form) }}
                 >
-                    {{ form_widget(form) }}
+                    {{ form_row(form.userType) }}
+                    {{ form_row(form.establishment) }}
+                    {{ form_row(form.province) }}
+                    {{ form_row(form.adress) }}
+                    {{ form_row(form.lastName) }}
+                    {{ form_row(form.firstName) }}
+                    {{ form_row(form.registrationNumber) }}
+                    {{ form_row(form.faseNumber) }}
+                    {{ form_row(form.mail) }}
+                    {{ form_row(form.phone) }}
+                    {{ form_row(form.username) }}
+                    {{ form_row(form.plainPassword) }}
+                    <div class="col-md-9 col-md-offset-3">
+                        {{ form_widget(form.withNotification) }}
+                        <span class="pending-announcer-create-form-accept-chk-label" style="font-size: small;">
+                            {{ 'notification_explanations'|trans({}, 'job') }}
+                        </span>
+                    </div>
+                    </br>
+                    </br>
+                    {{ form_rest(form) }}
+                    </br></br>
                     <div class="captcha" style="font-size: x-small;">
                         {{ 'captcha_reason'|trans({}, 'job') }}
                     </div>
@@ -52,11 +71,11 @@
                 $('#submit-btn').addClass('disabled');
             }
         }
-        
+
         $('#pending_announcer_form_userType').on('change', function () {
             checkIdentity();
         });
-        
+
         checkIdentity();
     </script>
 {% endblock %}

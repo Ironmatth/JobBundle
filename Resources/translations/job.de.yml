@@ -68,6 +68,7 @@ no_announcer: 'Aucun chef d''établissement'
 no_community: 'Aucune communauté'
 no_job_offer: 'Aucune offre d''emploi'
 no_pending_announcer: 'Aucun chef d''établissement en attente'
+notification_explanations: notification_explanations
 pending_announcement_form_message: 'Inscrivez votre établissement'
 pending_announcers: 'Chefs d''établissement en attente'
 pending_announcers_managemnet: 'Gestion des chefs d''établissements en attente'

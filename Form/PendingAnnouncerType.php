@@ -6,18 +6,23 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use FormaLibre\JobBundle\Manager\JobManager;
 
 class PendingAnnouncerType extends AbstractType
 {
     private $lang;
+    private $jobManager;
 
-    public function __construct($lang = null)
+    public function __construct($lang, JobManager $jobManager)
     {
         $this->lang = $lang;
+        $this->jobManager = $jobManager;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $keys = $this->jobManager->getProvinces($this->lang);
+
         $builder->add(
             'userType',
             'choice',
@@ -30,6 +35,47 @@ class PendingAnnouncerType extends AbstractType
                 ),
                 'multiple' => false,
                 'required' => false,
+                'mapped' => false
+            )
+        );
+        $builder->add(
+            'establishment',
+            'text',
+            array(
+                'required' => false,
+                'label' => 'establishment',
+                'translation_domain' => 'job',
+                'mapped' => false
+            )
+        );
+        $builder->add(
+            'province',
+            'entity',
+            array(
+                'label' => 'province',
+                'class' => 'FormaLibreJobBundle:Province',
+                'choice_translation_domain' => true,
+                'translation_domain' => 'province',
+                'query_builder' => function (EntityRepository $er) use ($keys) {
+                    return $er->createQueryBuilder('p')
+                        ->where('p.translationKey in (:keys)')
+                        ->orderBy('p.translationKey', 'ASC')
+                        ->setParameter('keys', $keys);
+                },
+                'property' => 'translation_key',
+                'expanded' => false,
+                'multiple' => false,
+                'required' => true,
+                'mapped' => false
+            )
+        );
+        $builder->add(
+            'adress',
+            'text',
+            array(
+                'required' => true,
+                'translation_domain' => 'job',
+                'label' => 'adress',
                 'mapped' => false
             )
         );
@@ -78,44 +124,6 @@ class PendingAnnouncerType extends AbstractType
                 'required' => true,
                 'translation_domain' => 'platform',
                 'label' => 'email'
-            )
-        );
-        $builder->add(
-            'establishment',
-            'text',
-            array(
-                'required' => false,
-                'label' => 'establishment',
-                'translation_domain' => 'job',
-                'mapped' => false
-            )
-        );
-        $builder->add(
-            'province',
-            'entity',
-            array(
-                'label' => 'province',
-                'class' => 'FormaLibreJobBundle:Province',
-                'choice_translation_domain' => true,
-                'translation_domain' => 'province',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('p')->orderBy('p.translationKey', 'ASC');
-                },
-                'property' => 'translation_key',
-                'expanded' => false,
-                'multiple' => false,
-                'required' => true,
-                'mapped' => false
-            )
-        );
-        $builder->add(
-            'adress',
-            'text',
-            array(
-                'required' => true,
-                'translation_domain' => 'job',
-                'label' => 'adress',
-                'mapped' => false
             )
         );
         $builder->add(
