@@ -22,14 +22,14 @@
 {% extends "ClarolineCoreBundle:Desktop:layout.html.twig" %}
 
 {% block title %}
-    {{ 'job_requests_list'|trans({'%community%': announcer.getCommunity().getName()}, 'job') }}
+    {{ 'job_requests_list'|trans({'%community%': announcer.getCommunity().getName()|trans({}, 'job')}, 'job') }}
 {% endblock %}
 
 {% block breadcrumb %}
     {{
         macros.desktopBreadcrumbs([
             {
-                'name': 'job_requests_list'|trans({'%community%': announcer.getCommunity().getName()}, 'job'),
+                'name': 'job_requests_list'|trans({'%community%': announcer.getCommunity().getName()|trans({}, 'job')}, 'job'),
                 'href': ''
             }
         ])

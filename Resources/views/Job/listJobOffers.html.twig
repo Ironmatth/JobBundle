@@ -30,7 +30,7 @@
 {% extends "ClarolineCoreBundle:Desktop:layout.html.twig" %}
 
 
-{% block title %}{{ parent() ~ ' - ' ~ community.getName()  | striptags | raw }}{% endblock %}
+{% block title %}{{ parent() ~ ' - ' ~ community.getName()|trans({}, 'job')  | striptags | raw }}{% endblock %}
 
 {% block section_content %}
     <div class="panel-body">
@@ -40,7 +40,7 @@
                     {% if app.user.getLocale() != oneCommunity.getLocale() %}
                         <li class="{% if oneCommunity.getId() == community.getId() %}active{% endif %}">
                             <a href="{{ path('formalibre_job_offers_open', { 'community': oneCommunity.getId()}) }}">
-                                {{ oneCommunity.getName() }}
+                                {{ oneCommunity.getName()|trans({}, 'job') }}
                             </a>
                         </li>
                     {% endif %}
@@ -50,7 +50,7 @@
                     {% if app.user.getLocale() == oneCommunity.getLocale() %}
                         <li class="{% if oneCommunity.getId() == community.getId() %}active{% endif %}">
                             <a href="{{ path('formalibre_job_offers_open', { 'community': oneCommunity.getId()}) }}">
-                                {{ oneCommunity.getName() }}
+                                {{ oneCommunity.getName()|trans({}, 'job') }}
                             </a>
                         </li>
                     {% endif %}
@@ -59,7 +59,7 @@
                 {% for oneCommunity in communities %}
                     <li class="{% if oneCommunity.getId() == community.getId() %}active{% endif %}">
                         <a href="{{ path('formalibre_job_offers_open', { 'community': oneCommunity.getId()}) }}">
-                            {{ oneCommunity.getName() }}
+                            {{ oneCommunity.getName()|trans({}, 'job') }}
                         </a>
                     </li>
                 {% endfor %}

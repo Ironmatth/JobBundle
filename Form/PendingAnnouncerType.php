@@ -152,7 +152,7 @@ class PendingAnnouncerType extends AbstractType
             'withNotification',
             'checkbox',
             array(
-                'required' => true,
+                'required' => false,
                 'label' => 'allow_notification_for_new_job_request',
                 'mapped' => false,
                 'attr' => array('checked' => 'checked'),

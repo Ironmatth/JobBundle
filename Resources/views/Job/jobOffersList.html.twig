@@ -49,7 +49,7 @@
                                 {{ jobOffer.getTitle() }}
                             </td>
                             <td>
-                                {{ community.getName() }}
+                                {{ community.getName()|trans({}, 'job') }}
                             </td>
                             <td>
                                 {{ user.getFirstName() }}

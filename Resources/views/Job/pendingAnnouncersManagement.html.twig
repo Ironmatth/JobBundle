@@ -27,7 +27,7 @@
             {% for community in communities %}
                 <li class="{% if currentCommunity.getId() == community.getId() %}active{% endif %}">
                     <a href="{{ path('formalibre_job_admin_pending_announcers_management', { 'community': community.getId()}) }}">
-                        {{ community.getName() }}
+                        {{ community.getName()|trans({}, 'job') }}
                     </a>
                 </li>
             {% endfor %}

@@ -58,7 +58,7 @@
                             {% if expirationDate is not empty and expirationDate|date('Y-m-d H:i:s') < 'now'|date('Y-m-d H:i:s') %}style="background-color: grey"{% endif %}
                         >
                             <td>{{ jobRequest.getTitle() }}</td>
-                            <td>{{ jobRequest.getCommunity().getName() }}</td>
+                            <td>{{ jobRequest.getCommunity().getName()|trans({}, 'job') }}</td>
                             <td>{{ expirationDate|date('d/m/Y') }}</td>
                             <td>{{ jobRequest.getOriginalName() }}</td>
                             <td>
@@ -110,7 +110,7 @@
                 <a href="{{ path('formalibre_job_offers_open', {'community': community.getId()}) }}"
                     class="btn btn-primary"
                 >
-                    {{ 'show_offers_for'|trans({'%community%': community.getName()}, 'job') }}
+                    {{ 'show_offers_for'|trans({'%community%': community.getName()|trans({}, 'job')}, 'job') }}
                 </a>
             {% endif %}
         {% endfor %}
