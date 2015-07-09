@@ -171,6 +171,11 @@ class SeekerType extends AbstractType
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array('translation_domain' => 'job'));
+        $resolver->setDefaults(
+            array(
+                'translation_domain' => 'job',
+                'language' => $this->lang
+            )
+        );
     }
 }
