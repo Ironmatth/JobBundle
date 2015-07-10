@@ -595,7 +595,7 @@ class JobManager
             );
         }
 
-        if ($lang === 'de') {
+        if ($lang === 'nl') {
             return array(
                 'antwerpen',
                 'limburg',
