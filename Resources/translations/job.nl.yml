@@ -1,80 +1,80 @@
-accept_pending_announcer: accept_pending_announcer
-accept_pending_announcer_content: accept_pending_announcer_content
-accept_pending_announcer_message: accept_pending_announcer_message
-accept_pending_announcer_object: accept_pending_announcer_object
-accept_visibility_message: accept_visibility_message
-add_announcers: add_announcers
-add_community: add_community
-add_cv: add_cv
-administrators: administrators
-adress: Adres
-allow_notification_for_new_job_request: allow_notification_for_new_job_request
-announcers: announcers
-announcers_creation: announcers_creation
-announcers_management: announcers_management
-announcers_management_menu: announcers_management_menu
-announcers_managemnet: announcers_managemnet
+accept_pending_announcer: 'Schooldirecteur aanvaarden'
+accept_pending_announcer_content: 'Geachte %name%,<br>\nUw toegang tot het platform  http://teachersmobility.be wordt goedgekeurd.<br>\nU mag nu aankondigingen erop posten.<br><br>\nMet vriendelijke groeten\n'
+accept_pending_announcer_message: 'Bent u zeker dat u de inschrijving van die scholldirecteur wilt aanvaarden?'
+accept_pending_announcer_object: 'Uw toegang tot Teachersmobility wordt goedgekeurd.'
+accept_visibility_message: 'Ik aanvaard dat mijn CV zichtbaar is door de schooldirecteur' 
+add_announcers: 'Schooldirecteur aanvarden'
+add_community: 'Gemeentschap toevoegen' 
+add_cv: 'C.V. toevoegen'
+administrators: 'Beheerder'
+adress: 'Adres'
+allow_notification_for_new_job_request: 'Aankondiging aanwakkeren'
+announcers: 'Directeur'
+announcers_creation: 'Directeur Toevoeging' 
+announcers_management: 'Directeur beheer' 
+announcers_management_menu: 'Directeur beheer'
+announcers_managemnet: 'Directeur beheer'
 application_date: application_date
 captcha_explanation: captcha_explanation
-captcha_reason: 'captcha_reason'
-candidate_for: Kandidaat voor
-candidate_from: candidate_from
-communities_management: communities_management
-community: community
-community_creation: community_creation
-community_edition: community_edition
-create_job_offer: create_job_offer
-created_pending_announcer_content: created_pending_announcer_content
-created_pending_announcer_object: created_pending_announcer_object
-cv: C.V.
-cv_expiration_date: Uw C.V. is geldig tot
-cv_title: C.V. Titel
-decline_pending_announcer: decline_pending_announcer
+captcha_reason: 'Captcha is een reactietest die in de gegevensverwerking wordt gebruikt om te bepalen of er al dan niet sprake is van een menselijke gebruiker'
+candidate_for: 'Kandidaat voor'
+candidate_from: 'Kandidaat van'
+communities_management: 'Gemeentschap beheer'
+community: 'Gemeentschap'
+community_creation: 'Creatie van een gemeenschap'
+community_edition: 'Wijziging van een gemeentschap'
+create_job_offer: 'Een vacature creëren'
+created_pending_announcer_content: 'Beste %lastName% %firstName%,<br>\nUw profiel werd geregistreerd op teachersmobility.be. Uw profiel moet door de beheerders goedgekeurd worden om offertes te kunnen posten.<br>U zal een e-mail krijgen na goedkeuring.<br><br>\nDe Teachersmobility ploeg.\n'
+created_pending_announcer_object: 'Uw profiel werd op teachersmobility.be gecreërd.'
+cv: 'C.V.'
+cv_expiration_date: 'Uw C.V. is geldig tot'
+cv_title: 'C.V. Titel'
+decline_pending_announcer: 'Een directeur schrappen'
 decline_pending_announcer_content: decline_pending_announcer_content
-decline_pending_announcer_message: decline_pending_announcer_message
+decline_pending_announcer_message: 'Bent u zeker dat u die directeur wilt veigeren?'
 decline_pending_announcer_object: decline_pending_announcer_object
-delete_announcer: delete_announcer
-delete_announcer_message: delete_announcer_message
-delete_community: delete_community
-delete_community_message: delete_community_message
-delete_job_offer: delete_job_offer
-delete_job_offer_message: delete_job_offer_message
-delete_job_request: delete_job_request
-delete_job_request_message: delete_job_request_message
-discipline: discipline
-duration: duration
-establishment: inrichting
-expiration_date: expiration_date
-fase_number: Fase nummer
-immersion: immersion
-job_offer: job_offer
-job_offer_creation: job_offer_creation
-job_offer_edition: job_offer_edition
-job_offer_form_expirationDate: job_offer_form_expirationDate
-job_offers_list: job_offers_list
-job_request_creation: job_request_creation
-job_request_edition: job_request_edition
-job_request_form_expirationDate: job_request_form_expirationDate
-job_requests_list: job_requests_list
-level: level
-my_cv: my_cv
-my_job_offers: my_job_offers
-new_job_request_content: new_job_request_content
-new_job_request_object: new_job_request_object
-new_pending_announcer_content: new_pending_announcer_content
-new_pending_announcer_object: new_pending_announcer_object
-no_announcer: no_announcer
-no_community: no_community
-no_job_offer: no_job_offer
-no_pending_announcer: no_pending_announcer
+delete_announcer: 'Een directeur schrappen'
+delete_announcer_message: 'Bent u zeker dat u die directeur wilt'
+delete_community: 'Een gemeentschap schrappen'
+delete_community_message: 'Bent u zeker dat u die gemeentschap wilt schrappen?'
+delete_job_offer: 'Een vacature schrappen'
+delete_job_offer_message: 'Bent u zeker dat u die vacature wilt schrappen?'
+delete_job_request: 'Een C.V. schrappen'
+delete_job_request_message: 'Bent u zeker dat u die C.V. wilt schrappen?'
+discipline: 'studierichting'
+duration: 'Duur'
+establishment: 'inrichting'
+expiration_date: 'Vervaldatum'
+fase_number: 'Fase nummer'
+immersion: 'immersie'
+job_offer: 'Vacature'
+job_offer_creation: 'Creatie van een vacature'
+job_offer_edition: 'Een vacature wijzigen'
+job_offer_form_expirationDate: 'Vervaldatum'
+job_offers_list: 'Lijst van vacatures'
+job_request_creation: 'Een CV toevoegen'
+job_request_edition: 'Een CV wijzigen'
+job_request_form_expirationDate: 'Vervaldatum'
+job_requests_list: 'CV in%community%'
+level: 'Niveau'
+my_cv: 'Mijn CVs'
+my_job_offers: 'Mijn vacatures'
+new_job_request_content: '%name%,<br>\nEen nieuwe CV voor de gemeentschap %communityName%wordt geregistreerd.<br>\nGa op http://teachersmobility.be om het tel lezen.<br><br>\nMet vriendelijke groeten\n.'
+new_job_request_object: 'Een nieuwe kandidatuur wordt gepost op Teachersmobility.'
+new_pending_announcer_content: 'Geachte %name%<br>\nEen nieuwe gebruiker zou graag vacature op teachersmobility.be kunnen posten.<br>\n\nHet is <br>\n%firstName%lastName%<br>\n<br>\n%faseNumber%<br>\n%phone%<br>\n\nGelieve hem toegang te goedkeuren op %url%<br><br>\nMet virendelijke groeten.\n'
+new_pending_announcer_object: 'Een nieuwe directie wens zich inschrijven op'
+no_announcer: 'Geen directie'
+no_community: 'Geen gemeenschap'
+no_job_offer: 'Geen vacature'
+no_pending_announcer: 'Geen wachtende directie'
 notification_explanations: notification_explanations
-pending_announcement_form_message: Registreer uw inrichting
-pending_announcers: pending_announcers
-pending_announcers_managemnet: pending_announcers_managemnet
-registration_number: registration_number
-school_director: school_director
-seeker_form_message: Uitwisseling van leerkrachten ‘native speakers’ met de Frans- en Duitstalige Gemeenschap
-show_job_offers: show_job_offers
-show_offers_for: show_offers_for
-teacher: teacher
-you_are: you_are
+pending_announcement_form_message: 'Schrijf uw school in'
+pending_announcers: 'Wachtende directie'
+pending_announcers_managemnet: 'Beheer van de wachtende directie'
+registration_number: 'Registratienummer'
+school_director: 'Directeur'
+seeker_form_message: 'Uitwisseling van leerkrachten ‘native speakers’ met de Frans- en Duitstalige Gemeenschap'
+show_job_offers: 'Vacature te bekijken'
+show_offers_for: 'Vacatures in %community%'
+teacher: 'Leraar' 
+you_are: 'U bent'
