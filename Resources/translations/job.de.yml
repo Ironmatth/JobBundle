@@ -26,7 +26,7 @@ captcha_reason: '*Un Captcha est un système de protection qui permet de vérifi
 create_job_offer: 'Créer une offre d''emploi'
 created_pending_announcer_content: "Cher %lastName% %firstName%,<br>\nVotre profil a été enregistré sur teachersmobility.be.<br>Votre profil doit être validé par les administrateurs pour pouvoir poster vos offres.<br>Vous recevrez un mail de confirmation dès la validation enregistrée.<br><br>\nL'équipe Teachers mobility\n"
 created_pending_announcer_object: 'Votre profil a été créé sur teachersmobility.be'
-cv: CV
+cv: 'Lebenslauf'
 cv_expiration_date: 'Votre CV est visible jusqu''au'
 cv_title: 'Titre du cv'
 decline_pending_announcer: 'Refuser un directeur d''établissement'
@@ -43,7 +43,7 @@ delete_job_request: 'Supprimer une postulation'
 delete_job_request_message: 'Êtes-vous sûr de vouloir supprimer cette postulation'
 discipline: Discipline
 duration: Durée
-establishment: Établissement
+establishment: 'Lehranstalt'
 expiration_date: 'Date d''expiration'
 fase_number: 'Numéro fase'
 immersion: Immersion
@@ -78,4 +78,4 @@ seeker_form_message: 'Détaché de la Fédération Wallonie-Bruxelles'
 show_job_offers: 'Voir les offres d''emplois'
 show_offers_for: 'Offre en %community%'
 teacher: Enseignant
-you_are: 'Vous êtes'
+you_are: 'Du bist'
