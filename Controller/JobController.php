@@ -152,7 +152,7 @@ class JobController extends Controller
             $pattern = '#^[0-9]{1}[\/-]?[0-9]{6}[\/-]?[0-9]{4}$#';
 
             if (!preg_match($pattern, $registrationNumber)) {
-                $form->addError(
+                $form->get('registrationNumber')->addError(
                     new FormError(
                         $this->translator->trans('invalid_registration_number', array(), 'job')
                     )
@@ -190,51 +190,18 @@ class JobController extends Controller
             $pendingAnnouncer->setEstablishment($establishment);
             $this->jobManager->persistPendingAnnouncer($pendingAnnouncer);
 
-            // Send message to user
-            $object = $this->translator->trans(
-                'created_pending_announcer_object',
-                array(),
-                'job'
-            );
-            $content = $this->translator->trans(
-                'created_pending_announcer_content',
-                array(
-                    '%firstName%' => $user->getFirstName(),
-                    '%lastName%' => $user->getLastName()
-                ),
-                'job'
-            );
-            $sender = null;
-
-            $this->mailManager->send(
-                $object,
-                $content,
-                array($user),
-                $sender
-            );
-
-            // Send message to community admin
-            $receivers = $community->getAdmins();
-
-            if (count($receivers) > 0) {
+            if ($lang !== 'nl') {
+                //for fr/de we have to manually accept job announcers
                 $object = $this->translator->trans(
-                    'new_pending_announcer_object',
+                    'created_pending_announcer_object',
                     array(),
                     'job'
                 );
                 $content = $this->translator->trans(
-                    'new_pending_announcer_content',
+                    'created_pending_announcer_content',
                     array(
-                        '%name%' => $receivers[0]->getFirstName() . ' ' . $receivers[0]->getLastName(),
                         '%firstName%' => $user->getFirstName(),
-                        '%lastName%' => $user->getLastName(),
-                        //'%registrationNumber%' => $form->get('registrationNumber')->getData(),
-                        '%faseNumber%' => $form->get('faseNumber')->getData(),
-                        '%phone%' => $user->getPhone(),
-                        '%url%' => $this->generateUrl(
-                            'formalibre_job_pending_announcers_management',
-                            array('community' => $community->getId())
-                        )
+                        '%lastName%' => $user->getLastName()
                     ),
                     'job'
                 );
@@ -243,9 +210,47 @@ class JobController extends Controller
                 $this->mailManager->send(
                     $object,
                     $content,
-                    $receivers,
+                    array($user),
                     $sender
                 );
+
+                // Send message to community admin
+                $receivers = $community->getAdmins();
+
+                if (count($receivers) > 0) {
+                    $object = $this->translator->trans(
+                        'new_pending_announcer_object',
+                        array(),
+                        'job'
+                    );
+                    $content = $this->translator->trans(
+                        'new_pending_announcer_content',
+                        array(
+                            '%name%' => $receivers[0]->getFirstName() . ' ' . $receivers[0]->getLastName(),
+                            '%firstName%' => $user->getFirstName(),
+                            '%lastName%' => $user->getLastName(),
+                            //'%registrationNumber%' => $form->get('registrationNumber')->getData(),
+                            '%faseNumber%' => $form->get('faseNumber')->getData(),
+                            '%phone%' => $user->getPhone(),
+                            '%url%' => $this->generateUrl(
+                                'formalibre_job_pending_announcers_management',
+                                array('community' => $community->getId())
+                            )
+                        ),
+                        'job'
+                    );
+                    $sender = null;
+
+                    $this->mailManager->send(
+                        $object,
+                        $content,
+                        $receivers,
+                        $sender
+                    );
+                }
+            } else {
+                //we bypass everything for the nl community
+                $this->jobManager->acceptPendingAnnouncer($pendingAnnouncer);
             }
 
             $msg = $this->get('translator')->trans('account_created', array(), 'platform');
@@ -257,6 +262,7 @@ class JobController extends Controller
             }
 
             return $this->redirect($this->generateUrl('claro_security_login'));
+
         } else {
 
             return array('form' => $form->createView(), 'lang' => $lang);

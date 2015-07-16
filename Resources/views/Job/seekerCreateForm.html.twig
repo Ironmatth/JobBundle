@@ -64,7 +64,7 @@
             var value = $('#seeker_form_userType').val();
 
             if (value === 'announcer') {
-                window.location = Routing.generate('formalibre_job_pending_announcer_create_form');
+                window.location = Routing.generate('formalibre_job_pending_announcer_create_form', {'lang': '{{ lang}}' });
             } else if (value === 'seeker') {
                 $('#submit-btn').removeClass('disabled');
             } else {
