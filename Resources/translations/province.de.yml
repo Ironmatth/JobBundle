@@ -1,11 +1,11 @@
 antwerpen: Anvers
 limburg: Limbourg
 oost_vlanderen: Flandre orientale
-vlaams_brabant: Brabant flamand
+vlaams_brabant: 'Flämisch-Brabant'  
 west_vlaanderen: Frandre occidentale
-brabant_wallon: Brabant wallon
+brabant_wallon: 'Wallonisch-Brabant'
 hainaut: Hainaut
-liege: Liege
+liege: Luttich
 luxembourg: Luxembourg
 namur: Namur
-province: Province
+province: Provinz
