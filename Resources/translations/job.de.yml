@@ -7,7 +7,7 @@ add_announcers: 'Ajouter des chefs d''établissement'
 add_community: 'Ajouter une communauté'
 add_cv: 'Ajouter un CV'
 administrators: Administrateurs
-adress: Adresse
+adress: 'Adresse'
 allow_notification_for_new_job_request: 'Activer les notifications'
 announcers: 'Chefs d''établissement'
 announcers_creation: 'Ajout des chefs d''établissement'
@@ -43,9 +43,9 @@ delete_job_request: 'Supprimer une postulation'
 delete_job_request_message: 'Êtes-vous sûr de vouloir supprimer cette postulation'
 discipline: Discipline
 duration: Durée
-establishment: 'Lehranstalt'
+establishment: 'Schule'
 expiration_date: 'Date d''expiration'
-fase_number: 'Numéro fase'
+fase_number: 'Schulkodierung'
 immersion: Immersion
 invalid_registration_number: 'Veuillez encoder un numéro de matricule correct'
 job_offer: 'Offre d''emploi'
